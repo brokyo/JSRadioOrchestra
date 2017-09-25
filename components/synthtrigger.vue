@@ -1,0 +1,72 @@
+<template>
+<section>
+  <select v-model="config.note">
+    <option v-for="possibleNote in noteOptions.possibleNotes">{{possibleNote}}</option>
+  </select>
+  <select v-model="config.octave">
+    <option v-for="possibleOctave in noteOptions.possibleOctaves">{{possibleOctave}}</option>
+  </select>
+  <h4 :class="{'notePlaying': notePlaying}">
+    {{ config.keyCode }}
+  </h4>
+</section>
+</template>
+
+<script>
+
+export default {
+  name: 'synthtrigger',
+  props: ['config', 'synth'],
+  computed: {
+  	noteToPlay: function () {
+  		return String(this.config.note) + String(this.config.octave)
+  	}
+  },
+  data () {
+    return {
+      notePlaying: false,
+      noteOptions: {
+        possibleNotes: ['A', 'A#', 'B', 'B#', 'C', 'C#', 'D', 'D#', 'E', 'E#', 'F', 'F#', 'G', 'G#'],
+        possibleOctaves: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+      }
+    }
+  },
+  mounted: function () {
+  	var vue = this
+
+    window.addEventListener('keydown', function (e) {
+      if (e.key === vue.config.keyCode & !e.repeat) {
+        vue.notePlaying = true
+        vue.synth.triggerAttack(vue.noteToPlay)
+      }
+    })
+
+    window.addEventListener('keyup', function (e) {
+      if (e.key === vue.config.keyCode & !e.repeat) {
+        vue.notePlaying = false
+        vue.synth.triggerRelease(vue.noteToPlay)
+      }
+    })      
+  }
+}
+</script>
+<style lang="css" scoped>
+section {
+  padding: 20px;
+  border: 1px solid black;
+  width: 200px;
+  flex-grow: 1;
+}
+
+.notePlaying {
+  background-color: red;
+}
+
+h4 {
+    text-align: center;
+    background-color: #fff;
+    margin: 0 auto;
+    border: 1px solid #000;
+    padding: 20px;
+}
+</style>
