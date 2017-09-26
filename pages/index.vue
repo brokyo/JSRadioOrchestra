@@ -8,10 +8,12 @@
 
     <!-- <h3>Music For: {{activeBackground.title}}</h3> -->
     <!-- <button @click="hideControls = !hideControls">Toggle Controls</button> -->
-    <div class="configContainer" v-if="!hideControls">
-      <section class="">
+    <main class="configContainer" v-if="!hideControls">
+      <!-- Synth Config -->
+      <section class="synthControls">
         <div>
-          <select v-model="activeSynth" class="mb-4">
+          <h3>Synth</h3>
+          <select v-model="activeSynth">
             <option value="" disabled selected hidden>Select Synth</option>
             <option v-for="synth in possibleSynths">{{synth}}</option>
           </select>
@@ -24,14 +26,39 @@
           <plucksynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'PluckSynth'" xs12></plucksynth>
         </div>
       </section>
-      <div v-if="activeSynth" class="synthConfig">
-        <h6>Scale</h6>
+
+      <!-- Synth Triggers -->
+      <section class="triggerControls" v-if="activeSynth">
+        <h3>Scale</h3>
         <select v-model="activeScale">
           <option v-for="scale in scales" :value="scale">{{scale.name}}</option>
         </select>
         <synthtrigger v-for="pitch in activeScale.config" :config="pitch" :synth="ToneElements.synth"></synthtrigger>  
-      </div>
-    </div>
+      </section>
+
+      <!-- Filter -->
+      <section class="filterControls">
+        <h3>Filter</h3>
+        <input type="checkbox" v-model="filterActive"></input>
+        <div v-if="filterActive">
+          <select v-model="filterConfig.type">
+            <option v-for="type in allOptions.filter.allTypes">{{type}}</option>
+          </select>
+          <label>Frequency</label>
+          <input type="range" min="-200" max="50000" v-model="filterConfig.frequency"></input>
+          <input type="number" v-model="filterConfig.frequency"></input>
+          <label>Q</label>
+          <input type="range" min="0" max="100" v-model="filterConfig.Q">
+          <input type="number" v-model="filterConfig.Q"></input>
+          <input type="range" min="0" max="100" v-model="filterConfig.gain"></input>
+          <input type="number" v-model="filterConfig.gain"></input>
+          <label>Rolloff</label>
+          <select v-model="filterConfig.rolloff">
+            <option v-for="rolloff in allOptions.filter.rolloffValues">{{ rolloff.value }}</option>
+          </select>
+        </div>
+      </section>
+    </main>
 </div>
 </template>
 
@@ -54,9 +81,12 @@ export default {
   data () {
     return {
       ToneElements: {
+        patch: {},
         synth: {},
+        filter: {}
       },
       activeSynth: '',
+      filterActive: false,
       activeScale: [],
       activeBackground: {},
       hideControls: false,
@@ -93,6 +123,12 @@ export default {
           ]
         }
       ],
+      filterConfig: {
+        frequency: 1,
+        type: 'lowpass',
+        rolloff: -12,
+        Q: 1
+      },
       backgrounds: [
         {title: 'The Lit And Unlit Places Alike', videoId: 'W0LHTWG-UmQ'},
         {title: 'Continuing To Fight Losing Battles', videoId: 'OjPgeXHjM9k'},
@@ -109,7 +145,52 @@ export default {
     activeSynth: function () {
       let activeSynth = this.activeSynth
       console.log('New Synth:', this.activeSynth)
-      this.ToneElements.synth = new Tone.PolySynth(8, Tone[activeSynth]).toMaster()
+
+      // Disconnect old synth if it exists (would dispose be better for performance? What does dispose do?)
+      if (Object.keys(this.ToneElements.synth).length !== 0) {
+        if (Object.keys(this.ToneElements.filter).length !==0 && this.filterActive) {
+          console.log('disconnect from filter')
+          this.ToneElements.synth.disconnect(this.ToneElements.filter)
+          console.log('disconnected from filter')
+        } else {
+          console.log('disconnect from patch')
+          this.ToneElements.synth.disconnect(this.ToneElements.patch)
+          console.log('disconnected from patch')
+        }
+      }
+
+      // Create new synth
+      this.ToneElements.synth = new Tone.PolySynth(8, Tone[activeSynth])
+
+      // If there's a filter connect to that - if not connect it to the patch
+      if (Object.keys(this.ToneElements.filter).length !== 0 && this.filterActive) {
+        console.log('connect to filter')
+        this.ToneElements.synth.connect(this.ToneElements.filter)
+        console.log('connected to filter')
+      } else {
+        console.log('connect to patch')
+        this.ToneElements.synth.connect(this.ToneElements.patch)
+        console.log('connectd to patch')
+      }
+
+    },
+    filterActive: function () {
+      if (this.filterActive) {
+        this.ToneElements.synth.disconnect(this.ToneElements.patch)
+        this.ToneElements.filter = new Tone.Filter()
+        this.ToneElements.filter.connect(this.ToneElements.patch)
+        this.ToneElements.synth.connect(this.ToneElements.filter)
+      } else {
+        this.ToneElements.filter.disconnect(this.ToneElements.patch)
+        this.ToneElements.synth.disconnect(this.ToneElements.filter)
+        this.ToneElements.synth.connect(this.ToneElements.patch)
+      }
+    },
+    filterConfig: {
+      handler: function () {
+        this.ToneElements.filter.set(this.filterConfig)
+      },
+      deep: true
     }
   },
   methods: {
@@ -118,7 +199,9 @@ export default {
     }
   },
   mounted: function () {
-    this.activeBackground = this.backgrounds[Math.floor(Math.random()*this.backgrounds.length)];  
+    this.activeBackground = this.backgrounds[Math.floor(Math.random()*this.backgrounds.length)];
+    this.ToneElements.patch = new Tone.Gain()
+    this.ToneElements.patch.connect(Tone.Master)
   }
 }
 </script>
@@ -132,6 +215,20 @@ export default {
 .configContainer {
   width: 100%;
 }
+
+.synthControls {
+
+}
+
+.triggerControls {
+  display: flex;
+}
+
+.filterControls {
+  width: 100%;
+  background-color: red;
+}
+
 
 h2 {
   color: white;
