@@ -1,7 +1,11 @@
 <template>
-  <div>
+<section class="filterConfig">
+  <div class="title">
+    <h4>Filter</h4>
+  </div>
+  <div class="controls">
     <select v-model="filterConfig.type">
-      <option v-for="type in allOptions.filter.allTypes">{{type}}</option>
+      <option v-for="type in options.filter.allTypes">{{type}}</option>
     </select>
     <label>Frequency</label>
     <input type="range" min="-200" max="50000" v-model="filterConfig.frequency"></input>
@@ -9,28 +13,32 @@
     <label>Q</label>
     <input type="range" min="0" max="100" v-model="filterConfig.Q">
     <input type="number" v-model="filterConfig.Q"></input>
-    <input type="range" min="0" max="100" v-model="filterConfig.gain"></input>
-    <input type="number" v-model="filterConfig.gain"></input>
     <label>Rolloff</label>
     <select v-model="filterConfig.rolloff">
-      <option v-for="rolloff in allOptions.filter.rolloffValues">{{ rolloff.value }}</option>
+      <option v-for="rolloff in options.filter.rollOffValues">{{ rolloff }}</option>
     </select>
   </div>
-
+</section>
 </template>
 
 <script>
 export default {
 
-  name: 'filter',
-
+  name: 'tonefilter',
+  props: ['options'],
   data () {
     return {
-
-    };
+      filterConfig: {
+        frequency: 1,
+        type: 'lowpass',
+        rolloff: -12,
+        Q: 1
+      }
+    }
   }
-};
+}
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
+
 </style>

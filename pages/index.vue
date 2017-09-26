@@ -40,7 +40,7 @@
       <section class="filterControls">
         <h3>Filter</h3>
         <input type="checkbox" v-model="filterActive"></input>
-        <filter :options="allOptions" @updateFilter="updateFilter" v-if="filterActive"></filter>
+        <tonefilter :options="allOptions" @updateFilter="updateFilter" v-if="filterActive"></tonefilter>
       </section>
     </main>
 </div>
@@ -52,7 +52,7 @@ import amsynth from '../components/synths/amsynth.vue'
 import fmsynth from '../components/synths/fmsynth.vue'
 import duosynth from '../components/synths/duosynth.vue'
 import synthtrigger from '../components/synthtrigger.vue'
-import filter from '../components/filter.vue'
+import tonefilter from '../components/tonefilter.vue'
 
 if (process.browser) {
     var Tone = require('tone')
@@ -61,7 +61,7 @@ if (process.browser) {
 
 export default {
   components: {
-    monosynth, amsynth, fmsynth, duosynth, synthtrigger, filter
+    monosynth, amsynth, fmsynth, duosynth, synthtrigger, tonefilter
   },
   data () {
     return {
@@ -108,12 +108,6 @@ export default {
           ]
         }
       ],
-      filterConfig: {
-        frequency: 1,
-        type: 'lowpass',
-        rolloff: -12,
-        Q: 1
-      },
       backgrounds: [
         {title: 'The Lit And Unlit Places Alike', videoId: 'W0LHTWG-UmQ'},
         {title: 'Continuing To Fight Losing Battles', videoId: 'OjPgeXHjM9k'},
@@ -196,26 +190,6 @@ export default {
 
 .configContainer {
   width: 100%;
-}
-
-.synthControls {
-
-}
-
-.triggerControls {
-  display: flex;
-}
-
-.filterControls {
-  width: 100%;
-  background-color: red;
-}
-
-
-h2 {
-  color: white;
-  text-shadow: 1px 1px 2px black;
-  text-align: center;
 }
 
 /* Background Video*/

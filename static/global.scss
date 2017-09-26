@@ -32,3 +32,27 @@ $config-title: #E1E1E1;
   }
 }
 
+.filterConfig {
+  width: 300px;
+
+  label {
+    display: block;
+    font-weight: 900;
+  }
+  input[type="range"] {
+    width: 70%;
+    margin-right: 10px;
+  }
+  input[type="number"] {
+    width: 25%;
+    font-weight: 900;
+  }
+
+  .title {
+    background-color: $config-title;
+  }
+  .controls {
+    padding: 5px 10px;
+    background: $config-background;
+  }
+}
