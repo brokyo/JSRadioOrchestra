@@ -1,0 +1,34 @@
+$config-background: #AAAAAA;
+$config-title: #E1E1E1;
+
+.synthConfig {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-evenly;
+
+  .category {
+    .title {
+      background-color: $config-title;
+    }
+
+    .controls {
+      padding: 5px 10px;
+      background-color: $config-background;
+    }
+  }
+
+  label {
+    display: block;
+    font-weight: 900;
+  }
+  input[type="range"] {
+    width: 70%;
+    margin-right: 10px;
+  }
+  input[type="number"] {
+    width: 25%;
+    font-weight: 900;
+  }
+}
+

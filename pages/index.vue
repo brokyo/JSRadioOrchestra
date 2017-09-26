@@ -1,5 +1,5 @@
 <template>
-<div class="container">    
+<div class="container">
   <div class="video-background">
     <div class="video-foreground">
       <iframe :src="activeBackgroundURL" frameborder="0" allowfullscreen></iframe>
@@ -19,11 +19,11 @@
           </select>
         </div>
         <div>
-          <monosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'MonoSynth'" xs12></monosynth>
-          <amsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'AMSynth'" xs12></amsynth>
-          <fmsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'FMSynth'" xs12></fmsynth>
-          <duosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'DuoSynth'" xs12></duosynth>
-          <plucksynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'PluckSynth'" xs12></plucksynth>
+          <monosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'MonoSynth'"></monosynth>
+          <amsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'AMSynth'"></amsynth>
+          <fmsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'FMSynth'"></fmsynth>
+          <duosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'DuoSynth'"></duosynth>
+          <plucksynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'PluckSynth'"></plucksynth>
         </div>
       </section>
 
@@ -33,30 +33,14 @@
         <select v-model="activeScale">
           <option v-for="scale in scales" :value="scale">{{scale.name}}</option>
         </select>
-        <synthtrigger v-for="pitch in activeScale.config" :config="pitch" :synth="ToneElements.synth"></synthtrigger>  
+        <synthtrigger v-for="pitch in activeScale.config" :config="pitch" :synth="ToneElements.synth"></synthtrigger>
       </section>
 
       <!-- Filter -->
       <section class="filterControls">
         <h3>Filter</h3>
         <input type="checkbox" v-model="filterActive"></input>
-        <div v-if="filterActive">
-          <select v-model="filterConfig.type">
-            <option v-for="type in allOptions.filter.allTypes">{{type}}</option>
-          </select>
-          <label>Frequency</label>
-          <input type="range" min="-200" max="50000" v-model="filterConfig.frequency"></input>
-          <input type="number" v-model="filterConfig.frequency"></input>
-          <label>Q</label>
-          <input type="range" min="0" max="100" v-model="filterConfig.Q">
-          <input type="number" v-model="filterConfig.Q"></input>
-          <input type="range" min="0" max="100" v-model="filterConfig.gain"></input>
-          <input type="number" v-model="filterConfig.gain"></input>
-          <label>Rolloff</label>
-          <select v-model="filterConfig.rolloff">
-            <option v-for="rolloff in allOptions.filter.rolloffValues">{{ rolloff.value }}</option>
-          </select>
-        </div>
+        <filter :options="allOptions" @updateFilter="updateFilter" v-if="filterActive"></filter>
       </section>
     </main>
 </div>
@@ -68,6 +52,7 @@ import amsynth from '../components/synths/amsynth.vue'
 import fmsynth from '../components/synths/fmsynth.vue'
 import duosynth from '../components/synths/duosynth.vue'
 import synthtrigger from '../components/synthtrigger.vue'
+import filter from '../components/filter.vue'
 
 if (process.browser) {
     var Tone = require('tone')
@@ -76,7 +61,7 @@ if (process.browser) {
 
 export default {
   components: {
-    monosynth, amsynth, fmsynth, duosynth, synthtrigger
+    monosynth, amsynth, fmsynth, duosynth, synthtrigger, filter
   },
   data () {
     return {
@@ -185,17 +170,14 @@ export default {
         this.ToneElements.synth.disconnect(this.ToneElements.filter)
         this.ToneElements.synth.connect(this.ToneElements.patch)
       }
-    },
-    filterConfig: {
-      handler: function () {
-        this.ToneElements.filter.set(this.filterConfig)
-      },
-      deep: true
     }
   },
   methods: {
     updateSynth: function (newValues) {
       this.ToneElements.synth.set(newValues)
+    },
+    updateFilter: function (newValues) {
+      this.ToneElements.filter.set(this.filterConfig)
     }
   },
   mounted: function () {
@@ -232,7 +214,7 @@ export default {
 
 h2 {
   color: white;
-  text-shadow: 1px 1px 2px black; 
+  text-shadow: 1px 1px 2px black;
   text-align: center;
 }
 

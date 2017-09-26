@@ -137,34 +137,5 @@ export default {
 </script>
 
 <style lang="less">
-.synthConfig {
-	display: flex;
-	flex-wrap: wrap;
-	width: 100%;
-	justify-content: space-evenly;
 
-	.category {
-		.title {
-			background-color: #E1E1E1;			
-		}
-
-		.controls {
-			padding: 5px 10px;
-			background-color: #AAAAAA;
-		}
-	}
-
-	label {
-		display: block;
-		font-weight: 900;
-	}
-	input[type="range"] {
-		width: 70%;
-		margin-right: 10px;
-	}
-	input[type="number"] {
-		width: 25%;
-		font-weight: 900;
-	}
-}
 </style>
