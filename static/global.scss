@@ -1,4 +1,4 @@
-$config-background: #AAAAAA;
+$config-background: #FFFFFF;
 $config-title: #E1E1E1;
 
 .synthConfig {
@@ -8,6 +8,7 @@ $config-title: #E1E1E1;
   justify-content: space-evenly;
 
   .category {
+  justify-content: space-evenly;
     .title {
       background-color: $config-title;
     }
@@ -15,6 +16,9 @@ $config-title: #E1E1E1;
     .controls {
       padding: 5px 10px;
       background-color: $config-background;
+      border-right: 2px dotted black;
+      border-bottom: 2px dotted black;
+      border-left: 2px dotted black;
     }
   }
 

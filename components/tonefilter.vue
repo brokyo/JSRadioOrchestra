@@ -35,6 +35,14 @@ export default {
         Q: 1
       }
     }
+  },
+  watch: {
+    filterConfig: {
+      handler: function () {
+        this.$emit('updateFilter', this.filterConfig)
+      },
+      deep: true
+    }
   }
 }
 </script>

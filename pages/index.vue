@@ -8,9 +8,9 @@
 
     <!-- <h3>Music For: {{activeBackground.title}}</h3> -->
     <!-- <button @click="hideControls = !hideControls">Toggle Controls</button> -->
-    <main class="configContainer" v-if="!hideControls">
+    <main v-if="!hideControls">
       <!-- Synth Config -->
-      <section class="synthControls">
+      <section class="configSection">
         <div>
           <h3>Synth</h3>
           <select v-model="activeSynth">
@@ -28,7 +28,7 @@
       </section>
 
       <!-- Synth Triggers -->
-      <section class="triggerControls" v-if="activeSynth">
+      <section class="configSection" v-if="activeSynth">
         <h3>Scale</h3>
         <select v-model="activeScale">
           <option v-for="scale in scales" :value="scale">{{scale.name}}</option>
@@ -37,7 +37,7 @@
       </section>
 
       <!-- Filter -->
-      <section class="filterControls">
+      <section class="configSection">
         <h3>Filter</h3>
         <input type="checkbox" v-model="filterActive"></input>
         <tonefilter :options="allOptions" @updateFilter="updateFilter" v-if="filterActive"></tonefilter>
@@ -171,7 +171,8 @@ export default {
       this.ToneElements.synth.set(newValues)
     },
     updateFilter: function (newValues) {
-      this.ToneElements.filter.set(this.filterConfig)
+      console.log(newValues)
+      this.ToneElements.filter.set(newValues)
     }
   },
   mounted: function () {
@@ -185,11 +186,15 @@ export default {
 <style>
 .container {
   display: flex;
-  width: 100%;
 }
 
-.configContainer {
-  width: 100%;
+.configSection {
+  display: flex;
+
+  h3 {
+    background: white;
+    font-size: 46px;
+  }
 }
 
 /* Background Video*/
