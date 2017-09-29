@@ -33,6 +33,17 @@
       <select v-model="activeScale">
         <option v-for="scale in scales" :value="scale">{{scale.name}}</option>
       </select>
+      <div v-if="activeScale">
+        <select v-model="scaleKey">
+          <option v-for="note in scaleConfig.possibleNotes">{{note}}</option>
+        </select>
+        <select v-model="octave1">
+          <option v-for="octave in scaleConfig.possibleOctaves">{{octave}}</option>
+        </select>
+        <select v-model="octave2">
+          <option v-for="octave in scaleConfig.possibleOctaves">{{octave}}</option>
+        </select>
+      </div>
       <div class="triggerContainer">
         <synthtrigger v-for="pitch in activeScale.config" :config="pitch" :synth="ToneElements.synth" @playing="triggerActive"></synthtrigger>
       </div>
@@ -104,6 +115,13 @@ export default {
           rollOffValues: [-12, -24, -48, -96]
         }
       },
+      scaleConfig: {
+        possibleNotes: ['A', 'A#', 'B', 'B#', 'C', 'C#', 'D', 'D#', 'E', 'E#', 'F', 'F#', 'G', 'G#'],
+        possibleOctaves: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      },
+      octave1: '',
+      octave2: '',
+      scaleKey: '',
       scales: [
         {
           name: 'Bright (Yo Scale)',
@@ -118,7 +136,13 @@ export default {
             { id: 7, keyCode: 'k', note: 'G', octave: 5 },
             { id: 8, keyCode: 'l', note: 'A', octave: 5},
             { id: 9, keyCode: ';', note: 'B', octave: 5 }
-          ]
+          ],
+          triggers: {
+            key: 'D',
+            octave1: 4,
+            octave2: 5
+          },
+          steps: [0, 2, 6, 8, 10]
         },
         {
           name: 'Dark (In Scale)',
@@ -133,7 +157,13 @@ export default {
             { id: 7, keyCode: 'k', note: 'G', octave: 4 },
             { id: 8, keyCode: 'l', note: 'A', octave: 4 },
             { id: 9, keyCode: ';', note: 'A#', octave: 4 }
-          ]
+          ],
+          triggers: {
+            key: 'D',
+            octave1: 3,
+            octave2: 4
+          },
+          steps: [0, 1, 6, 8, 9]
         }
       ],
       currentlyPlaying: {
@@ -191,7 +221,6 @@ export default {
         this.ToneElements.synth.connect(this.ToneElements.patch)
         console.log('connectd to patch')
       }
-
     },
     filterActive: function () {
       if (this.filterActive) {
@@ -204,7 +233,52 @@ export default {
         this.ToneElements.synth.disconnect(this.ToneElements.filter)
         this.ToneElements.synth.connect(this.ToneElements.patch)
       }
+    },
+    octave1: function(newOctave){
+      this.activeScale.triggers.octave1 = Number(newOctave)
+      this.activeScale.config.forEach(function(pitch){
+        if(pitch.id <= 4){
+          pitch.octave = Number(newOctave)
+        }
+      })
+    },
+    octave2: function(newOctave){
+      this.activeScale.triggers.octave2 = Number(newOctave)
+      this.activeScale.config.forEach(function(pitch){
+        if(pitch.id > 4){
+          pitch.octave = Number(newOctave)
+        }
+      })
+    },
+    scaleKey: function(newKey){
+      this.activeScale.triggers.key = newKey
+      let newOrigin = this.scaleConfig.possibleNotes.indexOf(newKey)
+      let newScale = this.reorder(this.scaleConfig.possibleNotes, newOrigin)
+      let vue = this
+
+      this.activeScale.config.forEach(function(pitch){
+        if(pitch.id === 0 || pitch.id === 5){
+          pitch.note = newScale[vue.activeScale.steps[0]]
+        }
+
+        if(pitch.id === 1 || pitch.id === 6){
+          pitch.note = newScale[vue.activeScale.steps[1]]
+        }
+
+        if(pitch.id === 2 || pitch.id === 7){
+          pitch.note = newScale[vue.activeScale.steps[2]]
+        }
+
+        if(pitch.id === 3 || pitch.id === 8){
+          pitch.note = newScale[vue.activeScale.steps[3]]
+        }
+
+        if(pitch.id === 4 || pitch.id === 9){
+          pitch.note = newScale[vue.activeScale.steps[4]]
+        }
+      })
     }
+
   },
   methods: {
     updateSynth: function (newValues) {
@@ -216,6 +290,9 @@ export default {
     },
     triggerActive: function (active) {
       this.currentlyPlaying[active.id] = active.active
+    },
+    reorder: function(data, index){
+      return data.slice(index).concat(data.slice(0, index))
     }
   },
   mounted: function () {
@@ -253,6 +330,7 @@ export default {
     height: 100vh;
     top: 0;
 
+    z-index: -1;
     .bar {
       flex-grow: 1;
       opacity: 0;
@@ -266,6 +344,7 @@ export default {
     height: 100vh;
     top: 0;
     flex-direction: column;
+    z-index: -1;
 
     .row {
       flex-grow: 1;

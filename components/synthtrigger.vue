@@ -1,11 +1,6 @@
 <template>
 <section>
-  <select v-model="config.note">
-    <option v-for="possibleNote in noteOptions.possibleNotes">{{possibleNote}}</option>
-  </select>
-  <select v-model="config.octave">
-    <option v-for="possibleOctave in noteOptions.possibleOctaves">{{possibleOctave}}</option>
-  </select>
+  {{config.note}} {{config.octave}}
   <h4 :class="{'notePlaying': notePlaying}">
     {{ config.keyCode }}
   </h4>
@@ -25,10 +20,6 @@ export default {
   data () {
     return {
       notePlaying: false,
-      noteOptions: {
-        possibleNotes: ['A', 'A#', 'B', 'B#', 'C', 'C#', 'D', 'D#', 'E', 'E#', 'F', 'F#', 'G', 'G#'],
-        possibleOctaves: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-      }
     }
   },
   mounted: function () {
