@@ -277,6 +277,11 @@ export default {
           pitch.note = newScale[vue.activeScale.steps[4]]
         }
       })
+    },
+    activeScale: function(newScale) {
+      this.scaleKey = newScale.triggers.key
+      this.octave1 = newScale.triggers.octave1
+      this.octave2 = newScale.triggers.octave2
     }
 
   },
