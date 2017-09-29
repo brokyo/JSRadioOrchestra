@@ -38,6 +38,7 @@ export default {
       if (e.key === vue.config.keyCode & !e.repeat) {
         vue.notePlaying = true
         vue.synth.triggerAttack(vue.noteToPlay)
+        vue.$emit('playing', {id: vue.config.id, active: true})
       }
     })
 
@@ -45,8 +46,9 @@ export default {
       if (e.key === vue.config.keyCode & !e.repeat) {
         vue.notePlaying = false
         vue.synth.triggerRelease(vue.noteToPlay)
+        vue.$emit('playing', {id: vue.config.id, active: false})
       }
-    })      
+    })
   }
 }
 </script>

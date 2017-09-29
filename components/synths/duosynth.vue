@@ -6,7 +6,7 @@
 		</div>
 		<div class="controls">
 			<label>Vibrato Amount</label>
-			<input type="range" min="0" max="10" v-model="config.vibratoAmount"></input>
+			<input type="range" min="0" max="3" step="0.25" v-model="config.vibratoAmount"></input>
 			<input type="number" v-model="config.vibratoAmount"></input>
 			<label>Vibrato Rate</label>
 			<input type="range" min="0" max="20" v-model="config.vibratoRate"></input>
@@ -241,52 +241,55 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
+
 .duoSynthConfig {
+  display: block;
 
-	label {
-		display: block;
-		font-weight: 900;
-	}
-	input[type="range"] {
-		width: 70%;
-		margin-right: 10px;
-	}
-	input[type="number"] {
-		width: 25%;
-		font-weight: 900;
-	}
+  label {
+    display: block;
+    font-weight: 900;
+  }
+  input[type="range"] {
+    width: 70%;
+    margin-right: 10px;
+  }
+  input[type="number"] {
+    width: 25%;
+    font-weight: 900;
+  }
 
-	.title {
-		width: 100%;
-		background-color: #E1E1E1;
-	}
+  .title {
+    width: 100%;
+    background-color: #E1E1E1;
+  }
 
-	.groupControls {
-		height: 600px;
-		background-color: #AAAAAA;
-		width: 20%;
-		display: block;
-	    float: left;
-	    flex-wrap: wrap;
-	}
+  .groupControls {
+    height: 600px;
+    background-color: #AAAAAA;
+    width: 20%;
+    display: block;
+      float: left;
+      flex-wrap: wrap;
+  }
 
-	.voice {
-		width: 80%;
-		float: left;
-	}
+  .voice {
+    width: 80%;
+    float: left;
+  }
 
-	.voiceControls {
-		display: flex;
-		height: 100%;
+  .voiceControls {
+    display: flex;
+    height: 100%;
 
-		.category {
-			background-color: #AAAAAA;
-			padding: 5px 10px;
-			height: 100%;
-			flex-grow: 1;
-			flex: 1;
-		}
-	}
+    .category {
+      background-color: #AAAAAA;
+      padding: 5px 10px;
+      height: 100%;
+      flex-grow: 1;
+      flex: 1;
+    }
+  }
 }
+
 </style>

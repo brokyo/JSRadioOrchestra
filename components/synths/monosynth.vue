@@ -113,7 +113,8 @@ export default {
 			filter: {
 				Q: 6,
 				type: 'lowpass',
-				rolloff: -24
+				rolloff: -24,
+        wet: 0
 			},
 			envelope: {
 				attack: 0.005,

@@ -6,43 +6,61 @@
     </div>
   </div>
 
-    <!-- <h3>Music For: {{activeBackground.title}}</h3> -->
-    <!-- <button @click="hideControls = !hideControls">Toggle Controls</button> -->
-    <main v-if="!hideControls">
-      <!-- Synth Config -->
-      <section class="configSection">
-        <div>
-          <h3>Synth</h3>
-          <select v-model="activeSynth">
-            <option value="" disabled selected hidden>Select Synth</option>
-            <option v-for="synth in possibleSynths">{{synth}}</option>
-          </select>
-        </div>
-        <div>
-          <monosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'MonoSynth'"></monosynth>
-          <amsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'AMSynth'"></amsynth>
-          <fmsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'FMSynth'"></fmsynth>
-          <duosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'DuoSynth'"></duosynth>
-          <plucksynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'PluckSynth'"></plucksynth>
-        </div>
-      </section>
-
-      <!-- Synth Triggers -->
-      <section class="configSection" v-if="activeSynth">
-        <h3>Scale</h3>
-        <select v-model="activeScale">
-          <option v-for="scale in scales" :value="scale">{{scale.name}}</option>
+  <h3>Music For: {{activeBackground.title}}</h3>
+  <button @click="hideControls = !hideControls">Toggle Controls</button>
+  <main v-show="!hideControls">
+    <!-- Synth Config -->
+    <section class="configSection">
+      <div class="selector">
+        <h3>Synth</h3>
+        <select v-model="activeSynth">
+          <option value="" disabled selected hidden>Select Synth</option>
+          <option v-for="synth in possibleSynths">{{synth}}</option>
         </select>
-        <synthtrigger v-for="pitch in activeScale.config" :config="pitch" :synth="ToneElements.synth"></synthtrigger>
-      </section>
+      </div>
+      <div>
+        <monosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'MonoSynth'"></monosynth>
+        <amsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'AMSynth'"></amsynth>
+        <fmsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'FMSynth'"></fmsynth>
+        <duosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'DuoSynth'"></duosynth>
+        <plucksynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'PluckSynth'"></plucksynth>
+      </div>
+    </section>
 
-      <!-- Filter -->
-      <section class="configSection">
-        <h3>Filter</h3>
-        <input type="checkbox" v-model="filterActive"></input>
-        <tonefilter :options="allOptions" @updateFilter="updateFilter" v-if="filterActive"></tonefilter>
-      </section>
-    </main>
+    <!-- Synth Triggers -->
+    <section class="configSection" v-if="activeSynth">
+      <h3>Scale</h3>
+      <select v-model="activeScale">
+        <option v-for="scale in scales" :value="scale">{{scale.name}}</option>
+      </select>
+      <div class="triggerContainer">
+        <synthtrigger v-for="pitch in activeScale.config" :config="pitch" :synth="ToneElements.synth" @playing="triggerActive"></synthtrigger>
+      </div>
+    </section>
+
+    <!-- Filter -->
+    <section class="configSection">
+      <h3>Filter</h3>
+      <input type="checkbox" v-model="filterActive"></input>
+      <tonefilter :options="allOptions" @updateFilter="updateFilter" v-if="filterActive"></tonefilter>
+    </section>
+  </main>
+  <div class="filterContainer">
+    <div class="width">
+      <div class="bar color0" :class="{ active: currentlyPlaying[0] }"></div>
+      <div class="bar color1" :class="{ active: currentlyPlaying[1] }"></div>
+      <div class="bar color2" :class="{ active: currentlyPlaying[2] }"></div>
+      <div class="bar color3" :class="{ active: currentlyPlaying[3] }"></div>
+      <div class="bar color4" :class="{ active: currentlyPlaying[4] }"></div>
+    </div>
+    <div class="height">
+      <div class="row color5" :class="{ active: currentlyPlaying[5] }"></div>
+      <div class="row color6" :class="{ active: currentlyPlaying[6] }"></div>
+      <div class="row color7" :class="{ active: currentlyPlaying[7] }"></div>
+      <div class="row color8" :class="{ active: currentlyPlaying[8] }"></div>
+      <div class="row color9" :class="{ active: currentlyPlaying[9] }"></div>
+    </div>
+  </div>
 </div>
 </template>
 
@@ -90,24 +108,46 @@ export default {
         {
           name: 'Bright (Yo Scale)',
           config: [
-            { id: 0, keyCode: 'a', note: 'D', octave: 4 },
-            { id: 1, keyCode: 's', note: 'E', octave: 4 },
-            { id: 2, keyCode: 'd', note: 'G', octave: 4 },
-            { id: 3, keyCode: 'f', note: 'A', octave: 4 },
-            { id: 4, keyCode: 'g', note: 'B', octave: 4 }
+            { id: 0, keyCode: 'q', note: 'D', octave: 4 },
+            { id: 1, keyCode: 'w', note: 'E', octave: 4 },
+            { id: 2, keyCode: 'e', note: 'G', octave: 4 },
+            { id: 3, keyCode: 'r', note: 'A', octave: 4 },
+            { id: 4, keyCode: 't', note: 'B', octave: 4 },
+            { id: 5, keyCode: 'h', note: 'D', octave: 5 },
+            { id: 6, keyCode: 'j', note: 'E', octave: 5 },
+            { id: 7, keyCode: 'k', note: 'G', octave: 5 },
+            { id: 8, keyCode: 'l', note: 'A', octave: 5},
+            { id: 9, keyCode: ';', note: 'B', octave: 5 }
           ]
         },
         {
           name: 'Dark (In Scale)',
           config: [
-            { id: 0, keyCode: 'a', note: 'D', octave: 3 },
-            { id: 1, keyCode: 's', note: 'D#', octave: 3 },
-            { id: 2, keyCode: 'd', note: 'G', octave: 3 },
-            { id: 3, keyCode: 'f', note: 'A', octave: 3 },
-            { id: 4, keyCode: 'g', note: 'A#', octave: 3 }
+            { id: 0, keyCode: 'q', note: 'D', octave: 3 },
+            { id: 1, keyCode: 'w', note: 'D#', octave: 3 },
+            { id: 2, keyCode: 'e', note: 'G', octave: 3 },
+            { id: 3, keyCode: 'r', note: 'A', octave: 3 },
+            { id: 4, keyCode: 't', note: 'A#', octave: 3 },
+            { id: 5, keyCode: 'h', note: 'D', octave: 4 },
+            { id: 6, keyCode: 'j', note: 'D#', octave: 4 },
+            { id: 7, keyCode: 'k', note: 'G', octave: 4 },
+            { id: 8, keyCode: 'l', note: 'A', octave: 4 },
+            { id: 9, keyCode: ';', note: 'A#', octave: 4 }
           ]
         }
       ],
+      currentlyPlaying: {
+        0: false,
+        1: false,
+        2: false,
+        3: false,
+        4: false,
+        5: false,
+        6: false,
+        7: false,
+        8: false,
+        9: false
+      },
       backgrounds: [
         {title: 'The Lit And Unlit Places Alike', videoId: 'W0LHTWG-UmQ'},
         {title: 'Continuing To Fight Losing Battles', videoId: 'OjPgeXHjM9k'},
@@ -173,31 +213,112 @@ export default {
     updateFilter: function (newValues) {
       console.log(newValues)
       this.ToneElements.filter.set(newValues)
+    },
+    triggerActive: function (active) {
+      this.currentlyPlaying[active.id] = active.active
     }
   },
   mounted: function () {
     this.activeBackground = this.backgrounds[Math.floor(Math.random()*this.backgrounds.length)];
     this.ToneElements.patch = new Tone.Gain()
     this.ToneElements.patch.connect(Tone.Master)
+    this.activeSynth = 'MonoSynthsfo'
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 .container {
-  display: flex;
+
 }
 
 .configSection {
-  display: flex;
-
   h3 {
     background: white;
     font-size: 46px;
   }
 }
 
-/* Background Video*/
+.triggerContainer {
+  display: flex;
+}
+
+.filterContainer {
+  z-index: -1;
+
+  .width {
+    display: flex;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+
+    .bar {
+      flex-grow: 1;
+      opacity: 0;
+    }
+  }
+
+  .height {
+    display: flex;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    flex-direction: column;
+
+    .row {
+      flex-grow: 1;
+      opacity: 0;
+    }
+
+  }
+
+  .color0 {
+    background-color: #DD5777;
+  }
+
+  .color1 {
+    background-color: #3409DD;
+  }
+
+  .color2 {
+    background-color: #3ADD7B;
+  }
+
+  .color3 {
+    background-color: #0F8979;
+  }
+
+  .color4{
+    background-color: #D6A57F;
+  }
+
+  .color5 {
+    background-color: #EDE704;
+  }
+
+  .color6 {
+    background-color: #74EDDF;
+  }
+
+  .color7 {
+    background-color: #DB360B
+  }
+
+  .color8 {
+    background-color: #7491ED;
+  }
+
+  .color9 {
+    background-color: #7FC2D6
+  }
+
+  .active {
+    opacity: 0.5 !important;
+  }
+}
+
 .video-background {
   background: #000;
   position: fixed;
@@ -221,4 +342,5 @@ export default {
 @media (max-aspect-ratio: 16/9) {
   .video-foreground { width: 300%; left: -100%; }
 }
+
 </style>
