@@ -1,99 +1,111 @@
 <template>
-  <main>
-    <h1>Skrathech</h1>
-    <select v-model="scaleKey">
-      <option v-for="note in possibleNotes">{{note}}</option>
-    </select>
-    <select v-model="octave1">
-      <option v-for="octave in possibleOctaves">{{octave}}</option>
-    </select>
-    <select v-model="octave2">
-      <option v-for="octave in possibleOctaves">{{octave}}</option>
-    </select>
-    <p v-for="note in scale.config">{{note}} {{octave}}</p>
+  <main >
+    <div v-for="octave in octaves">
+      <div>
+        <h1>{{octave.name}}</h1>
+        <label>Direction</label>
+        <select v-model="octave.config['flex-direction']">
+          <option value="column">Column</option>
+          <option value="row">Row</option>
+        </select>
+        <div class="octaveConfig" v-for="band in octave.styles">
+          <label>Color</label>
+          <input type="color" v-model="band.color"></input>
+          <label>Grow</label>
+          <input type="number" v-model="band.grow"></input>
+          <label>Offset</label>
+          <input type="number" v-model="band.offset"></input>
+          <label>Order</label>
+          <input type="number" v-model="band.order"></input>
+          <label>Start Opacity</label>
+          <input type="number" v-model="band.startOpacity"></input>
+          <label>End Opacity</label>
+          <input type="number" v-model="band.endOpacity"></input>
+        </div>
+      </div>
+    </div>
+    <colorfilter class="colorFilter" :octaves="octaves" :transitions="transitions" :active="active"></colorfilter>
   </main>
 </template>
 
 <script>
+import colorfilter from '../components/colorfilter.vue'
+
 export default {
-
   name: 'scratch',
-
+  components: {
+  colorfilter
+  },
   data () {
     return {
-      scale: {
-        name: 'Dark (In Scale)',
-        config: [
-          { id: 0, keyCode: 'q', note: 'D', octave: 3 },
-          { id: 1, keyCode: 'w', note: 'D#', octave: 3 },
-          { id: 2, keyCode: 'e', note: 'G', octave: 3 },
-          { id: 3, keyCode: 'r', note: 'A', octave: 3 },
-          { id: 4, keyCode: 't', note: 'A#', octave: 3 },
-          { id: 5, keyCode: 'h', note: 'D', octave: 4 },
-          { id: 6, keyCode: 'j', note: 'D#', octave: 4 },
-          { id: 7, keyCode: 'k', note: 'G', octave: 4 },
-          { id: 8, keyCode: 'l', note: 'A', octave: 4 },
-          { id: 9, keyCode: ';', note: 'A#', octave: 4 }
-        ],
-        steps: [0, 1, 6, 8, 9]
+      octaves: [
+        {
+          name: 'octave1',
+          config: {
+            'display': 'flex',
+            'flex-direction': 'column',
+            'justify-content': 'flex-start'
+          },
+          styles: [
+            {grow: 1, order: 1, offset: 0, color: '#E583B4', startOpacity: 1, endOpacity: 0},
+            {grow: 1, order: 2, offset: 0, color: '#FAEE31', startOpacity: 1, endOpacity: 0},
+            {grow: 1, order: 3, offset: 0, color: '#67CAF4', startOpacity: 1, endOpacity: 0},
+            {grow: 1, order: 4, offset: 0, color: '#F2A172', startOpacity: 1, endOpacity: 0},
+            {grow: 1, order: 5, offset: 0, color: '#0F1A23', startOpacity: 1, endOpacity: 0}
+          ]
+        },
+        {
+          name: 'octave2',
+          config: {
+            'display': 'flex',
+            'flex-direction': 'column',
+            'justify-content': 'flex-start'
+          },
+          styles: [
+            {grow: 1, order: 1, offset: 0, color: '#CE5814', startOpacity: 1, endOpacity: 0},
+            {grow: 1, order: 2, offset: 0, color: '#72F2C2', startOpacity: 1, endOpacity: 0},
+            {grow: 1, order: 3, offset: 0, color: '#A472F2', startOpacity: 1, endOpacity: 0},
+            {grow: 1, order: 4, offset: 0, color: '#E4F272', startOpacity: 1, endOpacity: 0},
+            {grow: 1, order: 5, offset: 0, color: '#C7F272', startOpacity: 1, endOpacity: 0}
+          ]
+        },
+      ],
+      transitions: {
+        in: 1,
+        out: 3
       },
-      octave1: '',
-      octave2: '',
-      scaleKey: '',
-      possibleNotes: ['A', 'A#', 'B', 'B#', 'C', 'C#', 'D', 'D#', 'E', 'E#', 'F', 'F#', 'G', 'G#'],
-      possibleOctaves: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    }
-    },
-    watch: {
-      octave1: function(newOctave){
-        this.scale.config.forEach(function(pitch){
-          if(pitch.id <= 4){
-            pitch.octave = Number(newOctave)
-          }
-        })
-      },
-      octave2: function(newOctave){
-        this.scale.config.forEach(function(pitch){
-          if(pitch.id > 4){
-            pitch.octave = Number(newOctave)
-          }
-        })
-      },
-      scaleKey: function(newKey){
-        let newOrigin = this.possibleNotes.indexOf(newKey)
-        let newScale = this.reorder(this.possibleNotes, newOrigin)
-        let vue = this
-
-        this.scale.config.forEach(function(pitch){
-          if(pitch.id === 0 || pitch.id === 5){
-            pitch.note = newScale[vue.scale.steps[0]]
-          }
-
-          if(pitch.id === 1 || pitch.id === 6){
-            pitch.note = newScale[vue.scale.steps[1]]
-          }
-
-          if(pitch.id === 2 || pitch.id === 7){
-            pitch.note = newScale[vue.scale.steps[2]]
-          }
-
-          if(pitch.id === 3 || pitch.id === 8){
-            pitch.note = newScale[vue.scale.steps[3]]
-          }
-
-          if(pitch.id === 4 || pitch.id === 9){
-            pitch.note = newScale[vue.scale.steps[4]]
-          }
-        })
+      active: {
+        0: true,
+        1: true,
+        2: true,
+        3: true,
+        4: true,
+        5: false,
+        6: false,
+        7: false,
+        8: false,
+        9: false
       }
+    }
+  },
+  watch: {
   },
   methods: {
-    reorder: function(data, index){
-      return data.slice(index).concat(data.slice(0, index))
-    }
   }
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
+.octaveConfig {
+  z-index: 1;
+  display: block;
+
+  label {
+    display: inline-block;
+  }
+}
+
+.colorFilter {
+  z-index: -1;
+}
 </style>

@@ -7,6 +7,7 @@
   </div>
 
   <h3>Music For: {{activeBackground.title}}</h3>
+  <h2>{{savedValues.synth.config.envelope}}</h2>
   <button @click="hideControls = !hideControls">Toggle Controls</button>
   <main v-show="!hideControls">
     <!-- Synth Config -->
@@ -63,7 +64,7 @@
       <autofilter v-if="activeEffects.AutoFilter"></autofilter>
       <autopanner v-if="activeEffects.AutoPanner"></autopanner>
       <chorus v-if="activeEffects.Chorus"></chorus>
-      <feedbackdelay v-if="activeEffects.FeedbackDelay" @updateEffect="updateEffect"></feedbackdelay>
+      <feedbackdelay v-if="activeEffects.indexOf('FeedbackDelay') > -1" @updateEffect="updateEffect"></feedbackdelay>
       <pitchshift v-if="activeEffects.PitchShift"></pitchshift>
       <tremolo v-if="activeEffects.Tremolo"></tremolo>
       <vibrato v-if="activeEffects.Vibrato"></vibrato>
@@ -78,19 +79,19 @@
   </main>
   <div class="filterContainer">
     <div class="width">
-      <div class="bar color0" :class="{ active: currentlyPlaying[0] }"></div>
-      <div class="bar color1" :class="{ active: currentlyPlaying[1] }"></div>
-      <div class="bar color2" :class="{ active: currentlyPlaying[2] }"></div>
-      <div class="bar color3" :class="{ active: currentlyPlaying[3] }"></div>
-      <div class="bar color4" :class="{ active: currentlyPlaying[4] }"></div>
+      <div class="bar color0" :style="[currentlyPlaying[0] ? {'transition': 'all ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'all ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
+      <div class="bar color1" :style="[currentlyPlaying[1] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
+      <div class="bar color2" v-show="currentlyPlaying[2]" :style="[currentlyPlaying[2] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
+      <div class="bar color3" v-show="currentlyPlaying[3]" :style="[currentlyPlaying[3] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
+      <div class="bar color4" v-show="currentlyPlaying[4]" :style="[currentlyPlaying[4] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
     </div>
-    <div class="height">
-      <div class="row color5" :class="{ active: currentlyPlaying[5] }"></div>
-      <div class="row color6" :class="{ active: currentlyPlaying[6] }"></div>
-      <div class="row color7" :class="{ active: currentlyPlaying[7] }"></div>
-      <div class="row color8" :class="{ active: currentlyPlaying[8] }"></div>
-      <div class="row color9" :class="{ active: currentlyPlaying[9] }"></div>
-    </div>
+<!--     <div class="height">
+      <div class="row color5" :style="[currentlyPlaying[5] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
+      <div class="row color6" :style="[currentlyPlaying[6] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
+      <div class="row color7" :style="[currentlyPlaying[7] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
+      <div class="row color8" :style="[currentlyPlaying[8] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
+      <div class="row color9" :style="[currentlyPlaying[9] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
+    </div> -->
   </div>
 </div>
 </template>
@@ -128,6 +129,20 @@ export default {
         synth: {},
         filter: {},
         effects: []
+      },
+      savedValues: {
+        synth: {
+          name: '',
+          config: {
+            envelope: {
+              attack: 1,
+              release: 3
+            }
+          }
+        },
+        filter: {
+          config: {}
+        }
       },
       activeEffects: [],
       allEffects: ['AutoFilter', 'AutoPanner', 'Chorus', 'FeedbackDelay', 'PitchShift', 'Tremolo', 'Vibrato'],
@@ -211,15 +226,21 @@ export default {
         9: false
       },
       backgrounds: [
-        {title: 'The Lit And Unlit Places Alike', videoId: 'W0LHTWG-UmQ'},
-        {title: 'Continuing To Fight Losing Battles', videoId: 'OjPgeXHjM9k'},
-        {title: 'The Places Inbetween', videoId: 'o34e0406WL8'}
-      ]
+        // {title: 'The Lit And Unlit Places Alike', videoId: 'W0LHTWG-UmQ'},
+        // {title: 'Continuing To Fight Losing Battles', videoId: 'OjPgeXHjM9k'},
+        {title: 'The Places Inbetween', videoId: 'o34e0406WL8'},
+        {title: 'That\'s The Only Way It\'s Ever Been', videoId: 'VWq3ZoDP2ho'}
+      ],
     }
   },
   computed: {
     activeBackgroundURL: function () {
       return 'https://www.youtube.com/embed/' + this.activeBackground.videoId + '?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&vq=small&playlist='+ this.activeBackground.videoId
+    },
+    timeToTransition: function() {
+      return {
+          transition: 'opacity ' + String(0.5) +'s ease',
+      }
     }
   },
   watch: {
@@ -246,7 +267,11 @@ export default {
       }
     },
     filterActive: function () {
+      let activeEffectswq
       if (this.filterActive) {
+        if(this.ToneElements.effects.length > 0) {
+
+       }
         this.ToneElements.synthOut.disconnect(this.ToneElements.patch)
         this.ToneElements.filter = new Tone.Filter()
         this.ToneElements.filter.connect(this.ToneElements.patch)
@@ -309,9 +334,11 @@ export default {
   },
   methods: {
     updateSynth: function (newValues) {
+      this.savedValues.synth.config = newValues
       this.ToneElements.synth.set(newValues)
     },
     updateFilter: function (newValues) {
+      this.savedValues.filter.config = newValues
       this.ToneElements.filter.set(newValues)
     },
     triggerActive: function (active) {
@@ -321,24 +348,24 @@ export default {
       return data.slice(index).concat(data.slice(0, index))
     },
     activateEffects: function() {
-      //Clear current effect chain
-      this.ToneElements.effects = []
-
       let vue = this
       // Disconnect synth
       let finalNode
 
       // Find last node
-      if (this.filterActive) {
+      if(this.ToneElements.effects.length > 0) {
+        finalNode = this.ToneElements.effects[this.ToneElements.effects.length - 1]
+      } else if (this.filterActive) {
         finalNode = this.ToneElements.filter
       } else {
         finalNode = this.ToneElements.patch
       }
 
-      console.log(finalNode)
-
       // Disconnect from it
-      this.ToneElements.synth.disconnect(finalNode)
+      this.ToneElements.synthOut.disconnect(finalNode)
+
+      //Clear current effect chain
+      this.ToneElements.effects = []
 
       // create effect nodes
       this.activeEffects.forEach(function(effect){
@@ -349,15 +376,16 @@ export default {
       this.ToneElements.effects.forEach(function(effect, index){
         if (index === 0 && vue.ToneElements.effects.length === 1){
           console.log('connect it!')
-          vue.ToneElements.synth.chain(effect, finalNode)
+          vue.ToneElements.synthOut.chain(effect, finalNode)
         } else if (index < vue.ToneElements.effects.length - 1) {
-          vue.ToneElements.synth.connect(effect)
+          vue.ToneElements.synthOut.connect(effect)
         } else if (index === vue.ToneElements.effects.length - 1) {
-          vue.ToneElements.synth.chain(effect, finalNode)
+          vue.ToneElements.synthOut.chain(effect, finalNode)
         }
       })
     },
     updateEffect: function(newValues){
+      // this.ToneElements.effects
       console.log(newValues)
     }
   },
@@ -384,6 +412,10 @@ export default {
 
   .triggerContainer {
     display: flex;
+  }
+
+  .activeClass {
+    opacity: 0.5 !important;
   }
 
   .filterContainer {
@@ -414,7 +446,6 @@ export default {
 
       .row {
         flex-grow: 1;
-        opacity: 0;
       }
 
     }
@@ -457,10 +488,6 @@ export default {
 
     .color9 {
       background-color: #7FC2D6
-    }
-
-    .active {
-      opacity: 0.5 !important;
     }
   }
 
