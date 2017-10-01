@@ -7,7 +7,6 @@
   </div>
 
   <h3>Music For: {{activeBackground.title}}</h3>
-  <h2>{{savedValues.synth.config.envelope}}</h2>
   <button @click="hideControls = !hideControls">Toggle Controls</button>
   <main v-show="!hideControls">
     <!-- Synth Config -->
@@ -77,7 +76,8 @@
       <tonefilter :options="allOptions" @updateFilter="updateFilter" v-if="filterActive"></tonefilter>
     </section>
   </main>
-  <div class="filterContainer">
+  <colorfilterconfig :active="currentlyPlaying" :transitions="savedValues.synth.config.envelope"></colorfilterconfig>
+<!--   <div class="filterContainer">
     <div class="width">
       <div class="bar color0" :style="[currentlyPlaying[0] ? {'transition': 'all ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'all ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
       <div class="bar color1" :style="[currentlyPlaying[1] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
@@ -85,14 +85,14 @@
       <div class="bar color3" v-show="currentlyPlaying[3]" :style="[currentlyPlaying[3] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
       <div class="bar color4" v-show="currentlyPlaying[4]" :style="[currentlyPlaying[4] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
     </div>
-<!--     <div class="height">
+    <div class="height">
       <div class="row color5" :style="[currentlyPlaying[5] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
       <div class="row color6" :style="[currentlyPlaying[6] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
       <div class="row color7" :style="[currentlyPlaying[7] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
       <div class="row color8" :style="[currentlyPlaying[8] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
       <div class="row color9" :style="[currentlyPlaying[9] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
-    </div> -->
-  </div>
+    </div>
+  </div> -->
 </div>
 </template>
 
@@ -110,6 +110,7 @@ import feedbackdelay from '../components/effects/feedbackdelay.vue'
 import pitchshift from '../components/effects/pitchshift.vue'
 import tremolo from '../components/effects/tremolo.vue'
 import vibrato from '../components/effects/vibrato.vue'
+import colorfilterconfig from '../components/colorfilterconfig.vue'
 
 
 if (process.browser) {
@@ -119,7 +120,7 @@ if (process.browser) {
 
 export default {
   components: {
-    monosynth, amsynth, fmsynth, duosynth, synthtrigger, tonefilter, autofilter, autopanner, chorus, feedbackdelay, pitchshift, tremolo, vibrato
+    monosynth, amsynth, fmsynth, duosynth, synthtrigger, tonefilter, autofilter, autopanner, chorus, feedbackdelay, pitchshift, tremolo, vibrato, colorfilterconfig
   },
   data () {
     return {

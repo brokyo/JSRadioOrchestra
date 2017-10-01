@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="bands" v-for="octave in layout" :style="octave.config">
-      <div v-for="(band, index) in octave.bands" :style="[band.base, active[index] ? band.transitionIn : band.transitionOut]"></div>
+      <div v-for="(band, index) in octave.bands" :style="[band.base, active[band.index] ? band.transitionIn : band.transitionOut]"></div>
     </div>
   </div>
 </template>
@@ -35,12 +35,12 @@ export default {
 
       function transitionIn(bandValues) {
         this.opacity = bandValues.startOpacity
-        this.transition = 'opacity ' + String(vue.transitions.in) + 's ease'
+        this.transition = 'opacity ' + String(vue.transitions.attack) + 's ease'
       }
 
       function transitionOut(bandValues) {
         this.opacity = bandValues.endOpacity
-        this.transition = 'opacity ' + String(vue.transitions.out) + 's ease'
+        this.transition = 'opacity ' + String(vue.transitions.release) + 's ease'
       }
 
       const LAYOUT = []
@@ -53,10 +53,12 @@ export default {
 
         octave.styles.forEach(function (bandValues) {
           let band = {
+            index: bandValues.id,
             base: new baseStyles(octave, bandValues),
             transitionIn: new transitionIn(bandValues),
             transitionOut: new transitionOut(bandValues)
           }
+          console.log(band)
           munge.bands.push(band)
         })
 
