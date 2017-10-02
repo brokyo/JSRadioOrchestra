@@ -26,11 +26,11 @@ export default {
         wet: 1
       }
 
-    };
+    }
   },
   watch: {
     config: {
-      handler: function(newValues) {
+      handler: function (newValues) {
         let emitObject = {
           name: 'FeedbackDelay',
           values: newValues
@@ -40,7 +40,7 @@ export default {
       deep: true
     }
   }
-};
+}
 </script>
 
 <style lang="css" scoped>

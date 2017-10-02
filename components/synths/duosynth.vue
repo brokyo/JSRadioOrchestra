@@ -189,7 +189,7 @@ export default {
     				decay: 0,
     				sustain: 1,
     				release: 0.5,
-    				releaseCurve: 'linear',
+    				releaseCurve: 'linear'
     			},
     			filterEnvelope: {
     				attack: 0.01,
@@ -213,7 +213,7 @@ export default {
     				decay: 0,
     				sustain: 1,
     				release: 0.5,
-    				releaseCurve: 'linear',
+    				releaseCurve: 'linear'
     			},
     			filterEnvelope: {
     				attack: 0.01,
@@ -225,7 +225,7 @@ export default {
     			}
     		}
     	}
-    };
+    }
   },
   watch: {
   	config: {
@@ -235,10 +235,10 @@ export default {
   		deep: true
   	}
   },
-  mounted: function() {
+  mounted: function () {
 
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

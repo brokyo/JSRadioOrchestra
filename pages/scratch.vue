@@ -1,13 +1,13 @@
 <template>
-<main>
-    <h1>CHORUS SHIT</h1>
-</main>
+  <main>
+    <h1>OHI</h1>
+  </main>
 </template>
 
 <script>
 export default {
 
-  name: 'chorus',
+  name: 'scratch',
 
   data () {
     return {

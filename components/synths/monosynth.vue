@@ -134,7 +134,7 @@ export default {
 				exponent: 2
 			}
     	}
-    };
+    }
   },
   watch: {
   	config: {
@@ -144,10 +144,10 @@ export default {
   		deep: true
   	}
   },
-  mounted: function() {
+  mounted: function () {
 
   }
-};
+}
 </script>
 
 <style lang="css" scoped>

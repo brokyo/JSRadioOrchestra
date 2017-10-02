@@ -16,16 +16,16 @@ export default {
     }
   },
   computed: {
-    layout: function() {
-      var vue = this;
+    layout: function () {
+      var vue = this
 
-      function baseStyles(octave, bandValues) {
+      function baseStyles (octave, bandValues) {
         this['flex-grow'] = bandValues.grow
         this.order = bandValues.order
         this['background-color'] = bandValues.color
 
         this.position = 'relative'
-        if(octave.config['flex-direction'] === 'column') {
+        if (octave.config['flex-direction'] === 'column') {
           this.top = String(bandValues.offset) + '%'
         } else {
           this.left = String(bandValues.offset) + '%'
@@ -33,12 +33,12 @@ export default {
 
       }
 
-      function transitionIn(bandValues) {
+      function transitionIn (bandValues) {
         this.opacity = bandValues.startOpacity
         this.transition = 'opacity ' + String(vue.transitions.attack) + 's ease'
       }
 
-      function transitionOut(bandValues) {
+      function transitionOut (bandValues) {
         this.opacity = bandValues.endOpacity
         this.transition = 'opacity ' + String(vue.transitions.release) + 's ease'
       }
@@ -58,7 +58,6 @@ export default {
             transitionIn: new transitionIn(bandValues),
             transitionOut: new transitionOut(bandValues)
           }
-          console.log(band)
           munge.bands.push(band)
         })
 
@@ -68,13 +67,8 @@ export default {
       return LAYOUT
 
      }
-  },
-  methods: {
-  },
-  mounted: function() {
-    console.log(this.layout)
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

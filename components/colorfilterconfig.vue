@@ -1,6 +1,7 @@
 <template>
   <main >
-    <div v-for="octave in octaves">
+    <button @click="hideControls = !hideControls">Hide</button>
+    <div v-show="hideControls" v-for="octave in octaves">
       <div>
         <h1>{{octave.name}}</h1>
         <label>Direction</label>
@@ -39,6 +40,7 @@ export default {
   props: ['active', 'transitions'],
   data () {
     return {
+      hideControls: true,
       octaves: [
         {
           name: 'octave1',
@@ -69,15 +71,11 @@ export default {
             {id: 8, grow: 1, order: 4, offset: 0, color: '#E4F272', startOpacity: 1, endOpacity: 0},
             {id: 9, grow: 1, order: 5, offset: 0, color: '#C7F272', startOpacity: 1, endOpacity: 0}
           ]
-        },
-      ],
+        }
+      ]
     }
-  },
-  watch: {
-  },
-  methods: {
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -19,7 +19,7 @@ export default {
   },
   data () {
     return {
-      notePlaying: false,
+      notePlaying: false
     }
   },
   mounted: function () {

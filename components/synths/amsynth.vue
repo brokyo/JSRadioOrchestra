@@ -93,14 +93,14 @@ export default {
   data () {
     return {
     	config: {
-			oscillator : {
+			oscillator: {
 				type: 'sine'
 			},
 			volume: 0,
 			harmonicity: 3,
 			detune: 0,
 			portamento: 0,
-			modulation : {
+			modulation: {
 				type: 'square'
 			},
 			envelope: {
@@ -130,10 +130,10 @@ export default {
   		deep: true
   	}
   },
-  mounted: function() {
+  mounted: function () {
 
   }
-};
+}
 </script>
 
 <style lang="less">

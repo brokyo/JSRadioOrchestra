@@ -8,10 +8,10 @@
       <option v-for="type in options.filter.allTypes">{{type}}</option>
     </select>
     <label>Frequency</label>
-    <input type="range" min="-200" max="50000" v-model="filterConfig.frequency"></input>
+    <input type="range" min="0" max="20000" step="100" v-model="filterConfig.frequency"></input>
     <input type="number" v-model="filterConfig.frequency"></input>
     <label>Q</label>
-    <input type="range" min="0" max="100" v-model="filterConfig.Q">
+    <input type="range" min="0" max="30" v-model="filterConfig.Q">
     <input type="number" v-model="filterConfig.Q"></input>
     <label>Rolloff</label>
     <select v-model="filterConfig.rolloff">

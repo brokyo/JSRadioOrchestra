@@ -1,6 +1,8 @@
 $config-background: #FFFFFF;
 $config-title: #E1E1E1;
 
+@import url('https://fonts.googleapis.com/css?family=VT323');
+
 .synthConfig {
   display: flex;
   flex-wrap: wrap;
@@ -37,7 +39,6 @@ $config-title: #E1E1E1;
 }
 
 .filterConfig {
-  width: 300px;
 
   label {
     display: block;

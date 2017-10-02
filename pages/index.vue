@@ -7,8 +7,13 @@
   </div>
 
   <h3>Music For: {{activeBackground.title}}</h3>
-  <button @click="hideControls = !hideControls">Toggle Controls</button>
-  <main v-show="!hideControls">
+  <select v-model="activeView">
+    <option value="controls">Controls</option>
+    <option value="colors">Colors</option>
+    <option value="none">Background</option>
+  </select>
+  <!-- <button @click="hideControls = !hideControls">Toggle Controls</button> -->
+  <main v-show="activeView === 'controls'">
     <!-- Synth Config -->
     <section class="configSection">
       <div class="selector">
@@ -19,11 +24,11 @@
         </select>
       </div>
       <div>
-        <monosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'MonoSynth'"></monosynth>
+<!--         <monosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'MonoSynth'"></monosynth> -->
+        <synth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'Synth'"></synth>
         <amsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'AMSynth'"></amsynth>
         <fmsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'FMSynth'"></fmsynth>
         <duosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'DuoSynth'"></duosynth>
-        <plucksynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'PluckSynth'"></plucksynth>
       </div>
     </section>
 
@@ -76,27 +81,16 @@
       <tonefilter :options="allOptions" @updateFilter="updateFilter" v-if="filterActive"></tonefilter>
     </section>
   </main>
-  <colorfilterconfig :active="currentlyPlaying" :transitions="savedValues.synth.config.envelope"></colorfilterconfig>
-<!--   <div class="filterContainer">
-    <div class="width">
-      <div class="bar color0" :style="[currentlyPlaying[0] ? {'transition': 'all ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'all ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
-      <div class="bar color1" :style="[currentlyPlaying[1] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
-      <div class="bar color2" v-show="currentlyPlaying[2]" :style="[currentlyPlaying[2] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
-      <div class="bar color3" v-show="currentlyPlaying[3]" :style="[currentlyPlaying[3] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
-      <div class="bar color4" v-show="currentlyPlaying[4]" :style="[currentlyPlaying[4] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
-    </div>
-    <div class="height">
-      <div class="row color5" :style="[currentlyPlaying[5] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
-      <div class="row color6" :style="[currentlyPlaying[6] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
-      <div class="row color7" :style="[currentlyPlaying[7] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
-      <div class="row color8" :style="[currentlyPlaying[8] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
-      <div class="row color9" :style="[currentlyPlaying[9] ? {'transition': 'opacity ' + String(savedValues.synth.config.envelope.attack) +'s ease', 'opacity': '0.5 !important'} : {'transition': 'opacity ' + String(savedValues.synth.config.envelope.release) +'s ease'}]"></div>
-    </div>
-  </div> -->
+
+  <div v-show="activeView === 'colors'">
+    <colorfilterconfig :active="currentlyPlaying" :transitions="savedValues.synth.config.envelope"></colorfilterconfig>
+
+  </div>
 </div>
 </template>
 
 <script>
+import synth from '../components/synths/synth.vue'
 import monosynth from '../components/synths/monosynth.vue'
 import amsynth from '../components/synths/amsynth.vue'
 import fmsynth from '../components/synths/fmsynth.vue'
@@ -120,7 +114,7 @@ if (process.browser) {
 
 export default {
   components: {
-    monosynth, amsynth, fmsynth, duosynth, synthtrigger, tonefilter, autofilter, autopanner, chorus, feedbackdelay, pitchshift, tremolo, vibrato, colorfilterconfig
+    synth, monosynth, amsynth, fmsynth, duosynth, synthtrigger, tonefilter, autofilter, autopanner, chorus, feedbackdelay, pitchshift, tremolo, vibrato, colorfilterconfig
   },
   data () {
     return {
@@ -145,6 +139,7 @@ export default {
           config: {}
         }
       },
+      activeView: 'controls',
       activeEffects: [],
       allEffects: ['AutoFilter', 'AutoPanner', 'Chorus', 'FeedbackDelay', 'PitchShift', 'Tremolo', 'Vibrato'],
       activeSynth: '',
@@ -152,7 +147,7 @@ export default {
       activeScale: [],
       activeBackground: {},
       hideControls: false,
-      possibleSynths: ['MonoSynth', 'AMSynth', 'FMSynth', 'DuoSynth'],
+      possibleSynths: ['Synth', 'AMSynth', 'FMSynth', 'DuoSynth'],
       allOptions: {
         oscillators: {
           standard: ['sine', 'square', 'triangle', 'sawtooth']
@@ -165,7 +160,7 @@ export default {
       },
       scaleConfig: {
         possibleNotes: ['A', 'A#', 'B', 'B#', 'C', 'C#', 'D', 'D#', 'E', 'E#', 'F', 'F#', 'G', 'G#'],
-        possibleOctaves: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        possibleOctaves: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
       },
       octave1: '',
       octave2: '',
@@ -182,7 +177,7 @@ export default {
             { id: 5, keyCode: 'h', note: 'D', octave: 5 },
             { id: 6, keyCode: 'j', note: 'E', octave: 5 },
             { id: 7, keyCode: 'k', note: 'G', octave: 5 },
-            { id: 8, keyCode: 'l', note: 'A', octave: 5},
+            { id: 8, keyCode: 'l', note: 'A', octave: 5 },
             { id: 9, keyCode: ';', note: 'B', octave: 5 }
           ],
           triggers: {
@@ -227,20 +222,20 @@ export default {
         9: false
       },
       backgrounds: [
-        // {title: 'The Lit And Unlit Places Alike', videoId: 'W0LHTWG-UmQ'},
-        // {title: 'Continuing To Fight Losing Battles', videoId: 'OjPgeXHjM9k'},
+        {title: 'The Lit And Unlit Places Alike', videoId: 'W0LHTWG-UmQ'},
+        {title: 'Continuing To Fight Losing Battles', videoId: 'OjPgeXHjM9k'},
         {title: 'The Places Inbetween', videoId: 'o34e0406WL8'},
         {title: 'That\'s The Only Way It\'s Ever Been', videoId: 'VWq3ZoDP2ho'}
-      ],
+      ]
     }
   },
   computed: {
     activeBackgroundURL: function () {
-      return 'https://www.youtube.com/embed/' + this.activeBackground.videoId + '?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&vq=small&playlist='+ this.activeBackground.videoId
+      return 'https://www.youtube.com/embed/' + this.activeBackground.videoId + '?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&vq=small&playlist=' + this.activeBackground.videoId
     },
-    timeToTransition: function() {
+    timeToTransition: function () {
       return {
-          transition: 'opacity ' + String(0.5) +'s ease',
+          transition: 'opacity ' + String(0.5) + 's ease'
       }
     }
   },
@@ -268,9 +263,8 @@ export default {
       }
     },
     filterActive: function () {
-      let activeEffectswq
       if (this.filterActive) {
-        if(this.ToneElements.effects.length > 0) {
+        if (this.ToneElements.effects.length > 0) {
 
        }
         this.ToneElements.synthOut.disconnect(this.ToneElements.patch)
@@ -283,55 +277,55 @@ export default {
         this.ToneElements.synthOut.connect(this.ToneElements.patch)
       }
     },
-    octave1: function(newOctave){
+    octave1: function (newOctave) {
       this.activeScale.triggers.octave1 = Number(newOctave)
-      this.activeScale.config.forEach(function(pitch){
-        if(pitch.id <= 4){
+      this.activeScale.config.forEach(function (pitch) {
+        if (pitch.id <= 4) {
           pitch.octave = Number(newOctave)
         }
       })
     },
-    octave2: function(newOctave){
+    octave2: function (newOctave) {
       this.activeScale.triggers.octave2 = Number(newOctave)
-      this.activeScale.config.forEach(function(pitch){
-        if(pitch.id > 4){
+      this.activeScale.config.forEach(function (pitch) {
+        if (pitch.id > 4) {
           pitch.octave = Number(newOctave)
         }
       })
     },
-    scaleKey: function(newKey){
+    scaleKey: function (newKey) {
       this.activeScale.triggers.key = newKey
       let newOrigin = this.scaleConfig.possibleNotes.indexOf(newKey)
       let newScale = this.reorder(this.scaleConfig.possibleNotes, newOrigin)
       let vue = this
 
-      this.activeScale.config.forEach(function(pitch){
-        if(pitch.id === 0 || pitch.id === 5){
+      this.activeScale.config.forEach(function (pitch) {
+        if (pitch.id === 0 || pitch.id === 5) {
           pitch.note = newScale[vue.activeScale.steps[0]]
         }
 
-        if(pitch.id === 1 || pitch.id === 6){
+        if (pitch.id === 1 || pitch.id === 6) {
           pitch.note = newScale[vue.activeScale.steps[1]]
         }
 
-        if(pitch.id === 2 || pitch.id === 7){
+        if (pitch.id === 2 || pitch.id === 7) {
           pitch.note = newScale[vue.activeScale.steps[2]]
         }
 
-        if(pitch.id === 3 || pitch.id === 8){
+        if (pitch.id === 3 || pitch.id === 8) {
           pitch.note = newScale[vue.activeScale.steps[3]]
         }
 
-        if(pitch.id === 4 || pitch.id === 9){
+        if (pitch.id === 4 || pitch.id === 9) {
           pitch.note = newScale[vue.activeScale.steps[4]]
         }
       })
     },
-    activeScale: function(newScale) {
+    activeScale: function (newScale) {
       this.scaleKey = newScale.triggers.key
       this.octave1 = newScale.triggers.octave1
       this.octave2 = newScale.triggers.octave2
-    },
+    }
   },
   methods: {
     updateSynth: function (newValues) {
@@ -345,16 +339,16 @@ export default {
     triggerActive: function (active) {
       this.currentlyPlaying[active.id] = active.active
     },
-    reorder: function(data, index){
+    reorder: function (data, index) {
       return data.slice(index).concat(data.slice(0, index))
     },
-    activateEffects: function() {
+    activateEffects: function () {
       let vue = this
       // Disconnect synth
       let finalNode
 
       // Find last node
-      if(this.ToneElements.effects.length > 0) {
+      if (this.ToneElements.effects.length > 0) {
         finalNode = this.ToneElements.effects[this.ToneElements.effects.length - 1]
       } else if (this.filterActive) {
         finalNode = this.ToneElements.filter
@@ -369,13 +363,13 @@ export default {
       this.ToneElements.effects = []
 
       // create effect nodes
-      this.activeEffects.forEach(function(effect){
+      this.activeEffects.forEach(function (effect) {
         let newEffect = new Tone[effect]()
         vue.ToneElements.effects.push(newEffect)
       })
 
-      this.ToneElements.effects.forEach(function(effect, index){
-        if (index === 0 && vue.ToneElements.effects.length === 1){
+      this.ToneElements.effects.forEach(function (effect, index) {
+        if (index === 0 && vue.ToneElements.effects.length === 1) {
           console.log('connect it!')
           vue.ToneElements.synthOut.chain(effect, finalNode)
         } else if (index < vue.ToneElements.effects.length - 1) {
@@ -385,13 +379,13 @@ export default {
         }
       })
     },
-    updateEffect: function(newValues){
+    updateEffect: function (newValues) {
       // this.ToneElements.effects
       console.log(newValues)
     }
   },
   mounted: function () {
-    this.activeBackground = this.backgrounds[Math.floor(Math.random()*this.backgrounds.length)];
+    this.activeBackground = this.backgrounds[Math.floor(Math.random() * this.backgrounds.length)]
     this.ToneElements.synthOut = new Tone.Gain()
     this.ToneElements.patch = new Tone.Gain()
     this.ToneElements.patch.connect(Tone.Master)
