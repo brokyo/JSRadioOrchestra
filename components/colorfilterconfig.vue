@@ -1,6 +1,7 @@
 <template>
   <main >
     <button @click="hideControls = !hideControls">Hide</button>
+    <button @click="randomize">Randomize</button>
     <div v-show="hideControls" v-for="octave in octaves">
       <div>
         <h1>{{octave.name}}</h1>
@@ -52,11 +53,11 @@ export default {
             'justify-content': 'flex-start'
           },
           styles: [
-            {id: 0, grow: 1, order: 1, offset: 0, color: '#E583B4', startOpacity: 1, endOpacity: 0},
-            {id: 1, grow: 1, order: 2, offset: 0, color: '#FAEE31', startOpacity: 1, endOpacity: 0},
-            {id: 2, grow: 1, order: 3, offset: 0, color: '#67CAF4', startOpacity: 1, endOpacity: 0},
-            {id: 3, grow: 1, order: 4, offset: 0, color: '#F2A172', startOpacity: 1, endOpacity: 0},
-            {id: 4, grow: 1, order: 5, offset: 0, color: '#0F1A23', startOpacity: 1, endOpacity: 0}
+            {id: 0, grow: 1, order: 1, offset: 0, color: '#E583B4', startOpacity: 0, endOpacity: 1},
+            {id: 1, grow: 1, order: 2, offset: 0, color: '#FAEE31', startOpacity: 0, endOpacity: 1},
+            {id: 2, grow: 1, order: 3, offset: 0, color: '#67CAF4', startOpacity: 0, endOpacity: 1},
+            {id: 3, grow: 1, order: 4, offset: 0, color: '#F2A172', startOpacity: 0, endOpacity: 1},
+            {id: 4, grow: 1, order: 5, offset: 0, color: '#0F1A23', startOpacity: 0, endOpacity: 1}
           ]
         },
         {
@@ -67,14 +68,41 @@ export default {
             'justify-content': 'flex-start'
           },
           styles: [
-            {id: 5, grow: 1, order: 1, offset: 0, color: '#CE5814', startOpacity: 1, endOpacity: 0},
-            {id: 6, grow: 1, order: 2, offset: 0, color: '#72F2C2', startOpacity: 1, endOpacity: 0},
-            {id: 7, grow: 1, order: 3, offset: 0, color: '#A472F2', startOpacity: 1, endOpacity: 0},
-            {id: 8, grow: 1, order: 4, offset: 0, color: '#E4F272', startOpacity: 1, endOpacity: 0},
-            {id: 9, grow: 1, order: 5, offset: 0, color: '#C7F272', startOpacity: 1, endOpacity: 0}
+            {id: 5, grow: 1, order: 1, offset: 0, color: '#CE5814', startOpacity: 0, endOpacity: 1},
+            {id: 6, grow: 1, order: 2, offset: 0, color: '#72F2C2', startOpacity: 0, endOpacity: 1},
+            {id: 7, grow: 1, order: 3, offset: 0, color: '#A472F2', startOpacity: 0, endOpacity: 1},
+            {id: 8, grow: 1, order: 4, offset: 0, color: '#E4F272', startOpacity: 0, endOpacity: 1},
+            {id: 9, grow: 1, order: 5, offset: 0, color: '#C7F272', startOpacity: 0, endOpacity: 1}
           ]
         }
       ]
+    }
+  },
+  methods: {
+    randomize: function () {
+      this.octaves.forEach(function (octave) {
+        let coinFlip = Math.floor(Math.random() * 2)
+
+        if (coinFlip === 0) {
+          octave.config['flex-direction'] = 'column'
+        } else {
+          octave.config['flex-direction'] = 'row'
+        }
+
+        octave.styles.forEach(function (band) {
+          let coinFlip = Math.floor(Math.random() * 2)
+
+          band.grow = Math.floor(Math.random() * 3)
+          band.offset = Math.floor(Math.random() * 40)
+
+          if (coinFlip === 0) {
+            band.offset = -band.offset
+          }
+
+          band.color = '#' + Math.floor(Math.random() * 16777215).toString(16)
+        })
+
+      })
     }
   }
 }

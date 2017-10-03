@@ -68,9 +68,9 @@ export default {
 
      }
   },
-  watch: {
-    layout: function (colorValues) {
-      this.$store.commit('SET_COLORS', colorValues)
+  methods: {
+    saveLayout: function () {
+      this.$store.commit('SET_COLORS', this.layout)
     }
   }
 }
