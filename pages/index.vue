@@ -24,7 +24,6 @@
         </select>
       </div>
       <div>
-<!--         <monosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'MonoSynth'"></monosynth> -->
         <synth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'Synth'"></synth>
         <amsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'AMSynth'"></amsynth>
         <fmsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'FMSynth'"></fmsynth>
@@ -84,7 +83,10 @@
 
   <div v-show="activeView === 'colors'">
     <colorfilterconfig :active="currentlyPlaying" :transitions="savedValues.synth.config.envelope"></colorfilterconfig>
+  </div>
 
+  <div v-show="activeView === 'none'">
+    <colorfilterfinal :layout="$store.state.visuals.colorFilter" :active="currentlyPlaying"></colorfilterfinal>
   </div>
 </div>
 </template>
@@ -105,6 +107,7 @@ import pitchshift from '../components/effects/pitchshift.vue'
 import tremolo from '../components/effects/tremolo.vue'
 import vibrato from '../components/effects/vibrato.vue'
 import colorfilterconfig from '../components/colorfilterconfig.vue'
+import colorfilterfinal from '../components/colorfilterFinal.vue'
 
 
 if (process.browser) {
@@ -114,7 +117,7 @@ if (process.browser) {
 
 export default {
   components: {
-    synth, monosynth, amsynth, fmsynth, duosynth, synthtrigger, tonefilter, autofilter, autopanner, chorus, feedbackdelay, pitchshift, tremolo, vibrato, colorfilterconfig
+    synth, monosynth, amsynth, fmsynth, duosynth, synthtrigger, tonefilter, autofilter, autopanner, chorus, feedbackdelay, pitchshift, tremolo, vibrato, colorfilterconfig, colorfilterfinal
   },
   data () {
     return {
@@ -407,83 +410,6 @@ export default {
 
   .triggerContainer {
     display: flex;
-  }
-
-  .activeClass {
-    opacity: 0.5 !important;
-  }
-
-  .filterContainer {
-    z-index: -1;
-
-    .width {
-      display: flex;
-      position: fixed;
-      width: 100vw;
-      height: 100vh;
-      top: 0;
-
-      z-index: -1;
-      .bar {
-        flex-grow: 1;
-        opacity: 0;
-      }
-    }
-
-    .height {
-      display: flex;
-      position: fixed;
-      width: 100vw;
-      height: 100vh;
-      top: 0;
-      flex-direction: column;
-      z-index: -1;
-
-      .row {
-        flex-grow: 1;
-      }
-
-    }
-
-    .color0 {
-      background-color: #DD5777;
-    }
-
-    .color1 {
-      background-color: #3409DD;
-    }
-
-    .color2 {
-      background-color: #3ADD7B;
-    }
-
-    .color3 {
-      background-color: #0F8979;
-    }
-
-    .color4{
-      background-color: #D6A57F;
-    }
-
-    .color5 {
-      background-color: #EDE704;
-    }
-
-    .color6 {
-      background-color: #74EDDF;
-    }
-
-    .color7 {
-      background-color: #DB360B
-    }
-
-    .color8 {
-      background-color: #7491ED;
-    }
-
-    .color9 {
-      background-color: #7FC2D6
-    }
   }
 
   .video-background {

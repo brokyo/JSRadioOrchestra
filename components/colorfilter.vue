@@ -34,12 +34,12 @@ export default {
       }
 
       function transitionIn (bandValues) {
-        this.opacity = bandValues.startOpacity
+        this.opacity = bandValues.endOpacity
         this.transition = 'opacity ' + String(vue.transitions.attack) + 's ease'
       }
 
       function transitionOut (bandValues) {
-        this.opacity = bandValues.endOpacity
+        this.opacity = bandValues.startOpacity
         this.transition = 'opacity ' + String(vue.transitions.release) + 's ease'
       }
 
@@ -67,6 +67,11 @@ export default {
       return LAYOUT
 
      }
+  },
+  watch: {
+    layout: function (colorValues) {
+      this.$store.commit('SET_COLORS', colorValues)
+    }
   }
 }
 </script>

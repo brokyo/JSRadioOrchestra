@@ -9,6 +9,8 @@
           <option value="column">Column</option>
           <option value="row">Row</option>
         </select>
+        <button @click="octave.config['display'] = 'none'" v-if="octave.config.display === 'flex'">Hide</button>
+        <button @click="octave.config['display'] = 'flex'" v-if="octave.config.display === 'none'">Show</button>
         <div class="octaveConfig" v-for="band in octave.styles">
           <label>Color</label>
           <input type="color" v-model="band.color"></input>
