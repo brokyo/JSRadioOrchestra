@@ -8,6 +8,12 @@ If for some reason you find this interesting you can email me at alexcarusillo@g
 This codebase is a work in progress and I'm not a good engineer so don't try to make any sense of it
 
 
+// Eventually this either
+a) gives people a very limited set of tools (subset of synth inputs better visualized) to create their own instruments and play them live for "relaxation"
+b) lets me create those instruments and share them like ambient music boxes people can passively listen to
+
+also none of the code for mutating the loops is in here yet because its a really obnoxious but this will obviously have a whole config menu for that
+
 -------------
 
 
