@@ -25,6 +25,7 @@
       </div>
       <div>
         <synth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'Synth'"></synth>
+        <monosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'MonoSynth'"></monosynth>
         <amsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'AMSynth'"></amsynth>
         <fmsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'FMSynth'"></fmsynth>
         <duosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'DuoSynth'"></duosynth>
@@ -150,7 +151,7 @@ export default {
       activeScale: [],
       activeBackground: {},
       hideControls: false,
-      possibleSynths: ['Synth', 'AMSynth', 'FMSynth', 'DuoSynth'],
+      possibleSynths: ['Synth', 'MonoSynth', 'AMSynth', 'FMSynth', 'DuoSynth'],
       allOptions: {
         oscillators: {
           standard: ['sine', 'square', 'triangle', 'sawtooth']

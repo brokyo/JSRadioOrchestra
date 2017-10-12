@@ -27,6 +27,9 @@ module.exports = {
     'quotes': 1,
     'block-spacing': 1,
     'space-in-parens': 1,
+    // no-undef has to be off for p5 to pass
+    'no-undef': 1,
+    'no-inner-declarations': 1,
     'no-floating-decimal': 0,
     'no-mixed-spaces-and-tabs': 0,
     'no-tabs': 0,
