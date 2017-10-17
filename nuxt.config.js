@@ -20,6 +20,9 @@ module.exports = {
     '~/static/global.scss'
   ],
   plugins: [],
+  modules: [
+    '@nuxtjs/axios'
+  ],
   /*
   ** Customize the progress bar color
   */
@@ -28,6 +31,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    vendor: ['axios'],
     /*
     ** Run ESLint on save
     */

@@ -14,6 +14,7 @@
   </select>
   <!-- <button @click="hideControls = !hideControls">Toggle Controls</button> -->
   <main v-show="activeView === 'controls'">
+    <button @click="save()">Save</button>
     <!-- Synth Config -->
     <section class="configSection">
       <div class="selector">
@@ -109,6 +110,8 @@ import tremolo from '../components/effects/tremolo.vue'
 import vibrato from '../components/effects/vibrato.vue'
 import colorfilterconfig from '../components/colorfilterconfig.vue'
 import colorfilterfinal from '../components/colorfilterFinal.vue'
+
+import axios from '../plugins/axios.js'
 
 
 if (process.browser) {
@@ -386,6 +389,15 @@ export default {
     updateEffect: function (newValues) {
       // this.ToneElements.effects
       console.log(newValues)
+    },
+    save: function () {
+      axios.post('musicboxes.json', {foo: 'true'})
+        .then(res => {
+          alert('saved!')
+        })
+        .catch(e => {
+          alert('error', e)
+        })
     }
   },
   mounted: function () {
