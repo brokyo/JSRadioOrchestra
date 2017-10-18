@@ -5,7 +5,6 @@ if (process.browser) {
 var _ = require('lodash')
 
 export const state = () => ({
-  strict: false,
   meta: {
     title: ''
   },

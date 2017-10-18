@@ -19,7 +19,7 @@
     </select>
   </div>
   <div class="triggerContainer">
-    <synthtrigger v-for="pitch in activeScale.config" :config="pitch" :synth="constructed_synth" @playing="triggerActive"></synthtrigger>
+    <synthtrigger v-for="pitch in $store.state.scale" :config="pitch" :synth="constructed_synth" @playing="triggerActive"></synthtrigger>
   </div>
 </main>
 </template>
@@ -27,6 +27,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import synthtrigger from '../synthtrigger.vue'
+var _ = require('lodash')
 
 export default {
   name: 'triggers',
@@ -145,16 +146,19 @@ export default {
         }
       })
 
-      this.$store.commit('SET_SCALE_CONFIG', this.activeScale.config)
-
 
     },
-    activeScale: function (newScale) {
-      this.scaleKey = newScale.triggers.key
-      this.octave1 = newScale.triggers.octave1
-      this.octave2 = newScale.triggers.octave2
+    activeScale: {
+      // TODO: This is totally a hack and this logic should be ??in the store?? don't know and not worth it for now
+      handler: function (newScale) {
+        this.scaleKey = newScale.triggers.key
+        this.octave1 = newScale.triggers.octave1
+        this.octave2 = newScale.triggers.octave2
 
-      this.$store.commit('SET_SCALE_CONFIG', this.activeScale.config)
+        var scale = _.cloneDeep(this.activeScale.config)
+        this.$store.commit('SET_SCALE_CONFIG', scale)
+      },
+      deep: true
     }
   },
   methods: {
