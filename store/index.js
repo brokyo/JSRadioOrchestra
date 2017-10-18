@@ -16,9 +16,7 @@ export const state = () => ({
     filterMemberValues: {},
     effects: []
   },
-  triggers: {
-
-  },
+  scale: {},
   visuals: {
     video: {
 
@@ -53,6 +51,15 @@ export const mutations = {
     context.tone.filterMemberValues = _.cloneDeep(payload.values)
     payload.filter.set(payload.values)
   },
+  // ======== //
+  // TRIGGERS //
+  // ======== //
+  SET_SCALE_CONFIG (context, scale) {
+    context.scale = scale
+  },
+  // ======= //
+  // OVERLAY //
+  // ======= //
   SET_COLORS (context, colorValues) {
     context.visuals.colorFilter = colorValues
   }
@@ -87,9 +94,6 @@ export const actions = {
 
     context.commit('SET_SYNTH_MEMBER_VALUES', {synth: context.getters.constructed_synth, update: update})
   },
-  // UPDATE_SYNTH_MEMBER_VALUES (context, values) {
-  //   context.commit('SET_SYNTH_MEMBER_VALUES', {synth: context.getters.constructed_synth, values: values})
-  // },
   // ====== //
   // FILTER //
   // ====== //

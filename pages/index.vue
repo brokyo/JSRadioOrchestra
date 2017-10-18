@@ -79,97 +79,45 @@ export default {
     // constructed_synth: function () {
     //   this.constructed_synth.toMaster()
     // },
-    activeSynth: function () {
-      let activeSynth = this.activeSynth
-      console.log('New Synth:', this.activeSynth)
+    // activeSynth: function () {
+    //   let activeSynth = this.activeSynth
+    //   console.log('New Synth:', this.activeSynth)
 
-      // Disconnect old synth if it exists (would dispose be better for performance? What does dispose do?)
-      if (Object.keys(this.ToneElements.synth).length !== 0) {
-        this.ToneElements.synth.disconnect(this.ToneElements.synthOut)
-      }
+    //   // Disconnect old synth if it exists (would dispose be better for performance? What does dispose do?)
+    //   if (Object.keys(this.ToneElements.synth).length !== 0) {
+    //     this.ToneElements.synth.disconnect(this.ToneElements.synthOut)
+    //   }
 
-      // Create new synth
-      this.ToneElements.synth = new Tone.PolySynth(8, Tone[activeSynth])
-      this.ToneElements.synth.connect(this.ToneElements.synthOut)
+    //   // Create new synth
+    //   this.ToneElements.synth = new Tone.PolySynth(8, Tone[activeSynth])
+    //   this.ToneElements.synth.connect(this.ToneElements.synthOut)
 
-      // If there's a filter connect to that - if not connect it to the patch
-      if (Object.keys(this.ToneElements.filter).length !== 0 && this.filterActive) {
-        console.log('connect to filter')
-        this.ToneElements.synthOut.connect(this.ToneElements.filter)
-      } else {
-        console.log('connect to patch')
-        this.ToneElements.synthOut.connect(this.ToneElements.patch)
-      }
-    },
-    filterActive: function () {
-      if (this.filterActive) {
-        if (this.ToneElements.effects.length > 0) {
+    //   // If there's a filter connect to that - if not connect it to the patch
+    //   if (Object.keys(this.ToneElements.filter).length !== 0 && this.filterActive) {
+    //     console.log('connect to filter')
+    //     this.ToneElements.synthOut.connect(this.ToneElements.filter)
+    //   } else {
+    //     console.log('connect to patch')
+    //     this.ToneElements.synthOut.connect(this.ToneElements.patch)
+    //   }
+    // },
+    // filterActive: function () {
+    //   if (this.filterActive) {
+    //     if (this.ToneElements.effects.length > 0) {
 
-       }
-        this.ToneElements.synthOut.disconnect(this.ToneElements.patch)
-        this.ToneElements.filter = new Tone.Filter()
-        this.ToneElements.filter.connect(this.ToneElements.patch)
-        this.ToneElements.synthOut.connect(this.ToneElements.filter)
-      } else {
-        this.ToneElements.filter.disconnect(this.ToneElements.patch)
-        this.ToneElements.synthOut.disconnect(this.ToneElements.filter)
-        this.ToneElements.synthOut.connect(this.ToneElements.patch)
-      }
-    },
-    octave1: function (newOctave) {
-      this.activeScale.triggers.octave1 = Number(newOctave)
-      this.activeScale.config.forEach(function (pitch) {
-        if (pitch.id <= 4) {
-          pitch.octave = Number(newOctave)
-        }
-      })
-    },
-    octave2: function (newOctave) {
-      this.activeScale.triggers.octave2 = Number(newOctave)
-      this.activeScale.config.forEach(function (pitch) {
-        if (pitch.id > 4) {
-          pitch.octave = Number(newOctave)
-        }
-      })
-    },
-    scaleKey: function (newKey) {
-      this.activeScale.triggers.key = newKey
-      let newOrigin = this.scaleConfig.possibleNotes.indexOf(newKey)
-      let newScale = this.reorder(this.scaleConfig.possibleNotes, newOrigin)
-      let vue = this
-
-      this.activeScale.config.forEach(function (pitch) {
-        if (pitch.id === 0 || pitch.id === 5) {
-          pitch.note = newScale[vue.activeScale.steps[0]]
-        }
-
-        if (pitch.id === 1 || pitch.id === 6) {
-          pitch.note = newScale[vue.activeScale.steps[1]]
-        }
-
-        if (pitch.id === 2 || pitch.id === 7) {
-          pitch.note = newScale[vue.activeScale.steps[2]]
-        }
-
-        if (pitch.id === 3 || pitch.id === 8) {
-          pitch.note = newScale[vue.activeScale.steps[3]]
-        }
-
-        if (pitch.id === 4 || pitch.id === 9) {
-          pitch.note = newScale[vue.activeScale.steps[4]]
-        }
-      })
-    },
-    activeScale: function (newScale) {
-      this.scaleKey = newScale.triggers.key
-      this.octave1 = newScale.triggers.octave1
-      this.octave2 = newScale.triggers.octave2
-    }
+    //    }
+    //     this.ToneElements.synthOut.disconnect(this.ToneElements.patch)
+    //     this.ToneElements.filter = new Tone.Filter()
+    //     this.ToneElements.filter.connect(this.ToneElements.patch)
+    //     this.ToneElements.synthOut.connect(this.ToneElements.filter)
+    //   } else {
+    //     this.ToneElements.filter.disconnect(this.ToneElements.patch)
+    //     this.ToneElements.synthOut.disconnect(this.ToneElements.filter)
+    //     this.ToneElements.synthOut.connect(this.ToneElements.patch)
+    //   }
+    // },
   },
   methods: {
-    reorder: function (data, index) {
-      return data.slice(index).concat(data.slice(0, index))
-    },
     activateEffects: function () {
       let vue = this
       // Disconnect synth
@@ -222,7 +170,6 @@ export default {
     }
   },
   mounted: function () {
-    console.log(this.constructed_synth)
     this.constructed_synth.toMaster()
     // this.activeBackground = this.backgrounds[Math.floor(Math.random() * this.backgrounds.length)]
     // this.ToneElements.synthOut = new Tone.Gain()
