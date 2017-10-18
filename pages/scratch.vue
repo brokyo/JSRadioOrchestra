@@ -9,7 +9,7 @@ import axios from '../plugins/axios.js'
 if (process.browser) {
     var Tone = require('tone')
     window.Tone = Tone
-    var p5 = require('p5')
+    // var p5 = require('p5')
 }
 
 export default {

@@ -60,17 +60,25 @@
 		</div>
 		<div class="controls">
 			<label>Attack</label>
-			<input type="range" min="0" max="5" :value="config.modulationEnvelope.attack"></input>
-			<input type="number" :value="config.modulationEnvelope.attack"></input>
+			<input type="range" min="0" max="5" :value="config.modulationEnvelope.attack" @change="updateConfig('modulationEnvelope', $event.target.value, 'attack')"></input>
+			<input type="number" :value="config.modulationEnvelope.attack" @change="updateConfig('modulationEnvelope', $event.target.value, 'attack')"></input>
+      <label>Attack Curve</label>
+      <select :value="config.modulationEnvelope.attackCurve" @change="updateConfig('modulationEnvelope', $event.target.value, 'attackCurve')">
+        <option v-for="curve in options.envelopeCurves">{{curve}}</option>
+      </select>
 			<label>Decay</label>
-			<input type="range" min="0" max="5" :value="config.modulationEnvelope.decay"></input>
-			<input type="number" :value="config.modulationEnvelope.decay"></input>
+			<input type="range" min="0" max="5" :value="config.modulationEnvelope.decay" @change="updateConfig('modulationEnvelope', $event.target.value, 'decay')"></input>
+			<input type="number" :value="config.modulationEnvelope.decay" @change="updateConfig('modulationEnvelope', $event.target.value, 'decay')"></input>
 			<label>Sustain</label>
-			<input type="range" min="0" max="1" :value="config.modulationEnvelope.sustain"></input>
-			<input type="number" :value="config.modulationEnvelope.sustain"></input>
+			<input type="range" min="0" max="1" :value="config.modulationEnvelope.sustain" @change="updateConfig('modulationEnvelope', $event.target.value, 'sustain')"></input>
+			<input type="number" :value="config.modulationEnvelope.sustain" @change="updateConfig('modulationEnvelope', $event.target.value, 'sustain')"></input>
 			<label>Release</label>
-			<input type="range" min="0" max="5" :value="config.modulationEnvelope.release"></input>
-			<input type="number" :value="config.modulationEnvelope.release"></input>
+			<input type="range" min="0" max="5" :value="config.modulationEnvelope.release" @change="updateConfig('modulationEnvelope', $event.target.value, 'release')"></input>
+			<input type="number" :value="config.modulationEnvelope.release" @change="updateConfig('modulationEnvelope', $event.target.value, 'release')"></input>
+      <label>Release Curve</label>
+      <select :value="config.modulationEnvelope.releaseCurve" @change="updateConfig('modulationEnvelope', $event.target.value, 'releaseCurve')">
+        <option v-for="curve in options.envelopeCurves">{{curve}}</option>
+      </select>
 	<!-- 		<label>Base Frequency</label>
 			<input type="range" min="0" max="5000" :value="config.modulationEnvelope.baseFrequency"></input>
 			<input type="number" :value="config.modulationEnvelope.baseFrequency"></input>

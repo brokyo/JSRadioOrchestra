@@ -25,7 +25,7 @@
 </template>
 
 <script>
-var _ = require('lodash')
+// var _ = require('lodash')
 export default {
 
   name: 'tonefilter',

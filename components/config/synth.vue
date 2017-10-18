@@ -7,11 +7,11 @@
           <option v-for="synth in possibleSynths">{{synth}}</option>
 	    </select>
 
-        <synth :options="allOptions" @updateSynth="updateSynth" v-if="$store.state.tone.synth === 'Synth'"></synth>
-        <monosynth :options="allOptions" @updateSynth="updateSynth" v-if="$store.state.tone.synth === 'MonoSynth'"></monosynth>
+        <synth :options="allOptions" :config="computedConfig" v-if="$store.state.tone.synth === 'Synth'"></synth>
+        <monosynth :options="allOptions" :config="computedConfig" v-if="$store.state.tone.synth === 'MonoSynth'"></monosynth>
         <amsynth :options="allOptions" :config="computedConfig" v-if="$store.state.tone.synth === 'AMSynth'"></amsynth>
-        <fmsynth :options="allOptions" @updateSynth="updateSynth" v-if="$store.state.tone.synth === 'FMSynth'"></fmsynth>
-        <duosynth :options="allOptions" @updateSynth="updateSynth" v-if="$store.state.tone.synth === 'DuoSynth'"></duosynth>
+        <fmsynth :options="allOptions" :config="computedConfig" v-if="$store.state.tone.synth === 'FMSynth'"></fmsynth>
+        <duosynth :options="allOptions" :config="computedConfig" v-if="$store.state.tone.synth === 'DuoSynth'"></duosynth>
     </section>
 
     <!-- Effects -->
@@ -85,10 +85,10 @@ import vibrato from '../effects/vibrato.vue'
 
 // console.log(synthDefaults.AMSynth)
 
-var _ = require('lodash')
+// var _ = require('lodash')
 
 if (process.browser) {
-    var Tone = require('tone')
+    // var Tone = require('tone')
 }
 
 export default {
@@ -190,9 +190,6 @@ export default {
   		}
   		this.$store.commit('SET_SYNTH', payload)
   	},
-	// updateSynth: function (values) {
-	// 	this.$store.dispatch('UPDATE_SYNTH_MEMBER_VALUES', values)
- //    },
     triggerActive: function (active) {
       this.currentlyPlaying[active.id] = active.active
     }

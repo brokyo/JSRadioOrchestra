@@ -38,7 +38,7 @@ export const mutations = {
   },
   SET_SYNTH_MEMBER_VALUES (context, payload) {
     // Update relevant param
-    Object.assign(context.tone.synthMemberValues, payload.update)
+    _.merge(context.tone.synthMemberValues, payload.update)
 
     // Update synth
     payload.synth.set(context.tone.synthMemberValues)
@@ -65,7 +65,15 @@ export const actions = {
   MUNGE_SYNTH_UPDATE (context, payload) {
     let update = {}
 
-    if (payload.subfield) {
+    if (payload.subsubfield) {
+      update = {
+        [payload.field]: {
+          [payload.subfield]: {
+            [payload.subsubfield]: payload.value
+          }
+        }
+      }
+    } else if (payload.subfield) {
       update = {
         [payload.field]: {
           [payload.subfield]: payload.value
