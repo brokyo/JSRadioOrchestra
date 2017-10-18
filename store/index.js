@@ -16,6 +16,9 @@ export const state = () => ({
     filterMemberValues: {},
     effects: []
   },
+  triggers: {
+
+  },
   visuals: {
     video: {
 
@@ -29,14 +32,16 @@ export const mutations = {
   // ===== //
   // SYNTH //
   // ===== //
-  SET_SYNTH (context, synth) {
-    context.tone.synth = synth
+  SET_SYNTH (context, payload) {
+    context.tone.synth = payload.synth
+    context.tone.synthMemberValues = payload.defaults
   },
   SET_SYNTH_MEMBER_VALUES (context, payload) {
-    // Using _.cloneDeep because something about complex objects: https://github.com/vuejs/vue/issues/971
+    // Update relevant param
+    Object.assign(context.tone.synthMemberValues, payload.update)
 
-    context.tone.synthMemberValues = _.cloneDeep(payload.values)
-    payload.synth.set(payload.values)
+    // Update synth
+    payload.synth.set(context.tone.synthMemberValues)
   },
   // ====== //
   // FILTER //
@@ -57,12 +62,26 @@ export const actions = {
   // ===== //
   // SYNTH //
   // ===== //
-  UPDATE_SYNTH (context, synth) {
-    context.commit('SET_SYNTH', synth)
+  MUNGE_SYNTH_UPDATE (context, payload) {
+    let update = {}
+
+    if (payload.subfield) {
+      update = {
+        [payload.field]: {
+          [payload.subfield]: payload.value
+        }
+      }
+    } else {
+      update = {
+        [payload.field]: payload.value
+      }
+    }
+
+    context.commit('SET_SYNTH_MEMBER_VALUES', {synth: context.getters.constructed_synth, update: update})
   },
-  UPDATE_SYNTH_MEMBER_VALUES (context, values) {
-    context.commit('SET_SYNTH_MEMBER_VALUES', {synth: context.getters.constructed_synth, values: values})
-  },
+  // UPDATE_SYNTH_MEMBER_VALUES (context, values) {
+  //   context.commit('SET_SYNTH_MEMBER_VALUES', {synth: context.getters.constructed_synth, values: values})
+  // },
   // ====== //
   // FILTER //
   // ====== //
@@ -75,7 +94,7 @@ export const actions = {
 
 export const getters = {
   constructed_synth: state => {
-    return new Tone.PolySynth(8, Tone[state.tone.synth])
+    return new Tone.PolySynth(8, Tone[state.tone.synth]).toMaster()
   },
   constructed_filter: state => {
     if (state.tone.filter) {
@@ -84,5 +103,4 @@ export const getters = {
       return new Tone.Gain()
     }
   }
-
 }

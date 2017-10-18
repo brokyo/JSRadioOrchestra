@@ -12,7 +12,7 @@
   </nav>
 
   <home v-if="activeView === 'home'"></home>
-  <synth-config v-if="activeView === 'synth'"></synth-config>
+  <synth-config v-if="activeView === 'synth'" :synth="$store.state.tone.synth" :config="$store.state.tone.synthMemberValues"></synth-config>
 
 
 
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
 import synthConfig from '../components/config/synth.vue'
 import colorfilterconfig from '../components/colorfilterconfig.vue'
 import colorfilterfinal from '../components/colorfilterFinal.vue'
@@ -39,13 +39,7 @@ export default {
   },
   data () {
     return {
-      ToneElements: {
-        patch: {},
-        synthOut: {},
-        synth: {},
-        filter: {},
-        effects: []
-      },
+      activeView: 'home',
       savedValues: {
         synth: {
           name: '',
@@ -55,81 +49,11 @@ export default {
               release: 3
             }
           }
-        },
-        filter: {
-          config: {}
         }
       },
-      activeView: 'home',
       activeEffects: [],
       allEffects: ['AutoFilter', 'AutoPanner', 'Chorus', 'FeedbackDelay', 'PitchShift', 'Tremolo', 'Vibrato'],
-      filterActive: false,
-      activeScale: [],
       activeBackground: {},
-      hideControls: false,
-      scaleConfig: {
-        possibleNotes: ['A', 'A#', 'B', 'B#', 'C', 'C#', 'D', 'D#', 'E', 'E#', 'F', 'F#', 'G', 'G#'],
-        possibleOctaves: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-      },
-      octave1: '',
-      octave2: '',
-      scaleKey: '',
-      scales: [
-        {
-          name: 'Bright (Yo Scale)',
-          config: [
-            { id: 0, keyCode: 'q', note: 'D', octave: 4 },
-            { id: 1, keyCode: 'w', note: 'E', octave: 4 },
-            { id: 2, keyCode: 'e', note: 'G', octave: 4 },
-            { id: 3, keyCode: 'r', note: 'A', octave: 4 },
-            { id: 4, keyCode: 't', note: 'B', octave: 4 },
-            { id: 5, keyCode: 'h', note: 'D', octave: 5 },
-            { id: 6, keyCode: 'j', note: 'E', octave: 5 },
-            { id: 7, keyCode: 'k', note: 'G', octave: 5 },
-            { id: 8, keyCode: 'l', note: 'A', octave: 5 },
-            { id: 9, keyCode: ';', note: 'B', octave: 5 }
-          ],
-          triggers: {
-            key: 'D',
-            octave1: 4,
-            octave2: 5
-          },
-          steps: [0, 2, 6, 8, 10]
-        },
-        {
-          name: 'Dark (In Scale)',
-          config: [
-            { id: 0, keyCode: 'q', note: 'D', octave: 3 },
-            { id: 1, keyCode: 'w', note: 'D#', octave: 3 },
-            { id: 2, keyCode: 'e', note: 'G', octave: 3 },
-            { id: 3, keyCode: 'r', note: 'A', octave: 3 },
-            { id: 4, keyCode: 't', note: 'A#', octave: 3 },
-            { id: 5, keyCode: 'h', note: 'D', octave: 4 },
-            { id: 6, keyCode: 'j', note: 'D#', octave: 4 },
-            { id: 7, keyCode: 'k', note: 'G', octave: 4 },
-            { id: 8, keyCode: 'l', note: 'A', octave: 4 },
-            { id: 9, keyCode: ';', note: 'A#', octave: 4 }
-          ],
-          triggers: {
-            key: 'D',
-            octave1: 3,
-            octave2: 4
-          },
-          steps: [0, 1, 6, 8, 9]
-        }
-      ],
-      currentlyPlaying: {
-        0: false,
-        1: false,
-        2: false,
-        3: false,
-        4: false,
-        5: false,
-        6: false,
-        7: false,
-        8: false,
-        9: false
-      },
       backgrounds: [
         {title: 'The Lit And Unlit Places Alike', videoId: 'W0LHTWG-UmQ'},
         {title: 'Continuing To Fight Losing Battles', videoId: 'OjPgeXHjM9k'},
@@ -146,9 +70,15 @@ export default {
       return {
           transition: 'opacity ' + String(0.5) + 's ease'
       }
-    }
+    },
+    ...mapGetters([
+      'constructed_synth'
+    ])
   },
   watch: {
+    // constructed_synth: function () {
+    //   this.constructed_synth.toMaster()
+    // },
     activeSynth: function () {
       let activeSynth = this.activeSynth
       console.log('New Synth:', this.activeSynth)
@@ -237,13 +167,6 @@ export default {
     }
   },
   methods: {
-    updateFilter: function (newValues) {
-      this.savedValues.filter.config = newValues
-      this.ToneElements.filter.set(newValues)
-    },
-    triggerActive: function (active) {
-      this.currentlyPlaying[active.id] = active.active
-    },
     reorder: function (data, index) {
       return data.slice(index).concat(data.slice(0, index))
     },
@@ -299,10 +222,12 @@ export default {
     }
   },
   mounted: function () {
-    this.activeBackground = this.backgrounds[Math.floor(Math.random() * this.backgrounds.length)]
-    this.ToneElements.synthOut = new Tone.Gain()
-    this.ToneElements.patch = new Tone.Gain()
-    this.ToneElements.patch.connect(Tone.Master)
+    console.log(this.constructed_synth)
+    this.constructed_synth.toMaster()
+    // this.activeBackground = this.backgrounds[Math.floor(Math.random() * this.backgrounds.length)]
+    // this.ToneElements.synthOut = new Tone.Gain()
+    // this.ToneElements.patch = new Tone.Gain()
+    // this.ToneElements.patch.connect(Tone.Master)
   }
 }
 </script>
