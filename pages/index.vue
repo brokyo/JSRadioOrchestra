@@ -1,127 +1,41 @@
 <template>
 <div class="container">
-  <div class="video-background">
-    <div class="video-foreground">
-      <iframe :src="activeBackgroundURL" frameborder="0" allowfullscreen></iframe>
-    </div>
-  </div>
+  <h1>The JS Radio Orchestra Plays:</h1>
+  <nav>
+    <button @click="activeView = 'home'">Home</button>
+    <button>Video</button>
+    <button @click="activeView = 'synth'">Synth</button>
+    <button>Overlay</button>
+    <button>Mutations</button>
+    <button>Demo</button>
+    <button>Publish</button>
+  </nav>
 
-  <h3>Music For: {{activeBackground.title}}</h3>
-  <select v-model="activeView">
-    <option value="controls">Controls</option>
-    <option value="colors">Colors</option>
-    <option value="none">Background</option>
-  </select>
-  <!-- <button @click="hideControls = !hideControls">Toggle Controls</button> -->
-  <main v-show="activeView === 'controls'">
-    <button @click="save()">Save</button>
-    <!-- Synth Config -->
-    <section class="configSection">
-      <div class="selector">
-        <h3>Synth</h3>
-        <select v-model="activeSynth">
-          <option value="" disabled selected hidden>Select Synth</option>
-          <option v-for="synth in possibleSynths">{{synth}}</option>
-        </select>
-      </div>
-      <div>
-        <synth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'Synth'"></synth>
-        <monosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'MonoSynth'"></monosynth>
-        <amsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'AMSynth'"></amsynth>
-        <fmsynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'FMSynth'"></fmsynth>
-        <duosynth :options="allOptions" @updateSynth="updateSynth" v-if="activeSynth === 'DuoSynth'"></duosynth>
-      </div>
-    </section>
+  <home v-if="activeView === 'home'"></home>
+  <synth-config v-if="activeView === 'synth'"></synth-config>
 
-    <!-- Synth Triggers -->
-    <section class="configSection" v-if="activeSynth">
-      <h3>Scale</h3>
-      <select v-model="activeScale">
-        <option v-for="scale in scales" :value="scale">{{scale.name}}</option>
-      </select>
-      <div v-if="activeScale">
-        <label>Key:</label>
-        <select v-model="scaleKey">
-          <option v-for="note in scaleConfig.possibleNotes">{{note}}</option>
-        </select>
-        <label>Octave 1</label>
-        <select v-model="octave1">
-          <option v-for="octave in scaleConfig.possibleOctaves">{{octave}}</option>
-        </select>
-        <label>Octave 2</label>
-        <select v-model="octave2">
-          <option v-for="octave in scaleConfig.possibleOctaves">{{octave}}</option>
-        </select>
-      </div>
-      <div class="triggerContainer">
-        <synthtrigger v-for="pitch in activeScale.config" :config="pitch" :synth="ToneElements.synth" @playing="triggerActive"></synthtrigger>
-      </div>
-    </section>
 
-    <!-- Effects -->
-    <section class="configSection">
-      <h3>Effects</h3>
-      <span v-for="effect in allEffects">
-        <label>{{effect}}</label>
-        <input type="checkbox" :value="effect" v-model="activeEffects"></input>
-      </span>
-      <button @click="activateEffects">Activate Effects</button>
-      <autofilter v-if="activeEffects.AutoFilter"></autofilter>
-      <autopanner v-if="activeEffects.AutoPanner"></autopanner>
-      <chorus v-if="activeEffects.Chorus"></chorus>
-      <feedbackdelay v-if="activeEffects.indexOf('FeedbackDelay') > -1" @updateEffect="updateEffect"></feedbackdelay>
-      <pitchshift v-if="activeEffects.PitchShift"></pitchshift>
-      <tremolo v-if="activeEffects.Tremolo"></tremolo>
-      <vibrato v-if="activeEffects.Vibrato"></vibrato>
-    </section>
 
-    <!-- Filter -->
-    <section class="configSection">
-      <h3>Filter</h3>
-      <input type="checkbox" v-model="filterActive"></input>
-      <tonefilter :options="allOptions" @updateFilter="updateFilter" v-if="filterActive"></tonefilter>
-    </section>
-  </main>
 
-  <div v-show="activeView === 'colors'">
-    <colorfilterconfig :active="currentlyPlaying" :transitions="savedValues.synth.config.envelope"></colorfilterconfig>
-  </div>
-
-  <div v-show="activeView === 'none'">
-    <colorfilterfinal :layout="$store.state.visuals.colorFilter" :active="currentlyPlaying"></colorfilterfinal>
-  </div>
 </div>
 </template>
 
 <script>
-import synth from '../components/synths/synth.vue'
-import monosynth from '../components/synths/monosynth.vue'
-import amsynth from '../components/synths/amsynth.vue'
-import fmsynth from '../components/synths/fmsynth.vue'
-import duosynth from '../components/synths/duosynth.vue'
-import synthtrigger from '../components/synthtrigger.vue'
-import tonefilter from '../components/tonefilter.vue'
-import autofilter from '../components/effects/autofilter.vue'
-import autopanner from '../components/effects/autopanner.vue'
-import chorus from '../components/effects/chorus.vue'
-import feedbackdelay from '../components/effects/feedbackdelay.vue'
-import pitchshift from '../components/effects/pitchshift.vue'
-import tremolo from '../components/effects/tremolo.vue'
-import vibrato from '../components/effects/vibrato.vue'
+
+import synthConfig from '../components/config/synth.vue'
 import colorfilterconfig from '../components/colorfilterconfig.vue'
 import colorfilterfinal from '../components/colorfilterFinal.vue'
+import home from '../components/composeHome.vue'
 
 import axios from '../plugins/axios.js'
 
-
 if (process.browser) {
     var Tone = require('tone')
-    window.Tone = Tone
 }
 
 export default {
   components: {
-    synth, monosynth, amsynth, fmsynth, duosynth, synthtrigger, tonefilter, autofilter, autopanner, chorus, feedbackdelay, pitchshift, tremolo, vibrato, colorfilterconfig, colorfilterfinal
+    colorfilterconfig, colorfilterfinal, home, synthConfig
   },
   data () {
     return {
@@ -146,25 +60,13 @@ export default {
           config: {}
         }
       },
-      activeView: 'controls',
+      activeView: 'home',
       activeEffects: [],
       allEffects: ['AutoFilter', 'AutoPanner', 'Chorus', 'FeedbackDelay', 'PitchShift', 'Tremolo', 'Vibrato'],
-      activeSynth: '',
       filterActive: false,
       activeScale: [],
       activeBackground: {},
       hideControls: false,
-      possibleSynths: ['Synth', 'MonoSynth', 'AMSynth', 'FMSynth', 'DuoSynth'],
-      allOptions: {
-        oscillators: {
-          standard: ['sine', 'square', 'triangle', 'sawtooth']
-        },
-        envelopeCurves: ['linear', 'exponential', 'sine', 'cosine', 'bounce', 'ripple', 'step'],
-        filter: {
-          allTypes: ['lowpass', 'highpass', 'bandpass', 'lowshelf', 'highshelf', 'notch', 'allpass', 'peaking'],
-          rollOffValues: [-12, -24, -48, -96]
-        }
-      },
       scaleConfig: {
         possibleNotes: ['A', 'A#', 'B', 'B#', 'C', 'C#', 'D', 'D#', 'E', 'E#', 'F', 'F#', 'G', 'G#'],
         possibleOctaves: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
@@ -335,10 +237,6 @@ export default {
     }
   },
   methods: {
-    updateSynth: function (newValues) {
-      this.savedValues.synth.config = newValues
-      this.ToneElements.synth.set(newValues)
-    },
     updateFilter: function (newValues) {
       this.savedValues.filter.config = newValues
       this.ToneElements.filter.set(newValues)
@@ -410,10 +308,6 @@ export default {
 </script>
 
 <style lang="scss">
-  .container {
-
-  }
-
   .configSection {
     h3 {
       background: white;
