@@ -99,12 +99,14 @@ export default {
   methods: {
   	// Synth
   	selectSynth: function (synth) {
+      this.$emit('disconnect')
   		this.computedConfig = synthDefaults[event.target.value]
   		let payload = {
   			synth: event.target.value,
   			defaults: synthDefaults[event.target.value]
   		}
   		this.$store.commit('SET_SYNTH', payload)
+      this.$emit('connect')
   	}
   },
   computed: {

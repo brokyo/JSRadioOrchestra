@@ -1,7 +1,9 @@
 <template>
   <main>
-    <button @click="post()">Post</button>
-    <h1>{{users}}</h1>
+    <button @click="synth.triggerAttackRelease(220, 1)">trigger</button>
+    <button @click="dispose()">Dispose</button>
+<!--     <button @click="post()">Post</button>
+    <h1>{{users}}</h1> -->
   </main>
 </template>
 <script>
@@ -22,18 +24,33 @@ export default {
       }
     })
   },
+  data () {
+    return {
+      synth: {}
+    }
+  },
   mounted: function () {
+    this.synth = new Tone.MonoSynth().toMaster()
   },
   methods: {
-    post: function () {
-      axios.post('another.json', {golly: 'gee'})
-        .then(res => {
-          console.log('worked', res)
-        })
-        .catch(e => {
-          console.log('broke', e)
-        })
+    dispose: function () {
+      this.synth.disconnect(Tone.Master)
+      // this.synth.dispose()
+      this.synth = new Tone.DuoSynth().toMaster()
+      // this.synth = new Tone.DuoSynth().toMaster()
+      // this.synth = new Tone.DuoSynth().toMaster()
+      // this.synth = new Tone.DuoSynth().toMaster()
+      // this.synth = new Tone.DuoSynth().toMaster()
     }
+    // post: function () {
+    //   axios.post('another.json', {golly: 'gee'})
+    //     .then(res => {
+    //       console.log('worked', res)
+    //     })
+    //     .catch(e => {
+    //       console.log('broke', e)
+    //     })
+    // }
   }
 }
 </script>

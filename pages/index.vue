@@ -10,9 +10,10 @@
     <button>Demo</button>
     <button>Publish</button>
   </nav>
+  <button @click="dunno()">d</button>
 
   <home v-if="activeView === 'home'"></home>
-  <synth-config v-if="activeView === 'synth'" :synth="$store.state.tone.synth" :config="$store.state.tone.synthMemberValues"></synth-config>
+  <synth-config v-if="activeView === 'synth'" :synth="$store.state.tone.synth" :config="$store.state.tone.synthMemberValues" @disconnect="disconnectSynth()" @connect="connectSynth()"></synth-config>
 
 
 
@@ -72,12 +73,14 @@ export default {
       }
     },
     ...mapGetters([
-      'constructed_synth'
+      'constructed_synth', 'constructed_filter'
     ])
   },
   watch: {
     // constructed_synth: function () {
-    //   this.constructed_synth.toMaster()
+      // console.log('SUP WITH YOU')
+      // this.constructed_synth.connect(this.constructed_filter)
+      // this.constructed_synth.toMaster()
     // },
     // activeSynth: function () {
     //   let activeSynth = this.activeSynth
@@ -118,6 +121,15 @@ export default {
     // },
   },
   methods: {
+    disconnectSynth: function () {
+      this.constructed_synth.disconnect(this.constructed_filter)
+    },
+    connectSynth: function () {
+      this.constructed_synth.connect(this.constructed_filter)
+    },
+    dunno: function () {
+      this.constructed_synth.triggerAttackRelease(100, .5)
+    },
     activateEffects: function () {
       let vue = this
       // Disconnect synth
@@ -170,11 +182,8 @@ export default {
     }
   },
   mounted: function () {
-    this.constructed_synth.toMaster()
-    // this.activeBackground = this.backgrounds[Math.floor(Math.random() * this.backgrounds.length)]
-    // this.ToneElements.synthOut = new Tone.Gain()
-    // this.ToneElements.patch = new Tone.Gain()
-    // this.ToneElements.patch.connect(Tone.Master)
+    this.constructed_synth.connect(this.constructed_filter)
+    this.constructed_filter.connect(Tone.Master)
   }
 }
 </script>

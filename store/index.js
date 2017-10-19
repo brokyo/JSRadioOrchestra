@@ -105,7 +105,7 @@ export const actions = {
 
 export const getters = {
   constructed_synth: state => {
-    return new Tone.PolySynth(8, Tone[state.tone.synth]).toMaster()
+    return new Tone.PolySynth(8, Tone[state.tone.synth])
   },
   constructed_filter: state => {
     if (state.tone.filter) {
