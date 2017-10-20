@@ -3,6 +3,10 @@ $config-title: #E1E1E1;
 
 @import url('https://fonts.googleapis.com/css?family=VT323');
 
+.color-filter-overlay {
+  z-index: -1;
+}
+
 .synthConfig {
   display: flex;
   flex-wrap: wrap;

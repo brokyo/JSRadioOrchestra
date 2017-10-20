@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <color-filter-overlay class="colorFilter" :active="playing"></color-filter-overlay>
+    <color-filter-overlay class="color-filter-overlay" :active="playing"></color-filter-overlay>
 
   </main>
 </template>
@@ -209,7 +209,4 @@ export default {
   }
 }
 
-.colorFilter {
-  z-index: -1;
-}
 </style>
