@@ -16,6 +16,16 @@ export const state = () => ({
     effects: []
   },
   scale: {},
+  video: {
+    title: 'measure twice cut once',
+    // DkozMJBsH3U
+    videoId: '',
+    params: {
+      start: 20,
+      end: 0,
+      mute: false
+    }
+  },
   visuals: {
     video: {
 
@@ -26,6 +36,13 @@ export const state = () => ({
 })
 
 export const mutations = {
+  // ===== //
+  // VIDEO //
+  // ===== //
+  SET_VIDEO_PARAMS (context, param) {
+    console.log(param)
+    _.merge(context.video, param)
+  },
   // ===== //
   // SYNTH //
   // ===== //

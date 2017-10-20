@@ -3,16 +3,16 @@
   <h1>The JS Radio Orchestra Plays:</h1>
   <nav>
     <button @click="activeView = 'home'">Home</button>
-    <button>Video</button>
+    <button @click="activeView = 'video'">Video</button>
     <button @click="activeView = 'synth'">Synth</button>
     <button>Overlay</button>
     <button>Mutations</button>
     <button>Demo</button>
     <button>Publish</button>
   </nav>
-  <button @click="dunno()">d</button>
 
   <home v-if="activeView === 'home'"></home>
+  <video-config v-if="activeView === 'video'"></video-config>
   <synth-config v-if="activeView === 'synth'" :synth="$store.state.tone.synth" :config="$store.state.tone.synthMemberValues" @disconnect="disconnectSynth()" @connect="connectSynth()"></synth-config>
 
 
@@ -27,6 +27,7 @@ import synthConfig from '../components/config/synth.vue'
 import colorfilterconfig from '../components/colorfilterconfig.vue'
 import colorfilterfinal from '../components/colorfilterFinal.vue'
 import home from '../components/composeHome.vue'
+import videoConfig from '../components/config/videoconfig.vue'
 
 import axios from '../plugins/axios.js'
 
@@ -36,7 +37,7 @@ if (process.browser) {
 
 export default {
   components: {
-    colorfilterconfig, colorfilterfinal, home, synthConfig
+    colorfilterconfig, colorfilterfinal, home, synthConfig, videoConfig
   },
   data () {
     return {
@@ -127,9 +128,6 @@ export default {
     connectSynth: function () {
       this.constructed_synth.connect(this.constructed_filter)
     },
-    dunno: function () {
-      this.constructed_synth.triggerAttackRelease(100, .5)
-    },
     activateEffects: function () {
       let vue = this
       // Disconnect synth
@@ -198,30 +196,6 @@ export default {
 
   .triggerContainer {
     display: flex;
-  }
-
-  .video-background {
-    background: #000;
-    position: fixed;
-    top: 0; right: 0; bottom: 0; left: 0;
-    z-index: -99;
-  }
-
-  .video-foreground,
-  .video-background iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-  }
-
-  @media (min-aspect-ratio: 16/9) {
-    .video-foreground { height: 300%; top: -100%; }
-  }
-  @media (max-aspect-ratio: 16/9) {
-    .video-foreground { width: 300%; left: -100%; }
   }
 
 </style>
