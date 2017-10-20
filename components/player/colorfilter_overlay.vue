@@ -10,12 +10,15 @@
 export default {
 
   name: 'colorfilter',
-  props: ['config', 'active'],
+  props: ['active'],
   data () {
     return {
     }
   },
   computed: {
+    config: function () {
+      return this.$store.state.overlay.colorConfig
+    },
     transitions: function () {
       return this.$store.state.tone.synthMemberValues.envelope
     },

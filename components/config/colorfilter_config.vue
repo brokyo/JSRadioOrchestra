@@ -30,13 +30,13 @@
         </div>
       </div>
     </div>
-    <color-filter-overlay class="colorFilter" :config="this.colorConfig" :active="playing"></color-filter-overlay>
+    <color-filter-overlay class="colorFilter" :active="playing"></color-filter-overlay>
 
   </main>
 </template>
 
 <script>
-import colorFilterOverlay from '../colorfilter_overlay.vue'
+import colorFilterOverlay from '../player/colorfilter_overlay.vue'
 
 if (process.browser) {
     var Tone = require('tone')
