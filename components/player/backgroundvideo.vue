@@ -1,33 +1,15 @@
 <template>
-<main>
-<!-- Background Video -->
 <div class="video-background">
-<div class="video-foreground">
-  <iframe :src="activeBackgroundURL" frameborder="0" allowfullscreen></iframe>
+	<div class="video-foreground">
+	  <iframe :src="activeBackgroundURL" frameborder="0" allowfullscreen></iframe>
+	</div>
 </div>
-</div>
-
-<div>
-  <span v-for="(value, key) in background" v-if="typeof(value) !== 'object'">
-  	<label>{{key}}:</label>
-  	<input :value="value" @change="update(value, key, $event.target.value)"></input>
-  </span>
-  <span v-else v-for="(subvalue, subkey) in value"
-  	<label>{{subkey}}</label>
-  	<input :value="subvalue" @change="update(value, key, $event.target.value, subvalue, subkey)"></input>
-  </span>
-</div>
-
-
-</main>
 </template>
 
 <script>
-var _ = require('lodash')
-
 export default {
 
-  name: 'videoConfig',
+  name: 'backgroundvideo',
   computed: {
   	background () {
   		return this.$store.state.video
@@ -36,24 +18,8 @@ export default {
       return 'https://www.youtube.com/embed/' + this.background.videoId + '?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&vq=small&playlist=' + this.background.videoId + '&start=' + this.background.params.start + '&end=158' + this.background.params.end
     }
   },
-  methods: {
-  	update (storeValue, key, newValue, subvalue, subkey) {
-  		let update = {}
-
-  		if (subkey !== undefined) {
-  			update = {
-  				[key]: {
-  					[subkey]: newValue
-  				}
-  			}
-  		} else {
-  			update = {
-  				[key]: newValue
-  			}
-  		}
-
-  		this.$store.commit('SET_VIDEO_PARAMS', update)
-  	}
+  mounted: function () {
+    console.log(this.activeBackgroundURL)
   }
 }
 </script>

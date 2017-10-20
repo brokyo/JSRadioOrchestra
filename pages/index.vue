@@ -5,15 +5,17 @@
     <button @click="activeView = 'home'">Home</button>
     <button @click="activeView = 'video'">Video</button>
     <button @click="activeView = 'synth'">Synth</button>
-    <button>Overlay</button>
+    <button @click="activeView = 'color'">Overlay</button>
     <button>Mutations</button>
-    <button>Demo</button>
+    <button @click="activeView = 'demo'">Demo</button>
     <button>Publish</button>
   </nav>
 
   <home v-if="activeView === 'home'"></home>
   <video-config v-if="activeView === 'video'"></video-config>
   <synth-config v-if="activeView === 'synth'" :synth="$store.state.tone.synth" :config="$store.state.tone.synthMemberValues" @disconnect="disconnectSynth()" @connect="connectSynth()"></synth-config>
+  <color-filter-config v-if="activeView === 'color'"></color-filter-config>
+
 
 
 
@@ -24,10 +26,9 @@
 <script>
 import { mapGetters } from 'vuex'
 import synthConfig from '../components/config/synth.vue'
-import colorfilterconfig from '../components/colorfilterconfig.vue'
-import colorfilterfinal from '../components/colorfilterFinal.vue'
 import home from '../components/composeHome.vue'
 import videoConfig from '../components/config/videoconfig.vue'
+import colorFilterConfig from '../components/config/colorfilter_config.vue'
 
 import axios from '../plugins/axios.js'
 
@@ -37,7 +38,7 @@ if (process.browser) {
 
 export default {
   components: {
-    colorfilterconfig, colorfilterfinal, home, synthConfig, videoConfig
+    home, synthConfig, videoConfig, colorFilterConfig
   },
   data () {
     return {
