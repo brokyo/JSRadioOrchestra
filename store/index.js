@@ -160,6 +160,12 @@ export const mutations = {
   SET_COLORS (context, colorValues) {
     context.visuals.colorFilter = colorValues
   },
+  // ==== //
+  // META //
+  // ==== //
+  UPDATE_META (context, payload) {
+    _.merge(context.meta, payload)
+  },
   // ======= //
   // GENERAL //
   // ======= //
