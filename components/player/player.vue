@@ -1,15 +1,15 @@
 <template>
 <main>
     <background-video></background-video>
-    <color-filter-overlay class="colorFilter" :active="playing"></color-filter-overlay>
+    <color-filter-overlay class="color-filter-overlay" :active="playing"></color-filter-overlay>
     <mount-synth @attackStart="attackStart" @releaseStart="releaseStart"></mount-synth>
 </main>
 </template>
 
 <script>
-import colorFilterOverlay from '../components/player/colorfilter_overlay.vue'
-import backgroundVideo from '../components/player/backgroundvideo.vue'
-import mountSynth from '../components/mountsynth.vue'
+import colorFilterOverlay from './colorfilter_overlay.vue'
+import backgroundVideo from './backgroundvideo.vue'
+import mountSynth from '../mountsynth.vue'
 
 if (process.browser) {
     var Tone = require('tone')

@@ -14,19 +14,7 @@ export default {
   data () {
     return {
       synth: {},
-      filter: {},
-      playing: {
-        0: false,
-        1: false,
-        2: false,
-        3: false,
-        4: false,
-        5: false,
-        6: false,
-        7: false,
-        8: false,
-        9: false
-      }
+      filter: {}
     }
   },
   computed: {
@@ -34,7 +22,7 @@ export default {
     scaleConfig () { return this.$store.state.scale }
   },
   mounted: function () {
-    console.log(this.$bus)
+    Tone.context = new AudioContext()
     this.synth = new Tone.PolySynth(8, Tone[this.toneConfig.synth])
     this.synth.set(this.toneConfig.synthMemberValues)
 
@@ -48,23 +36,25 @@ export default {
 
     _.forEach(vue.scaleConfig, function (trigger) {
       let noteToPlay = String(trigger.note) + String(trigger.octave)
+        window.addEventListener('keydown', function (e) {
+          if (e.key === trigger.keyCode & !e.repeat) {
+            vue.synth.triggerAttack(noteToPlay)
+            vue.$emit('attackStart', trigger.id)
+          }
+        })
 
-      window.addEventListener('keydown', function (e) {
-        if (e.key === trigger.keyCode & !e.repeat) {
-          vue.synth.triggerAttack(noteToPlay)
-          // vue.playing[trigger.id] = true
-        }
-      })
-
-      window.addEventListener('keyup', function (e) {
-        if (e.key === trigger.keyCode & !e.repeat) {
-          vue.synth.triggerRelease(noteToPlay)
-          // vue.playing[trigger.id] = false
-        }
-      })
+        window.addEventListener('keyup', function (e) {
+          if (e.key === trigger.keyCode & !e.repeat) {
+            vue.synth.triggerRelease(noteToPlay)
+            vue.$emit('releaseStart', trigger.id)
+          }
+        })
     })
-  }
 
+  },
+  beforeDestroy: function () {
+    Tone.context.close()
+  }
 }
 </script>
 

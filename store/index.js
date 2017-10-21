@@ -6,7 +6,8 @@ var _ = require('lodash')
 
 export const state = () => ({
   meta: {
-    title: ''
+    title: '',
+    knobtwister: ''
   },
   tone: {
     synth: 'AMSynth',
@@ -57,7 +58,7 @@ export const state = () => ({
   video: {
     title: 'measure twice cut once',
     // DkozMJBsH3U
-    videoId: 'DkozMJBsH3U',
+    videoId: '',
     params: {
       start: 20,
       end: 0,
@@ -158,6 +159,12 @@ export const mutations = {
   // ======= //
   SET_COLORS (context, colorValues) {
     context.visuals.colorFilter = colorValues
+  },
+  // ======= //
+  // GENERAL //
+  // ======= //
+  MOUNT_TRIGGERS (context) {
+    context.meta.triggersMounted = true
   }
 }
 
