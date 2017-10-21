@@ -6,7 +6,7 @@
     <button @click="activeView = 'video'">Video</button>
     <button @click="activeView = 'synth'">Synth</button>
     <button @click="activeView = 'color'">Overlay</button>
-    <button>Mutations</button>
+    <button @click="activeView = 'mutation'">Mutations</button>
     <button @click="activeView = 'demo'">Demo</button>
   </nav>
 
@@ -14,6 +14,7 @@
   <video-config v-if="activeView === 'video'"></video-config>
   <synth-config v-if="activeView === 'synth'" :synth="$store.state.tone.synth" :config="$store.state.tone.synthMemberValues" @disconnect="disconnectSynth()" @connect="connectSynth()"></synth-config>
   <color-filter-config v-if="activeView === 'color'"></color-filter-config>
+  <mutation-config v-if="activeView === 'mutation'"></mutation-config>
   <demo-config v-if="activeView === 'demo'"></demo-config>
 
 
@@ -28,6 +29,7 @@ import synthConfig from '../components/config/synth.vue'
 import home from '../components/composeHome.vue'
 import videoConfig from '../components/config/videoconfig.vue'
 import colorFilterConfig from '../components/config/colorfilter_config.vue'
+import mutationConfig from '../components/config/mutation.vue'
 import demoConfig from '../components/config/demo.vue'
 
 import axios from '../plugins/axios.js'
@@ -38,7 +40,7 @@ if (process.browser) {
 
 export default {
   components: {
-    home, synthConfig, videoConfig, colorFilterConfig, demoConfig
+    home, synthConfig, videoConfig, colorFilterConfig, demoConfig, mutationConfig
   },
   data () {
     return {

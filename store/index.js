@@ -98,6 +98,23 @@ export const state = () => ({
         ]
       }
     ]
+  },
+  mutation: {
+    type: 'play',
+    config: [
+      {
+        type: 'synth',
+        time: 20,
+        synthName: '',
+        synthParams: '',
+        amount: 1
+      },
+      {
+        type: 'corruption',
+        time: 40,
+        amount: 10
+      }
+    ]
   }
 })
 
