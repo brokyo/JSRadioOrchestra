@@ -6,8 +6,9 @@ var _ = require('lodash')
 
 export const state = () => ({
   meta: {
-    title: '',
-    knobtwister: ''
+    title: 'Before we say goodnight',
+    knobtwister: 'brokyo',
+    length: 180000
   },
   tone: {
     synth: 'AMSynth',
