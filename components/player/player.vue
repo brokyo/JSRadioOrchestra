@@ -52,6 +52,7 @@ export default {
     var vue = this
     setTimeout(() => { vue.showTitle = false }, 10)
     setTimeout(() => { vue.showTitle = true }, this.$store.state.meta.length)
+    setTimeout(() => { vue.showTitle = true }, this.$store.state.meta.length + 20)
   }
 }
 </script>

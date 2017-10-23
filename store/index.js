@@ -76,11 +76,11 @@ export const state = () => ({
           'justify-content': 'flex-start'
         },
         styles: [
-          {id: 0, grow: 1, order: 1, offset: 0, color: '#E583B4', startOpacity: 0, endOpacity: 1},
-          {id: 1, grow: 1, order: 2, offset: 0, color: '#FAEE31', startOpacity: 0, endOpacity: 1},
-          {id: 2, grow: 1, order: 3, offset: 0, color: '#67CAF4', startOpacity: 0, endOpacity: 1},
-          {id: 3, grow: 1, order: 4, offset: 0, color: '#F2A172', startOpacity: 0, endOpacity: 1},
-          {id: 4, grow: 1, order: 5, offset: 0, color: '#0F1A23', startOpacity: 0, endOpacity: 1}
+          {id: 0, grow: 1, offsetTop: 0, offsetLeft: 0, color: '#E583B4', startOpacity: 0, endOpacity: 1},
+          {id: 1, grow: 1, offsetTop: 0, offsetLeft: 0, color: '#FAEE31', startOpacity: 0, endOpacity: 1},
+          {id: 2, grow: 1, offsetTop: 0, offsetLeft: 0, color: '#67CAF4', startOpacity: 0, endOpacity: 1},
+          {id: 3, grow: 1, offsetTop: 0, offsetLeft: 0, color: '#F2A172', startOpacity: 0, endOpacity: 1},
+          {id: 4, grow: 1, offsetTop: 0, offsetLeft: 0, color: '#0F1A23', startOpacity: 0, endOpacity: 1}
         ]
       },
       {
@@ -91,11 +91,11 @@ export const state = () => ({
           'justify-content': 'flex-start'
         },
         styles: [
-          {id: 5, grow: 1, order: 1, offset: 0, color: '#CE5814', startOpacity: 0, endOpacity: 1},
-          {id: 6, grow: 1, order: 2, offset: 0, color: '#72F2C2', startOpacity: 0, endOpacity: 1},
-          {id: 7, grow: 1, order: 3, offset: 0, color: '#A472F2', startOpacity: 0, endOpacity: 1},
-          {id: 8, grow: 1, order: 4, offset: 0, color: '#E4F272', startOpacity: 0, endOpacity: 1},
-          {id: 9, grow: 1, order: 5, offset: 0, color: '#C7F272', startOpacity: 0, endOpacity: 1}
+          {id: 5, grow: 1, offsetTop: 0, offsetLeft: 0, color: '#CE5814', startOpacity: 0, endOpacity: 1},
+          {id: 6, grow: 1, offsetTop: 0, offsetLeft: 0, color: '#72F2C2', startOpacity: 0, endOpacity: 1},
+          {id: 7, grow: 1, offsetTop: 0, offsetLeft: 0, color: '#A472F2', startOpacity: 0, endOpacity: 1},
+          {id: 8, grow: 1, offsetTop: 0, offsetLeft: 0, color: '#E4F272', startOpacity: 0, endOpacity: 1},
+          {id: 9, grow: 1, offsetTop: 0, offsetLeft: 0, color: '#C7F272', startOpacity: 0, endOpacity: 1}
         ]
       }
     ]

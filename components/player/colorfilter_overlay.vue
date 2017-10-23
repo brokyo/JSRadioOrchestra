@@ -27,15 +27,11 @@ export default {
 
       function baseStyles (octave, bandValues) {
         this['flex-grow'] = bandValues.grow
-        this.order = bandValues.order
         this['background-color'] = bandValues.color
 
         this.position = 'relative'
-        if (octave.config['flex-direction'] === 'column') {
-          this.top = String(bandValues.offset) + '%'
-        } else {
-          this.left = String(bandValues.offset) + '%'
-        }
+        this.top = String(bandValues.offsetTop) + '%'
+        this.left = String(bandValues.offsetLeft) + '%'
 
       }
 

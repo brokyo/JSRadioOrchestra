@@ -19,10 +19,10 @@
           <input type="color" :value="band.color" @change="updateBand(band.id, index, 'color', $event.target.value)"></input>
           <label>Grow</label>
           <input type="number" :value="band.grow" @change="updateBand(band.id, index, 'grow', $event.target.value)"></input>
-          <label>Offset</label>
-          <input type="number" :value="band.offset" @change="updateBand(band.id, index, 'offset', $event.target.value)"></input>
-          <label>Order</label>
-          <input type="number" :value="band.order" @change="updateBand(band.id, index, 'order', $event.target.value)"></input>
+          <label>Offset Top</label>
+          <input type="number" :value="band.offsetTop" @change="updateBand(band.id, index, 'offsetTop', $event.target.value)"></input>
+          <label>Offset Left</label>
+          <input type="number" :value="band.offsetLeft" @change="updateBand(band.id, index, 'offsetLeft', $event.target.value)"></input>
           <label>Start Opacity</label>
           <input type="number" :value="band.startOpacity" @change="updateBand(band.id, index, 'startOpacity', $event.target.value)"></input>
           <label>End Opacity</label>
