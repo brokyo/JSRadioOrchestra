@@ -6,18 +6,18 @@
 		</div>
 		<div class="controls">
 			<label>Oscillator</label>
-			<select :value="config.oscillator.type" @change="updateConfig('oscillator', $event.target.value, 'type')">
+			<select v-model="config.oscillator.type">
 				<option v-for="oscillator in options.oscillators.standard">{{oscillator}}</option>
 			</select>
 			<label>Volume</label>
-			<input type="range" min="-50" max="-10" :value="config.volume" @change="updateConfig('volume', $event.target.value)"></input>
-			<input type="number" :value="config.volume" @change="updateConfig('volume', $event.target.value)"></input>
+			<input type="range" min="-50" max="-10" v-model="config.volume"></input>
+			<input type="number" v-model="config.volume"></input>
 			<label>Detune</label>
-			<input type="range" min="-200" max="200" :value="config.detune" @change="updateConfig('detune', $event.target.value)">
-			<input type="number" :value="config.detune" @change="updateConfig('detune', $event.target.value)"></input>
+			<input type="range" min="-200" max="200" v-model="config.detune">
+			<input type="number" v-model="config.detune"></input>
 			<label>Portamento</label>
-			<input type="range" min="0" max="5" :value="config.portamento" @change="updateConfig('portamento', $event.target.value)"></input>
-			<input type="number" :value="config.portamento" @change="updateConfig('portamento', $event.target.value)"></input>
+			<input type="range" min="0" max="5" v-model="config.portamento"></input>
+			<input type="number" v-model="config.portamento"></input>
 		</div>
 	</div>
 	<div class="category">
@@ -26,14 +26,14 @@
 		</div>
 		<div class="controls">
 			<label>Q</label>
-			<input type="range" min="0" max="100" :value="config.filter.Q" @change="updateConfig('filter', $event.target.value, 'Q')"></input>
-			<input type="number" :value="config.filter.Q" @change="updateConfig('filter', $event.target.value, 'Q')"></input>
+			<input type="range" min="0" max="100" v-model="config.filter.Q"></input>
+			<input type="number" v-model="config.filter.Q"></input>
 			<label>Type</label>
-			<select :value="config.filter.type" @change="updateConfig('filter', $event.target.value, 'type')">
+			<select v-model="config.filter.type">
 				<option v-for="filterType in options.filter.allTypes">{{filterType}}</option>
 			</select>
 			<label>Rolloff</label>
-			<select :value="config.filter.rolloff" @change="updateConfig('filter', $event.target.value, 'rolloff')">
+			<select v-model="config.filter.rolloff">
 				<option v-for="rolloff in options.filter.rollOffValues">{{rolloff}}</option>
 			</select>
 		</div>
@@ -44,23 +44,23 @@
 		</div>
 		<div class="controls">
 			<label>Attack</label>
-			<input type="range" min="0" max="5" :value="config.envelope.attack" @change="updateConfig('envelope', $event.target.value, 'attack')"></input>
-			<input type="number" :value="config.envelope.attack" @change="updateConfig('envelope', $event.target.value, 'attack')"></input>
+			<input type="range" min="0" max="5" v-model="config.envelope.attack"></input>
+			<input type="number" v-model="config.envelope.attack"></input>
 			<label>Attack Curve</label>
-			<select :value="config.envelope.attackCurve" @change="updateConfig('envelope', $event.target.value, 'attackCurve')">
+			<select v-model="config.envelope.attackCurve">
 				<option v-for="curve in options.envelopeCurves">{{curve}}</option>
 			</select>
 			<label>Decay</label>
-			<input type="range" min="0" max="5" :value="config.envelope.decay" @change="updateConfig('envelope', $event.target.value, 'decay')"></input>
-			<input type="number" :value="config.envelope.decay" @change="updateConfig('envelope', $event.target.value, 'decay')"></input>
+			<input type="range" min="0" max="5" v-model="config.envelope.decay"></input>
+			<input type="number" v-model="config.envelope.decay"></input>
 			<label>Sustain</label>
-			<input type="range" min="0" max="1" :value="config.envelope.sustain" @change="updateConfig('envelope', $event.target.value, 'sustain')"></input>
-			<input type="number" :value="config.envelope.sustain" @change="updateConfig('envelope', $event.target.value, 'sustain')"></input>
+			<input type="range" min="0" max="1" v-model="config.envelope.sustain"></input>
+			<input type="number" v-model="config.envelope.sustain"></input>
 			<label>Release</label>
-			<input type="range" min="0" max="5" :value="config.envelope.release" @change="updateConfig('envelope', $event.target.value, 'release')"></input>
-			<input type="number" :value="config.envelope.release" @change="updateConfig('envelope', $event.target.value, 'release')"></input>
+			<input type="range" min="0" max="5" v-model="config.envelope.release"></input>
+			<input type="number" v-model="config.envelope.release"></input>
 			<label>Release Curve</label>
-			<select :value="config.envelope.releaseCurve" @change="updateConfig('envelope', $event.target.value, 'releaseCurve')">
+			<select v-model="config.envelope.releaseCurve">
 				<option v-for="curve in options.envelopeCurves">{{curve}}</option>
 			</select>
 		</div>
@@ -71,26 +71,26 @@
 		</div>
 		<div class="controls">
 			<label>Attack</label>
-			<input type="range" min="0" max="5" :value="config.filterEnvelope.attack" @change="updateConfig('filterEnvelope', $event.target.value, 'attack')"></input>
-			<input type="number" :value="config.filterEnvelope.attack" @change="updateConfig('filterEnvelope', $event.target.value, 'attack')"></input>
+			<input type="range" min="0" max="5" v-model="config.filterEnvelope.attack"></input>
+			<input type="number" v-model="config.filterEnvelope.attack"></input>
 			<label>Decay</label>
-			<input type="range" min="0" max="5" :value="config.filterEnvelope.decay" @change="updateConfig('filterEnvelope', $event.target.value, 'decay')"></input>
-			<input type="number" :value="config.filterEnvelope.decay" @change="updateConfig('filterEnvelope', $event.target.value, 'decay')"></input>
+			<input type="range" min="0" max="5" v-model="config.filterEnvelope.decay"></input>
+			<input type="number" v-model="config.filterEnvelope.decay"></input>
 			<label>Sustain</label>
-			<input type="range" min="0" max="1" :value="config.filterEnvelope.sustain" @change="updateConfig('filterEnvelope', $event.target.value, 'sustain')"></input>
-			<input type="number" :value="config.filterEnvelope.sustain" @change="updateConfig('filterEnvelope', $event.target.value, 'sustain')"></input>
+			<input type="range" min="0" max="1" v-model="config.filterEnvelope.sustain"></input>
+			<input type="number" v-model="config.filterEnvelope.sustain"></input>
 			<label>Release</label>
-			<input type="range" min="0" max="5" :value="config.filterEnvelope.release" @change="updateConfig('filterEnvelope', $event.target.value, 'release')"></input>
-			<input type="number" :value="config.filterEnvelope.release" @change="updateConfig('filterEnvelope', $event.target.value, 'release')"></input>
+			<input type="range" min="0" max="5" v-model="config.filterEnvelope.release"></input>
+			<input type="number" v-model="config.filterEnvelope.release"></input>
 			<label>Base Frequency</label>
-			<input type="range" min="0" max="5000" :value="config.filterEnvelope.baseFrequency" @change="updateConfig('filterEnvelope', $event.target.value, 'baseFrequency')"></input>
-			<input type="number" :value="config.filterEnvelope.baseFrequency" @change="updateConfig('filterEnvelope', $event.target.value, 'baseFrequency')"></input>
+			<input type="range" min="0" max="5000" v-model="config.filterEnvelope.baseFrequency"></input>
+			<input type="number" v-model="config.filterEnvelope.baseFrequency"></input>
 			<label>Octave</label>
-			<input type="range" min="0" max="20" :value="config.filterEnvelope.octaves" @change="updateConfig('filterEnvelope', $event.target.value, 'octaves')"></input>
-			<input type="number" :value="config.filterEnvelope.octaves" @change="updateConfig('filterEnvelope', $event.target.value, 'octaves')"></input>
+			<input type="range" min="0" max="20" v-model="config.filterEnvelope.octaves"></input>
+			<input type="number" v-model="config.filterEnvelope.octaves"></input>
 			<label>Exponent</label>
-			<input type="range" min="0" max="10" :value="config.filterEnvelope.exponent" @change="updateConfig('filterEnvelope', $event.target.value, 'exponent')"></input>
-			<input type="number" :value="config.filterEnvelope.exponent" @change="updateConfig('filterEnvelope', $event.target.value, 'exponent')"></input>
+			<input type="range" min="0" max="10" v-model="config.filterEnvelope.exponent"></input>
+			<input type="number" v-model="config.filterEnvelope.exponent"></input>
 		</div>
 	</div>
 </section>
@@ -101,10 +101,13 @@ export default {
 
   name: 'monosynth',
   props: ['options', 'config'],
-  methods: {
-    updateConfig: function (field, value, subfield) {
-      this.$store.dispatch('MUNGE_SYNTH_UPDATE', {field, value, subfield})
-    }
+  watch: {
+  	config: {
+  		handler () {
+  			this.$emit('updated', this.config)
+  		},
+  		deep: true
+  	}
   }
 }
 </script>

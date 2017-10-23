@@ -155,6 +155,10 @@ export const mutations = {
     // Update synth
     payload.synth.set(context.tone.synthMemberValues)
   },
+  SET_PATCH_CONFIG (context, toneConfig) {
+    console.log('got tru')
+    context.tone = toneConfig
+  },
   // ====== //
   // FILTER //
   // ====== //

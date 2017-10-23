@@ -183,8 +183,8 @@ export default {
     }
   },
   mounted: function () {
-    this.constructed_synth.connect(this.constructed_filter)
-    this.constructed_filter.connect(Tone.Master)
+    // this.constructed_synth.connect(this.constructed_filter)
+    // this.constructed_filter.connect(Tone.Master)
   }
 }
 </script>
