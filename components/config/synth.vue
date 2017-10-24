@@ -39,7 +39,7 @@
 
     <!-- Synth Triggers -->
     <section class="configSection">
-      <triggers></triggers>
+      <triggers :synth="tone.synth"></triggers>
     </section>
 
 </main>
@@ -141,28 +141,9 @@ export default {
     this.tone.synth.connect(this.tone.filter)
     this.tone.filter.connect(Tone.Master)
 
-    var vue = this
-    _.forEach(vue.activeScale, function (trigger) {
-      let noteToPlay = String(trigger.note) + String(trigger.octave)
-        window.addEventListener('keydown', function (e) {
-          if (e.key === trigger.keyCode & !e.repeat) {
-            vue.tone.synth.triggerAttack(noteToPlay)
-            vue.$emit('attackStart', trigger.id)
-          }
-        })
-
-        window.addEventListener('keyup', function (e) {
-          if (e.key === trigger.keyCode & !e.repeat) {
-            vue.tone.synth.triggerRelease(noteToPlay)
-            vue.$emit('releaseStart', trigger.id)
-          }
-        })
-    })
-
   },
   beforeDestroy: function () {
-    console.log('sup fuckers!')
-    this.$store.commit('SET_PATCH_CONFIG', _.cloneDeep(this.toneConfig))    
+    this.$store.commit('SET_PATCH_CONFIG', _.cloneDeep(this.toneConfig))
   }
 }
 </script>

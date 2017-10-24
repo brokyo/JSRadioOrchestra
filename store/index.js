@@ -44,18 +44,15 @@ export const state = () => ({
     filterMemberValues: {},
     effects: []
   },
-  scale: [
-    { id: 0, keyCode: 'q', note: 'D', octave: 4 },
-    { id: 1, keyCode: 'w', note: 'E', octave: 4 },
-    { id: 2, keyCode: 'e', note: 'G', octave: 4 },
-    { id: 3, keyCode: 'r', note: 'A', octave: 4 },
-    { id: 4, keyCode: 't', note: 'B', octave: 4 },
-    { id: 5, keyCode: 'h', note: 'D', octave: 5 },
-    { id: 6, keyCode: 'j', note: 'E', octave: 5 },
-    { id: 7, keyCode: 'k', note: 'G', octave: 5 },
-    { id: 8, keyCode: 'l', note: 'A', octave: 5 },
-    { id: 9, keyCode: ';', note: 'B', octave: 5 }
-  ],
+  scale: {
+    config: {
+      octave1: 4,
+      octave2: 5,
+      key: 'D',
+      scaleName: 'Dark (In Scale)',
+      steps: [0, 2, 6, 8, 10]
+    }
+  },
   video: {
     title: 'measure twice cut once',
     // DkozMJBsH3U
@@ -186,8 +183,18 @@ export const mutations = {
   // ======== //
   // TRIGGERS //
   // ======== //
-  SET_SCALE_CONFIG (context, scale) {
-    context.scale = scale
+  SET_OCTAVE1 (context, octave) {
+    context.scale.config.octave1 = octave
+  },
+  SET_OCTAVE2 (context, octave) {
+    context.scale.config.octave2 = octave
+  },
+  SET_KEY (context, key) {
+    context.scale.config.key = key
+  },
+  SET_SCALE (context, scale) {
+    context.scale.config.scaleName = scale.name
+    context.scale.config.steps = scale.steps
   },
   // ======= //
   // OVERLAY //
@@ -258,5 +265,39 @@ export const getters = {
     } else {
       return new Tone.Gain()
     }
+  },
+  active_scale: state => {
+    let octave1 = state.scale.config.octave1
+    let octave2 = state.scale.config.octave2
+    let key = state.scale.config.key
+    let steps = state.scale.config.steps
+
+    let possibleNotes = ['A', 'A#', 'B', 'B#', 'C', 'C#', 'D', 'D#', 'E', 'E#', 'F', 'F#', 'G', 'G#']
+    let keyCodes = ['q', 'w', 'e', 'r', 't', 'h', 'j', 'k', 'l', ';']
+    let newOrigin = possibleNotes.indexOf(key)
+    let newScale = possibleNotes.slice(newOrigin).concat(possibleNotes.slice(0, newOrigin))
+
+    let scale = []
+    for (let i = 0; i < 10; i++) {
+      let trigger = {}
+      if (i < 5) {
+        trigger = {
+          id: i,
+          keyCode: keyCodes[i],
+          note: newScale[steps[i]],
+          octave: octave1
+        }        
+      } else {
+        trigger = {
+          id: i,
+          keyCode: keyCodes[i],
+          note: newScale[steps[i - 5]],
+          octave: octave2
+        }        
+      }
+      scale.push(trigger)
+    }
+
+    return scale
   }
 }

@@ -15,3 +15,8 @@
       }, String(effect.start) + 's')
     }
   })
+
+
+  if (!_.isEmpty(vue.corruption.detune)) {
+    vue.corruption.detune.triggerAttack(noteToPlay)
+  }
