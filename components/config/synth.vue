@@ -31,7 +31,6 @@
     </section>
  -->
 
-    {{toneConfig.filterMemberValues}}
     <!-- Filter Config -->
     <section class="configSection">
       <tonefilter :active="toneConfig.filter" :config="toneConfig.filterMemberValues" @toggle="toggleFilter" @update="updateFilter" v-if="toneConfig.synth"></tonefilter>
@@ -92,8 +91,7 @@ export default {
     }
   },
   methods: {
-    newSynth: function (event) {
-      // Clear old synth and create new one
+    newSynth: function (event) { 
       this.tone.synth.disconnect(this.tone.filter)
       this.tone.synth = new Tone.PolySynth(8, Tone[this.toneConfig.synth])
       this.toneConfig.synthMemberValues = toneUtilityData.synthDefaults[this.toneConfig.synth]

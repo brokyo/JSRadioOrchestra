@@ -20,7 +20,12 @@ export default {
       return this.$store.state.overlay.colorConfig
     },
     transitions: function () {
-      return this.$store.state.tone.synthMemberValues.envelope
+      if (this.$store.state.tone.synth === 'DuoSynth') {
+        return this.$store.state.tone.synthMemberValues.voice0.envelope
+      } else {
+        return this.$store.state.tone.synthMemberValues.envelope        
+      }
+
     },
     layout: function () {
       var vue = this

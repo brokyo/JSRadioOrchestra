@@ -28,6 +28,7 @@ export default {
     var vue = this
 
     // Setup
+    Tone.context.close()
     Tone.context = new AudioContext()
     this.synth = new Tone.PolySynth(8, Tone[this.toneConfig.synth])
     this.synth.set(this.toneConfig.synthMemberValues)
@@ -98,9 +99,6 @@ export default {
         })
     })
 
-  },
-  beforeDestroy: function () {
-    Tone.context.close()
   }
 }
 </script>

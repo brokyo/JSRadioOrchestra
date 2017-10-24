@@ -79,6 +79,7 @@ export default {
     colorConfig () { return _.cloneDeep(this.$store.state.overlay.colorConfig) },
     synthType () { return this.$store.state.tone.synth },
     synthValues () { return this.$store.state.tone.synthMemberValues },
+    filterActive () { return this.$store.state.tone.filter },
     filterValues () { return this.$store.state.tone.filterMemberValues },
     ...mapGetters([
       'active_scale'
@@ -181,8 +182,11 @@ export default {
     this.tone.synth = new Tone.PolySynth(8, Tone[this.synthType])
     this.tone.synth.set(this.synthValues)
 
-    this.tone.filter = new Tone.Filter()
-    this.tone.filter.set(this.filterValues)
+    if (this.filterActive) {
+      this.tone.filter = new Tone.Filter(this.filterValues) 
+    } else {
+      this.tone.filter = new Tone.Gain()
+    }
 
     this.tone.synth.connect(this.tone.filter)
     this.tone.filter.connect(Tone.Master)
