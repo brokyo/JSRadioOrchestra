@@ -1,7 +1,8 @@
 <template>
   <main>
     <button @click="hideControls = !hideControls">Hide</button>
-    <button @click="randomize">Randomize</button>
+    <button @click="randomize('shallow')">Randomize</button>
+    <button @click="randomize('deep')">Deep Randomize</button>
     <div v-show="hideControls" v-for="(octave, index) in colorConfig">
       <div>
         <h1>{{octave.name}}</h1>
@@ -84,7 +85,7 @@ export default {
     ])
   },
   methods: {
-    randomize: function () {
+    randomize: function (type) {
       var vue = this
       let octaveIndex = 0
       let bandIndex = 0
@@ -102,7 +103,16 @@ export default {
           let coinFlip = Math.floor(Math.random() * 2)
 
           band.grow = Math.floor(Math.random() * 3)
-          band.offset = Math.floor(Math.random() * 40)
+
+          if (type === 'deep') {
+            band.offsetTop = Math.floor(Math.random() * 40)
+            band.offsetLeft = Math.floor(Math.random() * 40)            
+          }
+
+          if (type === 'shallow') {
+            band.offsetTop = 0
+            band.offsetLeft = 0                        
+          }
 
           if (coinFlip === 0) {
             band.offset = -band.offset
@@ -198,9 +208,6 @@ export default {
       })
     })
 
-  },
-  beforeDestroy: function () {
-    this.$store.commit('SET_OVERLAY', this.colorConfig)
   }
 }
 </script>
