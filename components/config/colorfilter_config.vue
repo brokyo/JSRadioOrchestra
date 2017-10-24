@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import colorFilterOverlay from '../player/colorfilter_overlay.vue'
 
 if (process.browser) {
@@ -78,7 +79,9 @@ export default {
     synthType () { return this.$store.state.tone.synth },
     synthValues () { return this.$store.state.tone.synthMemberValues },
     filterValues () { return this.$store.state.tone.filterMemberValues },
-    activeScaleTrigger () { return this.$store.state.scale }
+    ...mapGetters([
+      'active_scale'
+    ])
   },
   methods: {
     randomize: function () {
@@ -162,6 +165,9 @@ export default {
     }
   },
   mounted: function () {
+    Tone.context.close()
+    Tone.context = new AudioContext()
+
     this.tone.synth = new Tone.PolySynth(8, Tone[this.synthType])
     this.tone.synth.set(this.synthValues)
 
@@ -174,7 +180,7 @@ export default {
     var vue = this
     var synth = this.tone.synth
 
-    _.forEach(vue.activeScaleTrigger, function (trigger) {
+    _.forEach(vue.active_scale, function (trigger) {
       let noteToPlay = String(trigger.note) + String(trigger.octave)
 
       window.addEventListener('keydown', function (e) {

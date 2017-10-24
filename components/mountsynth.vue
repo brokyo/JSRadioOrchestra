@@ -2,6 +2,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 if (process.browser) {
     var Tone = require('tone')
 }
@@ -19,7 +20,9 @@ export default {
   },
   computed: {
   	toneConfig () { return this.$store.state.tone },
-    scaleConfig () { return this.$store.state.scale }
+    ...mapGetters([
+      'active_scale'
+    ])
   },
   mounted: function () {
     var vue = this
@@ -78,7 +81,7 @@ export default {
     })
     
 
-    _.forEach(vue.scaleConfig, function (trigger) {
+    _.forEach(vue.active_scale, function (trigger) {
       let noteToPlay = String(trigger.note) + String(trigger.octave)
         window.addEventListener('keydown', function (e) {
           if (e.key === trigger.keyCode & !e.repeat) {
