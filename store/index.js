@@ -8,7 +8,7 @@ export const state = () => ({
   meta: {
     title: 'Before we say goodnight',
     knobtwister: 'brokyo',
-    length: 180000
+    length: 120
   },
   tone: {
     synth: 'AMSynth',
@@ -100,23 +100,36 @@ export const state = () => ({
       }
     ]
   },
-  mutation: {
-    type: 'play',
-    config: [
-      {
-        type: 'synth',
-        time: 20,
-        synthName: '',
-        synthParams: '',
-        amount: 1
+  corruption: [
+    {
+      type: 'compression',
+      active: true,
+      members: {
+        ratio: 20,
+        // ratio: 1,
+        threshold: -15,
+        release: 0,
+        attack: 0,
+        knee: 10 
       },
-      {
-        type: 'corruption',
-        time: 40,
-        amount: 10
-      }
-    ]
-  }
+      start: 150
+    },
+    {
+      type: 'detune',
+      active: true,
+      detuneAmount: -5,
+      interval: 10,
+      start: 200 
+    },
+    {
+      type: 'volumeDown',
+      active: true,
+      volumeDecrease: 1,
+      minVolume: -30,
+      interval: 8,
+      start: 240
+    }
+  ]
 })
 
 export const mutations = {

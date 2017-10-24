@@ -1,0 +1,17 @@
+// Detune mutation - add second synth
+
+    if (effect.type === 'detune') {
+
+      Tone.Transport.scheduleOnce(function (time) {
+        console.log('detune start')
+        let detuneAmount = 0
+        vue.corruption.detune = new Tone.PolySynth(8, Tone[vue.toneConfig.synth]).toMaster()
+        vue.corruption.detune.set(vue.toneConfig.synthMemberValues) 
+
+        Tone.Transport.scheduleRepeat(function (time) {
+          detuneAmount += effect.detuneAmount
+          vue.corruption.detune.set({'detune': detuneAmount})
+        }, String(effect.interval) + 's')      
+      }, String(effect.start) + 's')
+    }
+  })

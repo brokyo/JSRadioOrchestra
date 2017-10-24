@@ -13,6 +13,8 @@ import backgroundVideo from './backgroundvideo.vue'
 import mountSynth from '../mountsynth.vue'
 import titleCard from './titleCard.vue'
 
+var _ = require('lodash')
+
 if (process.browser) {
     var Tone = require('tone')
 }
@@ -50,9 +52,22 @@ export default {
   },
   mounted: function () {
     var vue = this
-    setTimeout(() => { vue.showTitle = false }, 10)
-    setTimeout(() => { vue.showTitle = true }, this.$store.state.meta.length)
-    setTimeout(() => { vue.showTitle = true }, this.$store.state.meta.length + 20)
+    Tone.Transport.start()
+    // Title card animations
+    Tone.Transport.scheduleOnce(function (time) {
+      vue.showTitle = false
+    }, '1s')
+
+    Tone.Transport.scheduleOnce(function (time) {
+      vue.showTitle = true
+    }, String(vue.$store.state.meta.length) + 's')
+
+
+    Tone.Transport.scheduleOnce(function (time) {
+      vue.showTitle = false
+    }, String(vue.$store.state.meta.length + 20) + 's')
+
+
   }
 }
 </script>
