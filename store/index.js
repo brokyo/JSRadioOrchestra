@@ -41,7 +41,12 @@ export const state = () => ({
       }
     },
     filter: false,
-    filterMemberValues: {},
+    filterMemberValues: {
+      frequency: 1,
+      type: 'lowpass',
+      rolloff: -12,
+      Q: 1
+    },
     effects: []
   },
   scale: {

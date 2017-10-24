@@ -1,6 +1,5 @@
 <template>
 <main>
-    <!-- Synth Config -->
     <section>
 	    <select v-model="toneConfig.synth" @change="newSynth">
           <option value="" disabled selected hidden>Select Synth</option>
@@ -32,9 +31,10 @@
     </section>
  -->
 
+    {{toneConfig.filterMemberValues}}
     <!-- Filter Config -->
     <section class="configSection">
-      <tonefilter @toggle-active="" @update=""></tonefilter>
+      <tonefilter :active="toneConfig.filter" :config="toneConfig.filterMemberValues" @toggle="toggleFilter" @update="updateFilter" v-if="toneConfig.synth"></tonefilter>
     </section>
 
     <!-- Synth Triggers -->
@@ -64,8 +64,6 @@ import triggers from './triggers.vue'
 // import pitchshift from '../effects/pitchshift.vue'
 // import tremolo from '../effects/tremolo.vue'
 // import vibrato from '../effects/vibrato.vue'
-
-// console.log(synthDefaults.AMSynth)
 
 var _ = require('lodash')
 
@@ -106,9 +104,27 @@ export default {
 
     },
     updateSynth: function (newValues) {
-      console.log(newValues)
       this.toneConfig.synthMemberValues = newValues
       this.tone.synth.set(newValues)
+    },
+    toggleFilter: function (state) {
+      this.toneConfig.filter = !this.toneConfig.filter
+
+      this.tone.synth.disconnect(this.tone.filter)
+      this.tone.filter = {}
+
+      if (this.toneConfig.filter === true) {
+        this.tone.filter = new Tone.Filter(this.toneConfig.filterMemberValues)
+      } else {
+        this.tone.filter = new Tone.Gain()
+      }
+
+      this.tone.synth.connect(this.tone.filter)
+      this.tone.filter.connect(Tone.Master)
+    },
+    updateFilter: function (newValue) {
+      _.merge(this.toneConfig.filterMemberValues, newValue)
+      this.tone.filter.set(this.toneConfig.filterMemberValues)
     }
   },
   computed: {
