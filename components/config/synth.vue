@@ -7,11 +7,11 @@
           <option v-for="synth in possibleSynths">{{synth}}</option>
 	    </select>
 
-      <synth v-if="toneConfig.synth === 'Synth'" :options="allOptions" :config="toneConfig.synthMemberValues" @updated="updateSynth"></synth>
-      <monosynth v-if="toneConfig.synth === 'MonoSynth'" :options="allOptions" :config="toneConfig.synthMemberValues" @updated="updateSynth"></monosynth>
-      <amsynth v-if="toneConfig.synth === 'AMSynth'"  :options="allOptions" :config="toneConfig.synthMemberValues" @updated="updateSynth"></amsynth>
-      <fmsynth v-if="toneConfig.synth === 'FMSynth'" :options="allOptions" :config="toneConfig.synthMemberValues" @updated="updateSynth"></fmsynth>
-      <duosynth v-if="toneConfig.synth === 'DuoSynth'" :options="allOptions" :config="toneConfig.synthMemberValues" @updated="updateSynth"></duosynth>
+      <synth v-if="toneConfig.synth === 'Synth'" :config="toneConfig.synthMemberValues" @updated="updateSynth"></synth>
+      <monosynth v-if="toneConfig.synth === 'MonoSynth'" :config="toneConfig.synthMemberValues" @updated="updateSynth"></monosynth>
+      <amsynth v-if="toneConfig.synth === 'AMSynth'"  :config="toneConfig.synthMemberValues" @updated="updateSynth"></amsynth>
+      <fmsynth v-if="toneConfig.synth === 'FMSynth'" :config="toneConfig.synthMemberValues" @updated="updateSynth"></fmsynth>
+      <duosynth v-if="toneConfig.synth === 'DuoSynth'" :config="toneConfig.synthMemberValues" @updated="updateSynth"></duosynth>
     </section>
 
     <!-- Effects -->
@@ -34,7 +34,7 @@
 
     <!-- Filter Config -->
     <section class="configSection">
-      <tonefilter :options="allOptions"></tonefilter>
+      <tonefilter @toggle-active="" @update=""></tonefilter>
     </section>
 
     <!-- Synth Triggers -->
@@ -53,7 +53,7 @@ import monosynth from '../synths/monosynth.vue'
 import amsynth from '../synths/amsynth.vue'
 import fmsynth from '../synths/fmsynth.vue'
 import duosynth from '../synths/duosynth.vue'
-import tonefilter from '../tonefilter.vue'
+import tonefilter from './tonefilter.vue'
 import triggers from './triggers.vue'
 
 
@@ -89,16 +89,6 @@ export default {
         synth: {},
         effects: [{}],
         filter: {}
-      },
-      allOptions: {
-        oscillators: {
-          standard: ['sine', 'square', 'triangle', 'sawtooth']
-        },
-        envelopeCurves: ['linear', 'exponential', 'sine', 'cosine', 'bounce', 'ripple', 'step'],
-        filter: {
-          allTypes: ['lowpass', 'highpass', 'bandpass', 'lowshelf', 'highshelf', 'notch', 'allpass', 'peaking'],
-          rollOffValues: [-12, -24, -48, -96]
-        }
       },
       possibleSynths: ['Synth', 'MonoSynth', 'AMSynth', 'FMSynth', 'DuoSynth']
     }

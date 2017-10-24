@@ -182,10 +182,17 @@
 </template>
 
 <script>
+import toneUtilityData from '../../mixins/toneUtility.js'
+
 export default {
 
   name: 'duosynth',
-  props: ['options', 'config'],
+  props: ['config'],
+  data () {
+    return {
+      options: toneUtilityData.generalConfigOptions
+    }
+  },
   watch: {
     config: {
       handler () {

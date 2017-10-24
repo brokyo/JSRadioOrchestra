@@ -25,13 +25,13 @@
 </template>
 
 <script>
-// var _ = require('lodash')
-export default {
+import toneUtilityData from '../../mixins/toneUtility.js'
 
+export default {
   name: 'tonefilter',
-  props: ['options'],
   data () {
     return {
+      options: toneUtilityData.generalConfigOptions,
       active: false,
       filterConfig: {
         frequency: 1,
@@ -43,11 +43,11 @@ export default {
   },
   watch: {
     active: function () {
-      this.$store.commit('TOGGLE_ACTIVE_FILTER')
+      this.$emit('toggle-activate')
     },
     filterConfig: {
       handler: function () {
-        this.$store.dispatch('UPDATE_FILTER_MEMBER_VALUES', this.filterConfig)
+        this.$emit('update', this.filterConfig)
       },
       deep: true
     }

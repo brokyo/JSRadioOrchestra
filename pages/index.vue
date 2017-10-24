@@ -67,19 +67,6 @@ export default {
       ]
     }
   },
-  computed: {
-    activeBackgroundURL: function () {
-      return 'https://www.youtube.com/embed/' + this.activeBackground.videoId + '?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&vq=small&playlist=' + this.activeBackground.videoId
-    },
-    timeToTransition: function () {
-      return {
-          transition: 'opacity ' + String(0.5) + 's ease'
-      }
-    },
-    ...mapGetters([
-      'constructed_synth', 'constructed_filter'
-    ])
-  },
   watch: {
     // constructed_synth: function () {
       // console.log('SUP WITH YOU')

@@ -51,10 +51,17 @@
 </template>
 
 <script>
+import toneUtilityData from '../../mixins/toneUtility.js'
+
 export default {
 
   name: 'synth',
-  props: ['options', 'config'],
+  props: ['config'],
+  data () {
+    return {
+    options: toneUtilityData.generalConfigOptions
+    }
+  },
   watch: {
     config: {
         handler () {

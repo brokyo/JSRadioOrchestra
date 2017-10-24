@@ -167,7 +167,6 @@ export const mutations = {
     payload.synth.set(context.tone.synthMemberValues)
   },
   SET_PATCH_CONFIG (context, toneConfig) {
-    console.log('got tru')
     context.tone = toneConfig
   },
   // ====== //
@@ -256,16 +255,6 @@ export const actions = {
 
 
 export const getters = {
-  constructed_synth: state => {
-    return new Tone.PolySynth(8, Tone[state.tone.synth])
-  },
-  constructed_filter: state => {
-    if (state.tone.filter) {
-      return new Tone.Filter()
-    } else {
-      return new Tone.Gain()
-    }
-  },
   active_scale: state => {
     let octave1 = state.scale.config.octave1
     let octave2 = state.scale.config.octave2

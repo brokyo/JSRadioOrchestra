@@ -20,3 +20,11 @@
   if (!_.isEmpty(vue.corruption.detune)) {
     vue.corruption.detune.triggerAttack(noteToPlay)
   }
+
+
+// Under construction club
+- Takes param with TODOs on a page
+- Explains what page is
+- Suggestion box 
+- Activity feed
+- Guest book
