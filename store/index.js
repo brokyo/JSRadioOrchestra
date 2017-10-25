@@ -4,7 +4,7 @@ export const state = () => ({
   meta: {
     title: 'Before we say goodnight',
     knobtwister: 'brokyo',
-    length: 180
+    length: 10
   },
   tone: {
     synth: 'AMSynth',

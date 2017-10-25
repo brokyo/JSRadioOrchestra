@@ -62,6 +62,7 @@ export default {
 
 
     Tone.Transport.scheduleOnce(function (time) {
+      vue.$emit('ended')
       vue.showTitle = false
     }, String(vue.$store.state.meta.length + 20) + 's')
 
