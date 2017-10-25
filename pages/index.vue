@@ -1,7 +1,19 @@
 <template>
     <main>
+      <div v-if="!userStart">
         <h1>Our Little Planet</h1>
-        <player v-if="loaded"></player>
+        <h3>Lower octave: 'Q', 'W', 'E', 'R', 'T'</h3>
+        <h3>Upper octave: 'H', 'J', 'K', 'L', ';'</h3>
+        <h4>All compositions last five minutes.</h4>
+        <br>
+        <br>
+        <br>
+        <h4>It's windchimes. Take it slow.</h4>
+        <button @click="userStart = true">Start</button>
+      </div>
+      <div v-if="userStart && loaded">
+        <player></player>
+      </div>
     </main>
 </template>
 
@@ -17,7 +29,8 @@ export default {
   },
   data () {
     return {
-        loaded: false
+        loaded: false,
+        userStart: false
     }
   },
   mounted () {
