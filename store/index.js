@@ -112,7 +112,7 @@ export const state = () => ({
         threshold: -15,
         release: 0,
         attack: 0,
-        knee: 10 
+        knee: 10
       },
       start: 150
     },
@@ -121,7 +121,7 @@ export const state = () => ({
       active: true,
       detuneAmount: -5,
       interval: 10,
-      start: 200 
+      start: 200
     },
     {
       type: 'volumeDown',
@@ -217,6 +217,17 @@ export const mutations = {
   // ======= //
   MOUNT_TRIGGERS (context) {
     context.meta.triggersMounted = true
+  },
+  // =============== //
+  // INDIVIDUAL PAGE //
+  // =============== //
+  PLAY_CONFIG (context, config) {
+    context.meta = config.meta
+    context.tone = config.tone
+    context.scale = config.scale
+    context.video = config.video
+    context.overlay = config.overlay
+    context.courruption = config.corruption
   }
 }
 
@@ -280,14 +291,14 @@ export const getters = {
           keyCode: keyCodes[i],
           note: newScale[steps[i]],
           octave: octave1
-        }        
+        }
       } else {
         trigger = {
           id: i,
           keyCode: keyCodes[i],
           note: newScale[steps[i - 5]],
           octave: octave2
-        }        
+        }
       }
       scale.push(trigger)
     }

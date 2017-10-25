@@ -1,7 +1,7 @@
 <template>
   <main>
-    <button @click="synth.triggerAttackRelease(220, 1)">trigger</button>
-    <button @click="dispose()">Dispose</button>
+    <!-- <button @click="synth.triggerAttackRelease(220, 1)">trigger</button> -->
+    <!-- <button @click="dispose()">Dispose</button> -->
 <!--     <button @click="post()">Post</button>
     <h1>{{users}}</h1> -->
   </main>
