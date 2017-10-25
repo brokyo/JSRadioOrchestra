@@ -1,14 +1,10 @@
-if (process.browser) {
-    var Tone = require('tone')
-}
-
 var _ = require('lodash')
 
 export const state = () => ({
   meta: {
     title: 'Before we say goodnight',
     knobtwister: 'brokyo',
-    length: 120
+    length: 180
   },
   tone: {
     synth: 'AMSynth',
@@ -114,22 +110,22 @@ export const state = () => ({
         attack: 0,
         knee: 10
       },
-      start: 150
+      start: 80
     },
     {
       type: 'detune',
       active: true,
       detuneAmount: -5,
       interval: 10,
-      start: 200
+      start: 120
     },
     {
       type: 'volumeDown',
       active: true,
       volumeDecrease: 1,
-      minVolume: -30,
+      minVolume: -20,
       interval: 8,
-      start: 240
+      start: 260
     }
   ]
 })

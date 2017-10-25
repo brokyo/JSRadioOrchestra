@@ -19,7 +19,7 @@
     </select>
   </div>
   <div class="triggerContainer">
-    <synthtrigger v-for="pitch in active_scale" :config="pitch" :synth="synth" @playing="triggerActive"></synthtrigger>
+    <synthtrigger v-for="pitch in active_scale" :config="pitch" :synth="synth" @playing="triggerActive" :key="pitch.id"></synthtrigger>
   </div>
 </main>
 </template>
@@ -27,7 +27,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import synthtrigger from '../synthtrigger.vue'
-var _ = require('lodash')
 
 export default {
   name: 'triggers',
@@ -72,7 +71,7 @@ export default {
         return this.$store.state.scale.config.octave1
       },
       set: function (newOctave) {
-        this.$store.commit('SET_OCTAVE1', newOctave)        
+        this.$store.commit('SET_OCTAVE1', newOctave)
       }
     },
     octave2: {
@@ -80,7 +79,7 @@ export default {
         return this.$store.state.scale.config.octave2
       },
       set: function (newOctave) {
-        this.$store.commit('SET_OCTAVE2', newOctave)        
+        this.$store.commit('SET_OCTAVE2', newOctave)
       }
     },
     key: {

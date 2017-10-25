@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import toneUtilityData from '../../mixins/toneUtility.js'
 import synth from '../synths/synth.vue'
 import monosynth from '../synths/monosynth.vue'
@@ -91,7 +90,7 @@ export default {
     }
   },
   methods: {
-    newSynth: function (event) { 
+    newSynth: function (event) {
       this.tone.synth.disconnect(this.tone.filter)
       this.tone.synth = new Tone.PolySynth(8, Tone[this.toneConfig.synth])
       this.toneConfig.synthMemberValues = toneUtilityData.synthDefaults[this.toneConfig.synth]
@@ -137,7 +136,7 @@ export default {
     this.tone.synth.set(this.toneConfig.synthMemberValues)
 
     if (this.toneConfig.filter) {
-      this.tone.filter = new Tone.Filter(this.toneConfig.filterMemberValues) 
+      this.tone.filter = new Tone.Filter(this.toneConfig.filterMemberValues)
     } else {
       this.tone.filter = new Tone.Gain()
     }

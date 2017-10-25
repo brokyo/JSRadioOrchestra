@@ -29,7 +29,6 @@
 
 <script>
 import backgroundVideo from '../player/backgroundvideo.vue'
-var _ = require('lodash')
 
 export default {
 

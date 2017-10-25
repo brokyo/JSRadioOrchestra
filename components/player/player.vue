@@ -11,9 +11,7 @@
 import colorFilterOverlay from './colorfilter_overlay.vue'
 import backgroundVideo from './backgroundvideo.vue'
 import mountSynth from '../mountsynth.vue'
-import titleCard from './titleCard.vue'
-
-var _ = require('lodash')
+import titleCard from './titlecard.vue'
 
 if (process.browser) {
     var Tone = require('tone')
@@ -56,7 +54,7 @@ export default {
     // Title card animations
     Tone.Transport.scheduleOnce(function (time) {
       vue.showTitle = false
-    }, '1s')
+    }, '15s')
 
     Tone.Transport.scheduleOnce(function (time) {
       vue.showTitle = true

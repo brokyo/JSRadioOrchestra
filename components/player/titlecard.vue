@@ -6,17 +6,17 @@
 	 	</main>
 	 </transition>
  </template>
- 
+
  <script>
  export default {
- 
+
    name: 'titlecard',
    computed: {
    	card () { return this.$store.state.meta }
    }
  }
  </script>
- 
+
  <style lang="scss" scoped>
 	main {
 		background: black;

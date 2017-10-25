@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import synthConfig from '../components/config/synth.vue'
 import home from '../components/composeHome.vue'
 import videoConfig from '../components/config/videoconfig.vue'
