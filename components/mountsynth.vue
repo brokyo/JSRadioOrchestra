@@ -50,7 +50,7 @@ export default {
             detuneAmount += effect.detuneAmount
 
             vue.synth.set({'detune': detuneAmount})
-          }, String(effect.interval) + 's')      
+          }, String(effect.interval) + 's')
         }, String(effect.start) + 's')
 
       }
@@ -66,21 +66,20 @@ export default {
             } else {
               // Cancel this probably
             }
-          }, String(effect.interval) + 's')      
+          }, String(effect.interval) + 's')
         }, String(effect.start) + 's')
 
       }
 
       if (effect.type === 'compression' && effect.active) {
         Tone.Transport.scheduleOnce(function (time) {
-          console.log('lets go!')
           var compressor = new Tone.Compressor(effect.members).toMaster()
           vue.filter.disconnect(Tone.Master)
           vue.filter.connect(compressor)
         }, effect.start)
       }
     })
-    
+
 
     _.forEach(vue.active_scale, function (trigger) {
       let noteToPlay = String(trigger.note) + String(trigger.octave)
