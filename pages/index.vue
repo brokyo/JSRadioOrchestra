@@ -30,7 +30,11 @@ export default {
   data () {
     return {
         loaded: false,
-        userStart: false
+        userStart: false,
+        about: 'Hello, world',
+        instructions: 'Here\'s what you do',
+        nextSteps: 'Here\'s what\'s coming next',
+        comments: []
     }
   },
   methods: {
@@ -49,7 +53,6 @@ export default {
       this.userStart = true
     },
     ended: function () {
-      console.log('its over fucker')
       if (document.exitFullscreen) {
         document.exitFullscreen()
       } else if (document.mozCancelFullScreen) {
@@ -60,7 +63,7 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$foo)
+    this.$ucc({about: this.about, instructions: this.instructions, comments: this.comments, next: this.nextSteps, product: 'olppublic'})
     axios.get('musicboxes/-KxFZ8QPcpWsEsdiRmha.json')
     .then(res => {
         this.$store.commit('PLAY_CONFIG', res.data)

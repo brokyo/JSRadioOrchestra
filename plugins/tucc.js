@@ -1,17 +1,16 @@
 import uccBox from './ucc.vue'
 
 export default {
-	install (Vue, defaultOptions = {}) {
+	install (Vue) {
 		const CONSTRUCTOR = Vue.extend(uccBox)
-		Object.assign(uccBox.DEFAULT_OPT, defaultOptions)
 
-		function ucc (options = {}) {
+		function ucc (config = {}) {
 			let ucc = new CONSTRUCTOR()
-			if (!ucc.$el) { 
+			if (!ucc.$el) {
 				let vm = ucc.$mount()
 				document.querySelector('body').appendChild(vm.$el)
 			}
-			ucc.option = options
+			ucc.config = config
 		}
 
 		Vue.ucc = Vue.prototype.$ucc = ucc
