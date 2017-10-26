@@ -1,12 +1,6 @@
 <template>
 <main>
 <background-video></background-video>
-
-<div class="backgroundbox">
-  <h1>{{background.title}}</h1>
-</div>
-
-
 <div class="config">
   <div class="configPanel">
     <h3>Video Cofig</h3>
@@ -76,7 +70,7 @@ h1 {
 .configPanel {
   position: fixed;
   bottom: 0;
-  right: 0;
+  left: 0;
   width: 250px;
   padding: 10px;
   background: white;

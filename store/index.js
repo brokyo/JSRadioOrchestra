@@ -3,8 +3,9 @@ var _ = require('lodash')
 
 export const state = () => ({
   meta: {
-    title: 'Before we say goodnight',
-    knobtwister: 'brokyo',
+    title: 'title here',
+    intro: 'It\'s a chance to sit quietly and make something small just for you. Take it',
+    creator: 'name here',
     length: 180
   },
   tone: {
@@ -56,13 +57,11 @@ export const state = () => ({
     }
   },
   video: {
-    title: 'measure twice cut once',
-    // DkozMJBsH3U
     videoId: '',
     params: {
-      start: 20,
+      start: 0,
       end: 0,
-      mute: false
+      volume: 100
     }
   },
   overlay: {

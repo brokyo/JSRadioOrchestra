@@ -1,6 +1,6 @@
 <template>
 <main>
-    <title-card v-if="showTitle"></title-card>
+    <title-card v-if="showTitle && context !== 'build'"></title-card>
     <background-video></background-video>
     <color-filter-overlay class="color-filter-overlay" :active="playing"></color-filter-overlay>
     <mount-synth @attackStart="attackStart" @releaseStart="releaseStart"></mount-synth>
@@ -20,6 +20,7 @@ if (process.browser) {
 export default {
 
   name: 'player',
+  props: ['context'],
   components: {
     colorFilterOverlay, backgroundVideo, mountSynth, titleCard
   },
@@ -49,6 +50,7 @@ export default {
     }
   },
   mounted: function () {
+    console.log(this.context)
     var vue = this
     Tone.Transport.start()
     // Title card animations
