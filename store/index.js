@@ -1,3 +1,4 @@
+// import {db} from '../plugins/vuefire.js'
 var _ = require('lodash')
 
 export const state = () => ({
@@ -261,8 +262,13 @@ export const actions = {
   // ====== //
   UPDATE_FILTER_MEMBER_VALUES (context, values) {
     context.commit('SET_FILTER_MEMBER_VALUES', {filter: context.getters.constructed_filter, values: values})
+  },
+  // ========= //
+  // Firebase //
+  // ========= //
+  GET_MUSICBOXES (context) {
+    console.log(this.$db)
   }
-
 }
 
 
