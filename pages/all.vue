@@ -1,9 +1,9 @@
 <template>
   <main>
     <h1>All Music Boxes</h1>
-    <div v-for="box in boxArray">
-      <h4><router-link :to="{ name: 'musicboxes-id', params: { id: box }}">{{allBoxes[box].meta.title}}</router-link></h4>
-      <h6>{{allBoxes[box].meta.knobtwister}}</h6>
+    <div v-for="(box, key) in allBoxes">
+      <h4><router-link :to="{ name: 'musicboxes-id', params: { id: key }}">{{box.meta.title}}</router-link></h4>
+      <h6>{{box.meta.knobtwister}}</h6>
     </div>
   </main>
 </template>
@@ -18,10 +18,12 @@ export default {
     return axios.get('musicboxes.json')
     .then((res) => {
       return {
-        boxArray: Object.keys(res.data),
         allBoxes: res.data
       }
     })
+  },
+  mounted () {
+    console.log(this)
   }
 }
 </script>
