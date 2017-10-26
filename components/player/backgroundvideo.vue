@@ -17,9 +17,6 @@ export default {
     activeBackgroundURL: function () {
       return 'https://www.youtube.com/embed/' + this.background.videoId + '?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&vq=small&playlist=' + this.background.videoId + '&start=' + this.background.params.start + '&end=158' + this.background.params.end
     }
-  },
-  mounted: function () {
-    console.log(this.activeBackgroundURL)
   }
 }
 </script>
