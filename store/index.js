@@ -126,7 +126,7 @@ export const state = () => ({
       volumeDecrease: 1,
       minVolume: -20,
       interval: 8,
-      start: 260
+      start: 140
     }
   ]
 })
@@ -208,6 +208,12 @@ export const mutations = {
   // ==== //
   UPDATE_META (context, payload) {
     _.merge(context.meta, payload)
+  },
+  // ========== //
+  // CORRUPTION //
+  // ========== //
+  SET_CORRUPTION_PARMS (context, payload) {
+    _.merge(context.corruption, payload)
   },
   // ======= //
   // GENERAL //
