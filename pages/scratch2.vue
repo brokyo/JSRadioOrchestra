@@ -8,7 +8,6 @@
   <div>
     <h4>Compressor</h4>
   </div>
-
 </main>
 </template>
 

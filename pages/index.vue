@@ -60,6 +60,7 @@ export default {
     }
   },
   mounted () {
+    console.log(this.$foo)
     axios.get('musicboxes/-KxFZ8QPcpWsEsdiRmha.json')
     .then(res => {
         this.$store.commit('PLAY_CONFIG', res.data)
