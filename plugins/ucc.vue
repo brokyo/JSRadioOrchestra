@@ -8,16 +8,22 @@
       <button v-if="state !== 'comment'" @click="state = 'comment'">Guest Book</button>
       <button v-if="state !== 'about'" @click="state = 'about'">About</button>
       <div v-if="state === 'about'">
-  			<h4>What Is This?</h4>
-        <p>{{config.about}}</p>
-        <h4>How Do I Use It</h4>
-        <p>{{config.instructions}}</p>
-        <h4>What's Next?</h4>
-        <p>{{config.next}}</p>
+        <div v-if="config.about">
+    			<h4>What Is This?</h4>
+          <p>{{config.about}}</p>
+        </div>
+        <div v-if="config.instructions">
+          <h4>How Do I Use It</h4>
+          <p>{{config.instructions}}</p>
+        </div>
+        <div v-if="config.next">
+          <h4>What's Next?</h4>
+          <p>{{config.next}}</p>
+        </div>
       </div>
       <div v-if="state === 'comment'">
-        <h4>Guest Book</h4>
-        <label>Say hi</label>
+        <h4>Guest Book/Suggestion Box</h4>
+        <label>Say hi or leave a suggestion</label>
         <input type="textarea" v-model="newComment"></input>
         <button @click="postComment">Post</button>
         <hr>
