@@ -22,7 +22,7 @@ module.exports = {
   css: [
     '~/static/global.scss'
   ],
-  plugins: [],
+  plugins: ['~plugins/lodash'],
   modules: [
     '@nuxtjs/axios'
   ],
