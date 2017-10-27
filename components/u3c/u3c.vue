@@ -24,7 +24,7 @@
         <button @click="post">Post</button>
         <div v-if="comments">
           <label>Suggestion Box/Guestbook</label>
-          <p v-for="comment in comments">{{comment}}</p>
+          <p v-for="comment in commentsDisplay">{{comment.text}}</p>
         </div>
       </div>
     </div>
@@ -32,7 +32,8 @@
 </template>
 
 <script>
-var axios = require('axios')
+import axios from '../../plugins/axios.js'
+
 export default {
   name: 'ucc',
   props: ['config'],
@@ -47,11 +48,9 @@ export default {
   },
   methods: {
     post: function () {
-      console.log('post?')
-      axios.post('https://' + this.config.db + '.firebase.io/guestbook.json', {text: this.newComment})
+      axios.post('guestbook.json', {text: this.newComment})
         .then(res => {
-          console.log('comment saved', res)
-          this.comments.push(this.newComment)
+          this.comments.push({text: this.newComment})
           this.newComment = ''
         })
         .catch(e => {
@@ -59,13 +58,18 @@ export default {
         })
     }
   },
+  computed: {
+    commentsDisplay () {
+      return this.$_.reverse(this.comments)
+    }
+  },
   mounted () {
-    axios.create({baseURL: 'https://' + this.config.db + '.firebaseio.com/'})
-
+    var vue = this
     axios.get('guestbook.json')
       .then(res => {
-        console.log(res.data)
-        this.comments = res.data
+        vue.$_.forEach(res.data, function (value, key) {
+          vue.comments.push(value)
+        })
       })
   }
 }
@@ -90,7 +94,7 @@ export default {
     .textBox {
       padding: 0px 8px;
       max-height: 200px;
-      overflow: scroll;      
+      overflow: scroll;
       border-left: 2px dashed black;
       border-right: 2px dashed black;
     }

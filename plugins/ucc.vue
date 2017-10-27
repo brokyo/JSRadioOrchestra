@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import axios from './axios.js'
+import axios from './plugins/axios.js'
 
 export default {
 	data () {
@@ -48,22 +48,22 @@ export default {
 	},
   methods: {
     postComment: function () {
-      axios.post('guestbook.json', {text: this.newComment})
-        .then(res => {
-          console.log('comment saved', res)
-          this.newComment = ''
-        })
-        .catch(e => {
-          console.log('something broke', e)
-        })
+      // axios.post('guestbook.json', {text: this.newComment})
+      //   .then(res => {
+      //     console.log('comment saved', res)
+      //     this.newComment = ''
+      //   })
+      //   .catch(e => {
+      //     console.log('something broke', e)
+      //   })
     }
   },
 	mounted () {
 		console.log('Sup, nerd!')
-    axios.get('guestbook.json')
-      .then(res => {
-        this.comments = res.data
-      })
+    // axios.get('guestbook.json')
+    //   .then(res => {
+    //     this.comments = res.data
+    //   })
 	}
 }
 </script>
