@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { normalize, schema } from 'normalizr'
 
 export default {
 
@@ -37,13 +36,13 @@ export default {
     }
   },
   mounted () {
-    this.mutations = _.cloneDeep(this.$store.state.corruption)
+    this.mutations = this.$_.cloneDeep(this.$store.state.corruption)
 
     this.$ucc({about: this.ucc.about, instructions: this.ucc.instructions})
 
   },
   beforeDestroy () {
-    this.$store.commit('SET_CORRUPTION_PARMS', _.cloneDeep(this.mutations))
+    this.$store.commit('SET_CORRUPTION_PARMS', this.$_.cloneDeep(this.mutations))
   }
 }
 </script>

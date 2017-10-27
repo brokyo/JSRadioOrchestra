@@ -14,6 +14,7 @@
       <div v-if="userStart && loaded">
         <player @ended="ended"></player>
       </div>
+      <u3c :config="this.u3c" v-if="!userStart"></u3c>
     </main>
 </template>
 
@@ -31,10 +32,12 @@ export default {
     return {
         loaded: false,
         userStart: false,
-        about: 'Hello, world',
-        instructions: 'Here\'s what you do',
-        nextSteps: 'Here\'s what\'s coming next',
-        comments: []
+        u3c: {
+          about: "Our Little Planet is a digital music box/set of windchimes/instrument/video painting generator/thing. I don't know; figuring it out. See all music boxes at /all and make your own at /build.",
+          instructions: 'Click start then press the keys listed.',
+          next: "Make your own at /build. I hope to turn this into a physical, networked device that plays generative music but I need to see what people do with this and what sounds interesting first. So make one! It'll be available for playing here and at The Under Construction Club",
+          db: 'jsradioorchestra'
+        }
     }
   },
   methods: {
@@ -63,7 +66,6 @@ export default {
     }
   },
   mounted () {
-    this.$ucc({about: this.about, instructions: this.instructions, comments: this.comments, next: this.nextSteps, product: 'olppublic'})
     axios.get('musicboxes/-KxFZ8QPcpWsEsdiRmha.json')
     .then(res => {
         this.$store.commit('PLAY_CONFIG', res.data)
