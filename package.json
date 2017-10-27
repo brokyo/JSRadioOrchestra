@@ -25,6 +25,8 @@
     "nuxt": "^1.0.0-rc11",
     "p5": "^0.5.14",
     "tone": "^0.11.11",
+    "vue-no-ssr": "^0.2.0",
+    "vue-youtube-embed": "^2.1.3",
     "vuefire": "^1.4.4"
   },
   "devDependencies": {

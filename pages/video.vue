@@ -1,7 +1,7 @@
 <template>
   <main class="video-background">
     <no-ssr class="video-foreground">
-      <youtube id="video" :videoId='video.videoId' player-width="100%" player-height="100%" :player-vars='{start: video.params.start, end: video.params.end, autoplay: 1, showinfo: 0, modestbranding:1, playlist: video.videoId, loop: 1, controls: 0}' @ready="ready"></youtube>
+      <youtube id="video" :videoId='videoId' player-width="100%" player-height="100%" :player-vars='{autoplay: 1, showinfo: 0, modestbranding:1, playlist: videoId, loop: 1, controls: 0, fs: 1}' @ready="ready"></youtube>
     </no-ssr>
   </main>
 </template>
@@ -11,25 +11,42 @@ import NoSSR from 'vue-no-ssr'
 
 export default {
 
-  name: 'backgroundvideo',
+  name: 'video',
   components: {
     'no-ssr': NoSSR
   },
+  data () {
+    return {
+      height: '',
+      width: '',
+      videoId: 'yIMDgPKgN1w',
+      fs: 0
+    }
+  },
   computed: {
-  	video () {
-  		return this.$store.state.video
-  	}
+
   },
   methods: {
     ready (player) {
-      player.setVolume(this.video.params.volume)
+      player.setVolume(10)
       player.setPlaybackQuality('small')
     }
+  },
+  mounted () {
+
   }
 }
 </script>
 
 <style lang="scss" scoped>
+#video{
+  background: blue;
+  height: 100vh;
+
+  iframe {
+    height: 100vh;
+  }
+}
 
 .video-background {
   background: #000;
@@ -54,5 +71,7 @@ export default {
 @media (max-aspect-ratio: 16/9) {
   .video-foreground { width: 300%; left: -100%; }
 }
+
+
 
 </style>
