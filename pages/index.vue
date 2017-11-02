@@ -25,6 +25,11 @@ import player from '../components/player/player.vue'
 export default {
 
   name: 'index',
+  head () {
+    return {
+      title: 'Our Little Planet'
+    }
+  },
   components: {
     player
   },

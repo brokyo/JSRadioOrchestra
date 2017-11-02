@@ -38,6 +38,11 @@ if (process.browser) {
 }
 
 export default {
+  head () {
+    return {
+      title: 'Create Music Box'
+    }
+  },
   components: {
     home, synthConfig, videoConfig, colorFilterConfig, demoConfig, mutationConfig
   },

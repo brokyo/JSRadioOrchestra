@@ -22,7 +22,7 @@ module.exports = {
   css: [
     '~/static/global.scss'
   ],
-  plugins: [{src: 'plugins/lodash.js', ssr: true}, {src: 'plugins/u3c.js', ssr: true}, {src: 'plugins/youtube-embed.js', ssr: true}],
+  plugins: [{src: 'plugins/lodash.js', ssr: true}, {src: 'plugins/u3c.js', ssr: true}, {src: 'plugins/youtube-embed.js', ssr: true}, {src: 'plugins/vuemeta.js', ssr: true}],
   modules: [
     '@nuxtjs/axios'
   ],

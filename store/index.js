@@ -6,7 +6,8 @@ export const state = () => ({
     title: 'title here',
     intro: 'It\'s a chance to sit quietly and make something small just for you. Take it',
     creator: 'name here',
-    length: 180
+    length: 180,
+    live: false
   },
   tone: {
     synth: 'AMSynth',
