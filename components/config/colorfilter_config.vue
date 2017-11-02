@@ -1,36 +1,38 @@
 <template>
   <main>
-    <button @click="hideControls = !hideControls">Hide</button>
-    <button @click="randomize('shallow')">Randomize</button>
-    <button @click="randomize('deep')">Deep Randomize</button>
-    <div v-show="hideControls" v-for="(octave, index) in colorConfig">
-      <div>
-        <h1>{{octave.name}}</h1>
-        <label>Direction</label>
-        <select :value="octave.config['flex-direction']" @change="updateGroup(index, 'flex-direction', $event.target.value)">
-          <option value="column">Column</option>
-          <option value="row">Row</option>
-        </select>
-        <select :value="octave.config['display']" @change="updateGroup(index, 'display', $event.target.value)">
-          <option value="flex">Show [display: flex]</option>
-          <option value="none">Hide</option>
-        </select>
-        <div class="octaveConfig" v-for="band in octave.styles">
-          <label>Color</label>
-          <input type="color" :value="band.color" @change="updateBand(band.id, index, 'color', $event.target.value)"></input>
-          <label>Grow</label>
-          <input type="number" :value="band.grow" @change="updateBand(band.id, index, 'grow', $event.target.value)"></input>
-          <label>Offset Top</label>
-          <input type="number" :value="band.offsetTop" @change="updateBand(band.id, index, 'offsetTop', $event.target.value)"></input>
-          <label>Offset Left</label>
-          <input type="number" :value="band.offsetLeft" @change="updateBand(band.id, index, 'offsetLeft', $event.target.value)"></input>
-          <label>Start Opacity</label>
-          <input type="number" :value="band.startOpacity" @change="updateBand(band.id, index, 'startOpacity', $event.target.value)"></input>
-          <label>End Opacity</label>
-          <input type="number" :value="band.endOpacity" @change="updateBand(band.id, index, 'endOpacity', $event.target.value)"></input>
+    <section>
+      <button @click="hideControls = !hideControls">Hide</button>
+      <button @click="randomize('shallow')">Randomize</button>
+      <button @click="randomize('deep')">Deep Randomize</button>
+      <div v-show="hideControls" v-for="(octave, index) in colorConfig">
+        <div>
+          <h1>{{octave.name}}</h1>
+          <label>Direction</label>
+          <select :value="octave.config['flex-direction']" @change="updateGroup(index, 'flex-direction', $event.target.value)">
+            <option value="column">Column</option>
+            <option value="row">Row</option>
+          </select>
+          <select :value="octave.config['display']" @change="updateGroup(index, 'display', $event.target.value)">
+            <option value="flex">Show [display: flex]</option>
+            <option value="none">Hide</option>
+          </select>
+          <div class="octaveConfig" v-for="band in octave.styles">
+            <label>Color</label>
+            <input type="color" :value="band.color" @change="updateBand(band.id, index, 'color', $event.target.value)"></input>
+            <label>Grow</label>
+            <input type="number" :value="band.grow" @change="updateBand(band.id, index, 'grow', $event.target.value)"></input>
+            <label>Offset Top</label>
+            <input type="number" :value="band.offsetTop" @change="updateBand(band.id, index, 'offsetTop', $event.target.value)"></input>
+            <label>Offset Left</label>
+            <input type="number" :value="band.offsetLeft" @change="updateBand(band.id, index, 'offsetLeft', $event.target.value)"></input>
+            <label>Start Opacity</label>
+            <input type="number" :value="band.startOpacity" @change="updateBand(band.id, index, 'startOpacity', $event.target.value)"></input>
+            <label>End Opacity</label>
+            <input type="number" :value="band.endOpacity" @change="updateBand(band.id, index, 'endOpacity', $event.target.value)"></input>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
     <color-filter-overlay class="color-filter-overlay" :active="playing"></color-filter-overlay>
 
   </main>
@@ -217,6 +219,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+section {
+  position: relative;
+  z-index: 1;
+}
+
 .octaveConfig {
   z-index: 1;
   display: block;

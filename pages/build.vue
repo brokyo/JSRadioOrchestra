@@ -181,6 +181,10 @@ export default {
 </script>
 
 <style lang="scss">
+nav {
+  position: relative;
+  z-index: 1;
+}
   .configSection {
     h3 {
       background: white;

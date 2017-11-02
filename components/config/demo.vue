@@ -60,6 +60,8 @@ main {
 .setParams {
   padding: 10px;
   background-color: white;
+  z-index: 99999999;
+  position: fixed;
 
   text-area {
     width: 80px;
