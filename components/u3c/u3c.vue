@@ -1,7 +1,7 @@
 <template lang="html">
   <main>
     <div class="explainer" v-if="explainer">The Under Construction Club is a bunch of half-finished ideas released too early. Find more at the site + make your own :)</div>
-    <div class="topBanner"><span><a href="https://www.theunderconstruction.club" @mouseenter="explainer = true" @mouseleave="explainer = false">The Under Construction Club</a><button @click="min = !min"><span v-if="min">+</span><span v-else>-</span></button></span></div>
+    <div class="topBanner"><span><a href="http://www.under-construction.club" @mouseenter="explainer = true" @mouseleave="explainer = false">The Under Construction Club</a><button @click="min = !min"><span v-if="min">+</span><span v-else>-</span></button></span></div>
     <div class="textBox" v-if="!min">
       <div v-if="state === 'text'">
         <button @click="state = 'guestbook'">Guestbook</button>

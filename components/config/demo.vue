@@ -43,6 +43,8 @@ export default {
       axios.post('musicboxes.json', this.$store.state)
         .then(res => {
           console.log('worked', res)
+          alert('saved!')
+          this.$router.push('/all')
         })
         .catch(e => {
           console.log('broke', e)
