@@ -23,7 +23,7 @@ export default {
       if (this.$store.state.tone.synth === 'DuoSynth') {
         return this.$store.state.tone.synthMemberValues.voice0.envelope
       } else {
-        return this.$store.state.tone.synthMemberValues.envelope        
+        return this.$store.state.tone.synthMemberValues.envelope
       }
 
     },
@@ -85,8 +85,6 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  position: fixed;
-  top: 0;
   min-height: 100vh;
   min-width: 100vw;
 }

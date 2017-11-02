@@ -56,7 +56,7 @@ export default {
     // Title card animations
     Tone.Transport.scheduleOnce(function (time) {
       vue.showTitle = false
-    }, '15s')
+    }, '1s')
 
     Tone.Transport.scheduleOnce(function (time) {
       vue.showTitle = true

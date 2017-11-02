@@ -32,15 +32,15 @@ export default {
 <style lang="scss" scoped>
 
 .video-background {
-  background: #000;
+  background: #ffffff;
   position: fixed;
   top: 0; right: 0; bottom: 0; left: 0;
-  z-index: -99;
+  z-index: 0;
 }
 
 .video-foreground,
 .video-background iframe {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
