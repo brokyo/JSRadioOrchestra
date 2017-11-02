@@ -14,6 +14,7 @@
       <div v-if="userStart && loaded">
         <player @ended="ended"></player>
       </div>
+      <u3c :config="this.u3c" v-if="!userStart"></u3c>
     </main>
 </template>
 
@@ -30,7 +31,12 @@ export default {
   data () {
     return {
         loaded: false,
-        userStart: false
+        userStart: false,
+        u3c: {
+          about: 'This digital music box was created in our little planet. Read more about it at under-construct.club and make your own at /build.',
+          instructions: 'It\'s an instrument play it with the keys above however you think is best. no one will hear it, you can\'t share what you make, it\'s just a chance to sit in front of your computer in a different way.',
+          db: 'jsradioorchestra'
+        }
     }
   },
   methods: {
