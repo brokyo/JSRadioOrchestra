@@ -3,9 +3,9 @@ var _ = require('lodash')
 
 export const state = () => ({
   meta: {
-    title: 'title here',
+    title: 'Our Little Planet',
     intro: 'It\'s a chance to sit quietly and make something small just for you. Take it',
-    creator: 'name here',
+    creator: '',
     length: 180,
     live: false
   },

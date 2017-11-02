@@ -50,13 +50,12 @@ export default {
     }
   },
   mounted: function () {
-    console.log(this.context)
     var vue = this
     Tone.Transport.start()
     // Title card animations
     Tone.Transport.scheduleOnce(function (time) {
       vue.showTitle = false
-    }, '1s')
+    }, '15s')
 
     Tone.Transport.scheduleOnce(function (time) {
       vue.showTitle = true

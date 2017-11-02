@@ -1,14 +1,14 @@
 <template>
     <main id="player">
       <div v-if="!userStart">
-        <h1>Our Little Planet</h1>
+        <h1>{{$store.state.meta.title}}</h1>
         <h3>Lower octave: 'Q', 'W', 'E', 'R', 'T'</h3>
         <h3>Upper octave: 'H', 'J', 'K', 'L', ';'</h3>
         <h4>All compositions last three minutes</h4>
         <br>
         <br>
         <br>
-        <h4>It's a chance to sit quietly and make something small just for you. Take it.</h4>
+        <h4>{{$store.state.meta.intro}}</h4>
         <button @click="start">Start</button>
       </div>
       <div v-if="userStart && loaded">

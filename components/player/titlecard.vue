@@ -2,7 +2,7 @@
  	<transition name="fade">
  		<main>
 	 		<h1>{{card.title}}</h1>
-	 		<h4>[{{card.knobtwister}}]</h4>
+	 		<h4>[{{card.creator}}]</h4>
 	 	</main>
 	 </transition>
  </template>
@@ -13,6 +13,9 @@
    name: 'titlecard',
    computed: {
    	card () { return this.$store.state.meta }
+   },
+   mounted () {
+    console.log('hey')
    }
  }
  </script>
@@ -27,6 +30,7 @@
 		right: 0;
 		left: 0;
 		bottom: 0;
+    z-index: 9999;
 	}
 
 	h1 {
